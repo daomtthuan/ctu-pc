@@ -1,0 +1,24 @@
+{
+  "name": "daomtthuan/ctu-pc-shop-server",
+  "description": "CTU PC Shop server side",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daomtthuan",
+      "email": "dao.mt.thuan@gmail.com",
+      "homepage": "https://github.com/daomtthuan"
+    },
+    {
+      "name": "Dao Minh Trung Thuan",
+      "email": "thuanb1704855@student.ctu.edu.vn",
+      "homepage": "https://github.com/daomtthuan"
+    },
+    {
+      "name": "Nguyen Quoc Hung",
+      "email": "hungb1704735@student.ctu.edu.vn",
+      "homepage": "https://github.com/b1704735"
+    }
+  ],
+  "require": {}
+}

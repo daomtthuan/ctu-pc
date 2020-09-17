@@ -118,3 +118,12 @@ composer.phar
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
 # composer.lock
 
+# --------------------
+# git ignore for project
+# --------------------
+# generate tree directory
+dir-info.txt
+tree.bat
+
+# tester script
+test.*
