@@ -1,0 +1,31 @@
+{
+  "name": "ctu-pc-shop-client",
+  "version": "1.0.0",
+  "description": "CTU PC Shop client side",
+  "main": "nuxt.config.ts",
+  "repository": "https://github.com/daomtthuan/ctu-pc-shop.git",
+  "license": "MIT",
+  "author": {
+    "name": "Daomtthuan",
+    "email": "dao.mt.thuan@gmail.com",
+    "url": "https://github.com/daomtthuan"
+  },
+  "contributors": [
+    {
+      "name": "Dao Minh Trung Thuan",
+      "email": "thuanb1704855@student.ctu.edu.vn",
+      "url": "https://github.com/daomtthuan"
+    },
+    {
+      "name": "Nguyen Quoc Hung",
+      "email": "hungb1704735@student.ctu.edu.vn",
+      "url": "https://github.com/b1704735"
+    }
+  ],
+  "scripts": {
+	"dev": "nuxt"
+  },
+  "dependencies": {
+    "nuxt": "^2.14.5"
+  }
+}
