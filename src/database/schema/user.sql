@@ -1,0 +1,11 @@
+create table table_user(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	user_name VARCHAR(100) NOT NULL,
+	password VARCHAR(100) NOT NULL,
+	full_Name NVARCHAR(100) NOT NULL,
+	birthday DATE NOT NULL,
+	gender BIT NOT NULL,
+	email VARCHAR(100) NOT NULL,
+	address TEXT NOT NULL,
+	phone VARCHAR(15) NOT NULL
+);
