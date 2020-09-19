@@ -128,3 +128,5 @@ tree.bat
 # tester script
 test.*
 test
+tree.bat
+dir-info.txt

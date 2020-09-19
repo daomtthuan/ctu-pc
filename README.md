@@ -11,40 +11,20 @@ CTU PC Shop
 ## Project struct
 
 ```pre
-ctu-pc-shop ( directories: 14, Files: 21 )
+ctu-pc-shop ( directories: 15 )
  ├─ design
- │ ├─ dd
- │ ├─ uml
- │ ├─ .something
- │ └─ simple-analyze.docx
  ├─ docs
  │ └─ teacher
- │   └─ plan.pdf
- ├─ src
- │ ├─ client
- │ │ ├─ package.json
- │ │ ├─ README.md
- │ │ └─ yarn.lock
- │ ├─ database
- │ │ ├─ data.sql
- │ │ ├─ schema.sql
- │ │ └─ test.sql
- │ ├─ server
- │ │ ├─ apis
- │ │ │ └─ .something
- │ │ ├─ assets
- │ │ │ └─ .something
- │ │ ├─ models
- │ │ │ └─ .something
- │ │ ├─ providers
- │ │ │ └─ .something
- │ │ ├─ utilities
- │ │ │ └─ .something
- │ │ └─ composer.json
- │ └─ .env
- ├─ .gitignore
- ├─ ctu-pc-shop.code-workspace
- ├─ LICENSE
- ├─ README.md
- └─ tree.bat
+ └─ src
+   ├─ client
+   ├─ database
+   │ ├─ data
+   │ └─ schema
+   │   └─ tables
+   └─ server
+     ├─ apis
+     ├─ assets
+     ├─ models
+     ├─ providers
+     └─ utilities
 ```
