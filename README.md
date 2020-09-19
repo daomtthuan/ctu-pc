@@ -9,7 +9,7 @@ Ths. Võ Huỳnh Trâm - vhtram@cit.ctu.edu.vn
 ## Members of Team
 
 - Đào Minh Trung Thuận - B1704855 - thuanb1704855@student.ctu.edu.vn
-- Nguyễn Quốc Hưng - B1704855 - thuanb1704855@student.ctu.edu.vn
+- Nguyễn Quốc Hưng - B1704735 - hungb1704735@student.ctu.edu.vn
 
 ## Project details
 
