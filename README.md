@@ -22,7 +22,7 @@ Build a web service to receive requests and send responses through RESTful API.
 
 - PHP for language for server side.
 - MySQL MariaDB for Database management.
-- Composer for PHP Package vendors management, etc.
+- Composer for PHP Package vendors management, etc...
 
 #### Client side
 
@@ -31,6 +31,8 @@ Build a web service to receive requests and send responses through RESTful API.
   - BootstrapVue (Bootstrap) for designing UI
   - Axios for XMLHttpRequests
   - PWA for building Progressive Web Application
+  - Nuxt Property Decorator for creating class component
+  - etc...
 - NPM / Yarn for JavaScript Package vendors management
 
 ## Plan and History
@@ -45,7 +47,7 @@ Project plan and Progress work:
 
 ### Install for developing
 
-**_Require enviroment:_**
+**_Require environment:_**
 
 - NodeJS 12.18.4+
 - NPM 6.14.8+ or Yarn 1.22.4+
@@ -61,17 +63,17 @@ _Should use Xampp 3.2.4+ (include PHP and MySQL) for developing._
 # Clone repository
 git clone https://github.com/daomtthuan/ctu-pc-shop.git
 
-# Move to repository dir
+# Go to repository dir
 cd ctu-pc-shop
 ```
 
 #### Install Packages for Client
 
 ```bash
-# from ctu-pc-shop dir move to client dir
+# From ctu-pc-shop dir go to client dir
 cd ./src/client
 
-# install packages
+# Install packages
 npm install
 # or
 yarn install
@@ -80,28 +82,77 @@ yarn install
 #### Install Packages for Server
 
 ```bash
-# from ctu-pc-shop dir move to client dir
+# From ctu-pc-shop dir go to client dir
 cd ./src/server
 # or from client dir
 cd ../server
 
-# install packages
+# Install packages
 composer install
 ```
 
-## Project struct
+#### Setup virtual host
 
-```pre
-ctu-pc-shop ( directories: 15 )
+_If using Xampp for server,_\
+Go to Apache config dir `xampp-dir/apache/conf/`\
+Add in file `httpd.conf` at under line `Listen 80`:
+
+```bash
+Listen 8000
+```
+
+Go to Apache extra config dir `xampp-dir/apache/conf/extra`\
+Open file `httpd-vhosts.conf` and add at end of file:
+
+```xml
+<VirtualHost *:8000>
+  ServerAdmin webmaster@ctu-pc-shop.server.local
+  DocumentRoot "repository-dir/src/server"
+  ServerName ctu-pc-shop.server.local
+  ErrorLog "logs/ctu-pc-shop-error.log"
+  CustomLog "logs/ctu-pc-shop-access.log" common
+
+  <Directory "repository-dir/src/server">
+    Options FollowSymLinks
+    AllowOverride All
+    DirectoryIndex index.php
+    Require all granted
+  </Directory>
+</VirtualHost>
+```
+
+### Start developing
+
+Run Apache and MySQL and in terminal (cmd) type:
+
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Client will run at [http://localhost:3000/](http://localhost:3000/)\
+Server will run at [http://localhost:8000/](http://localhost:8000/)
+
+## Project structure
+
+```bash
+ctu-pc-shop ( directories: 21 )
  ├─ design
  ├─ docs
  │ └─ teacher
  └─ src
    ├─ client
+   │ ├─ assets
+   │ │ └─ styles
+   │ ├─ layouts
+   │ ├─ pages
+   │ └─ static
    ├─ database
    │ ├─ data
-   │ └─ schema
-   │   └─ tables
+   │ ├─ schema
+   │ │ └─ tables
+   │ └─ script
    └─ server
      ├─ apis
      ├─ assets
