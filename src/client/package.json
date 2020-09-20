@@ -1,7 +1,7 @@
 {
   "name": "ctu-pc-shop-client",
   "version": "1.0.0",
-  "description": "CTU PC Shop client side",
+  "description": "Can Tho University PC Shop Online Client",
   "main": "nuxt.config.ts",
   "repository": "https://github.com/daomtthuan/ctu-pc-shop.git",
   "license": "MIT",
@@ -12,20 +12,32 @@
   },
   "contributors": [
     {
-      "name": "Dao Minh Trung Thuan",
+      "name": "Đào Minh Trung Thuận",
       "email": "thuanb1704855@student.ctu.edu.vn",
       "url": "https://github.com/daomtthuan"
     },
     {
-      "name": "Nguyen Quoc Hung",
+      "name": "Nguyễn Quốc Hưng",
       "email": "hungb1704735@student.ctu.edu.vn",
       "url": "https://github.com/b1704735"
     }
   ],
   "scripts": {
-	"dev": "nuxt"
+    "dev": "nuxt-ts",
+    "build": "nuxt-ts generate"
   },
   "dependencies": {
-    "nuxt": "^2.14.5"
+    "@nuxt/typescript-runtime": "^2.0.0",
+    "@nuxtjs/pwa": "^3.0.2",
+    "bootstrap-vue": "^2.17.3",
+    "nuxt": "^2.14.5",
+    "nuxt-property-decorator": "^2.8.3"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.14.5",
+    "@nuxt/typescript-build": "^2.0.3",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.0.2"
   }
 }
