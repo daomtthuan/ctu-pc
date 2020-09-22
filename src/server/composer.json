@@ -20,5 +20,10 @@
       "homepage": "https://github.com/b1704735"
     }
   ],
-  "require": {}
+  "scripts": {
+    "dev": "start msedge http://localhost:8000"
+  },
+  "require": {
+    "vlucas/phpdotenv": "^5.2"
+  }
 }

@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+## Rewrite url path localhost:8000/segment1/segment2/..../ to localhost:8000/index.php/segment1/segment2/...
+
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+## Rewrite url path localhost:8000/segment1/segment2/.... to localhost:8000/index.php/segment1/segment2/...
+
+RewriteRule ^(.+)$ index.php [L,QSA]
