@@ -95,7 +95,7 @@ composer install
 
 _If using Xampp for server,_\
 Go to Apache config dir `xampp-dir/apache/conf/`\
-Add in file `httpd.conf` at under line `Listen 80`:
+Add in file `httpd.conf` under line `Listen 80`:
 
 ```bash
 Listen 8000
