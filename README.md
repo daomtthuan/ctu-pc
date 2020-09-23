@@ -154,7 +154,7 @@ ctu-pc-shop ( directories: 19 )
    │ │ └─ tables
    │ └─ script
    └─ server
-     ├─ Controller
-     ├─ Core
-     └─ Model
+     ├─ controllers
+     ├─ core
+     └─ models
 ```
