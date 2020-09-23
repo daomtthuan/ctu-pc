@@ -1,0 +1,21 @@
+{
+  "folders": [
+    {
+      "name": "root repository",
+      "path": "."
+    },
+    {
+      "name": "root src",
+      "path": "./src"
+    },
+    {
+      "name": "server",
+      "path": "src\\server"
+    },
+    {
+      "name": "client",
+      "path": "src\\client"
+    }
+  ],
+  "settings": {}
+}
