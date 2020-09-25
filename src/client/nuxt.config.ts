@@ -1,9 +1,9 @@
 import Dotenv from 'dotenv';
 import Path from 'path';
 
-const pathEnv = Path.resolve(process.cwd(), '../');
+const ENV_PATH = Path.resolve(process.cwd(), '../');
 
-Dotenv.config({ path: Path.resolve(pathEnv, './.env') });
+Dotenv.config({ path: Path.resolve(ENV_PATH, './.env') });
 
 export default {
   // Server
@@ -81,7 +81,7 @@ export default {
     [
       '@nuxtjs/dotenv',
       {
-        path: pathEnv,
+        path: ENV_PATH,
       },
     ],
   ],
