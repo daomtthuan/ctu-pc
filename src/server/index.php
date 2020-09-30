@@ -1,15 +1,11 @@
 <?php
 
 use Core\Service;
-use Dotenv\Dotenv;
 
 // define root src
 define('__ROOT__', __DIR__);
 
-// Load vendors
-require_once __ROOT__ . '\\vendor\\autoload.php';
-
-// Autoload Class
+// Autoload class
 spl_autoload_register(function ($className) {
   $className = ltrim($className, '\\');
   $fileName  = '';
@@ -24,12 +20,5 @@ spl_autoload_register(function ($className) {
   require_once __ROOT__ . "\\$fileName";
 });
 
-// Load Environment arguments
-$dotenv = Dotenv::createImmutable(__ROOT__ . '/../');
-$dotenv->load();
-
-// Register Controller
-require_once __ROOT__ . '\\Core\\Register.php';
-
 // Start Web Service
-Service::start();
+Service::getInstance()->start();

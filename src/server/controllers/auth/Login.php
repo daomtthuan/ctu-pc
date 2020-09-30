@@ -1,12 +1,12 @@
 <?php
 
-namespace Controllers;
+namespace Controllers\Auth;
 
 use Core\Request;
 use Core\Response;
 
-class Index {
-  public const URL = "/";
+class Login {
+  public const URL = "/auth";
 
   public static function get(Request $request, Response $response) {
     $log = [
@@ -15,4 +15,4 @@ class Index {
 
     $response->sendText(print_r($log, true));
   }
-};
+}

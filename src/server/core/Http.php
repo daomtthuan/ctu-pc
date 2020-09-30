@@ -4,7 +4,7 @@ namespace Core;
 
 /** Response */
 class Http {
-  private static array $statusCodes  = [
+  private const STATUS_CODES  = [
     100 => 'HTTP/1.1 100 Continue',
     101 => 'HTTP/1.1 101 Switching Protocols',
     200 => 'HTTP/1.1 200 OK',
@@ -47,7 +47,7 @@ class Http {
     505 => 'HTTP/1.1 505 HTTP Version Not Supported',
   ];
 
-  private static array $contentTypes = [
+  private const CONTENT_TYPES = [
     'json' => 'application/json; charset=UTF-8',
     'text' => 'text/plain; charset=UTF-8'
   ];
@@ -71,7 +71,7 @@ class Http {
    * @param string $type Content type
    */
   public static function setContentType(string $type) {
-    header('Content-Type: ' . Http::$contentTypes[$type]);
+    header('Content-Type: ' . Http::CONTENT_TYPES[$type]);
   }
 
   /**
@@ -80,7 +80,7 @@ class Http {
    * @param int $code Status code
    */
   public static function setStatus(int $code) {
-    header(Http::$statusCodes[$code]);
+    header(Http::STATUS_CODES[$code]);
   }
 
   /**

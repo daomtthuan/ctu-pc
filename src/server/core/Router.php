@@ -30,7 +30,7 @@ class Router {
     }
 
     // Check method in Controller
-    $controller = 'Controllers\\' . Router::$controllers[$request->getUrl()];
+    $controller = Router::$controllers[$request->getUrl()];
     if (!method_exists($controller, $request->getMethod())) {
       Router::redirectError(405, 'Method ' . $request->getMethod() . ' not allowed');
     }

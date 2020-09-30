@@ -35,13 +35,10 @@ Build a web service to receive requests and send responses through RESTful API.
   - etc...
 - NPM / Yarn for JavaScript Package vendors management
 
-## Plan and History
+## Documentations
 
-History work of team:
-[view details](https://docs.google.com/spreadsheets/d/1vGH962jmla6gglzKe0kDl633JhzgvOkVznbaEGTFGhk/edit#gid=0)
-
-Project plan and Progress work:
-[view details](https://docs.google.com/spreadsheets/d/1CTPFJPvcTw07hX6urQ7mwc35Di9SfK8CXGeoCbU1tjY/edit#gid=0)
+Development Plan:
+[view details](./docs/export/DevelopmentPlan_KeHoachPhatTrien.pdf)
 
 ## Setup project
 
@@ -136,11 +133,13 @@ Server will run at [http://localhost:8000/](http://localhost:8000/)
 
 ## Project structure
 
-```bash
-ctu-pc-shop ( directories: 19 )
+```pre
+ctu-pc-shop ( directories: 22 )
  ├─ design
  ├─ docs
- │ └─ teacher
+ │ ├─ export
+ │ ├─ teacher
+ │ └─ work
  └─ src
    ├─ client
    │ ├─ assets
@@ -155,6 +154,7 @@ ctu-pc-shop ( directories: 19 )
    │ └─ script
    └─ server
      ├─ controllers
+     │ └─ auth
      ├─ core
      └─ models
 ```
