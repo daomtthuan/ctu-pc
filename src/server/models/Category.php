@@ -1,32 +1,30 @@
 <?php
 
 namespace Models;
-class Category{
+
+class Category {
     private int $id;
     private string $name;
     private bool $state;
 
     /**
      * Get the value of id
-     */ 
-    public function getId()
-    {
+     */
+    public function getId() {
         return $this->id;
     }
 
     /**
      * Get the value of name
-     */ 
-    public function getName()
-    {
+     */
+    public function getName() {
         return $this->name;
     }
 
     /**
      * Get the value of state
-     */ 
-    public function getState()
-    {
+     */
+    public function getState() {
         return $this->state;
     }
 }
