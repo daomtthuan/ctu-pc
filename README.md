@@ -103,13 +103,8 @@ Open file `httpd-vhosts.conf` and add at end of file:
 
 ```xml
 <VirtualHost *:8000>
-  ServerAdmin webmaster@ctu-pc-shop.server.local
-  DocumentRoot "repository-dir/src/server"
-  ServerName ctu-pc-shop.server.local
-  ErrorLog "logs/ctu-pc-shop-error.log"
-  CustomLog "logs/ctu-pc-shop-access.log" common
-
-  <Directory "repository-dir/src/server">
+  DocumentRoot "repository-dir\\src\\server"
+  <Directory "repository-dir\\src\\server">
     Options FollowSymLinks
     AllowOverride All
     DirectoryIndex index.php

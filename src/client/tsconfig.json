@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "experimentalDecorators": true,
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
@@ -15,8 +15,7 @@
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "typeRoots": ["./@types"],
-    "types": ["@types/node", "@nuxt/types", "vue-class-component/hooks"]
+    "typeRoots": ["./@types/**/*"]
   },
   "exclude": ["node_modules"]
 }

@@ -13,7 +13,7 @@ export default {
   },
 
   // Project
-  components: true,
+  components: [{ path: '~/components', prefix: 'app' }],
   head: {
     meta: [
       { charset: 'utf-8' },
@@ -69,10 +69,23 @@ export default {
         bootstrapVueCSS: false,
       },
     ],
+    [
+      'nuxt-fontawesome',
+      {
+        component: 'fa',
+        imports: [
+          {
+            set: '@fortawesome/free-solid-svg-icons',
+            icons: ['fas'],
+          },
+        ],
+      },
+    ],
+    ['@nuxtjs/axios', {}],
   ],
 
   // Dev
-  watch: ['~/../.env'],
+  watch: ['~/../.env', '~/@types'],
 
   // Build
   target: 'static',

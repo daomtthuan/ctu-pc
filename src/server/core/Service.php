@@ -44,7 +44,7 @@ class Service {
           $index += 2; // Skip class keyword and whitespace
           $controller = $namespace . '\\' . $tokens[$index][1];
 
-          Router::registerController($controller::URL, $controller);
+          Router::registerController($controller::mapUrl(), $controller);
           break;
         }
       }

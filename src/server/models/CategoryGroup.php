@@ -4,17 +4,15 @@ namespace Models;
 
 use Core\Bases\IModel;
 
-class Category implements IModel {
+class CategoryGroup implements IModel {
   private int $id;
   private string $name;
-  private int $idCategoryGroup;
   private bool $state;
 
   public function jsonSerialize() {
     return [
       'id' => $this->getId(),
       'name' => $this->getName(),
-      'idCategoryGroup' => $this->getIdCategoryGroup(),
       'state' => $this->getState()
     ];
   }
@@ -31,13 +29,6 @@ class Category implements IModel {
    */
   public function getName() {
     return $this->name;
-  }
-
-  /**
-   * Get the value of idCategoryGroup
-   */
-  public function getIdCategoryGroup() {
-    return $this->idCategoryGroup;
   }
 
   /**

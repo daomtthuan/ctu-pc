@@ -1,3 +1,7 @@
 @import 'variables';
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'bootstrap-vue/src/index.scss';
+
+.btn:focus {
+  box-shadow: none;
+}

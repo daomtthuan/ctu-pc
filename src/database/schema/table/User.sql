@@ -1,4 +1,4 @@
-use ctu_cp_shop;
+use CtuPcShop;
 
 # Create table User
 create table User

@@ -2,11 +2,14 @@
 
 namespace Controllers;
 
+use Core\Bases\IGetableController;
 use Core\Request;
 use Core\Response;
 
-class Index {
-  public const URL = "/";
+class Index implements IGetableController {
+  public static function mapUrl() {
+    return '/';
+  }
 
   public static function get(Request $request, Response $response) {
     $log = [
