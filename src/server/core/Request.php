@@ -7,13 +7,17 @@ class Request {
   private static Request $instance;
 
   private string $url;
+  private array $params;
   private string $method;
   private array $data;
 
   private function __construct() {
     // Get reques url 
-    $this->url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+    $this->url = strtok(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', '?');
     $this->url = substr($this->url, strlen($_ENV['SERVER_PREFIX_URL']));
+
+    // Get request params
+    $this->params = $_GET;
 
     // Get reques method 
     $this->method = isset($_SERVER['REQUEST_METHOD']) ? strtolower($_SERVER['REQUEST_METHOD'])  : 'get';
@@ -53,9 +57,32 @@ class Request {
   }
 
   /**
-   * Get the value of data
+   * Get data
+   * 
+   * @param string|null $key Data Key
+   * 
+   * @return mixed Data JSON object if $key is null. Otherwise, value of data has that key
    */
-  public function getData() {
-    return $this->data;
+  public function getData(string $key = null) {
+    if (!isset($key)) {
+      return $this->data;
+    } else {
+      return $this->data[$key];
+    }
+  }
+
+  /**
+   * Get Param
+   * 
+   * @param string|null $key Param Key
+   * 
+   * @return mixed[]|mixed Get All params. Otherwise, value of param has that key
+   */
+  public function getParam(string $key = null) {
+    if (!isset($key)) {
+      return $this->params;
+    } else {
+      return $this->params[$key];
+    }
   }
 }

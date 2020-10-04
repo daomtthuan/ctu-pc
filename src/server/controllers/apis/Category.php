@@ -13,7 +13,7 @@ class Category implements IGetableController {
   }
 
   public static function get(Request $request, Response $response) {
-    $categories = Database::select('Category');
+    $categories = Database::select('Category', $request->getParam());
 
     $response->sendJson($categories);
   }

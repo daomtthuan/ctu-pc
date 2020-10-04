@@ -73,7 +73,7 @@
 
   @Component
   export default class AppNavbar extends Vue {
-    @Prop(Object) navigation!: App.Pages.Index.Navigation;
+    @Prop(Object) navigation!: Object;
   }
 </script>
 
