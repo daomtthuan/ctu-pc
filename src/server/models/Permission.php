@@ -2,11 +2,22 @@
 
 namespace Models;
 
-class Permission {
+use Core\Bases\IModel;
+
+class Permission implements IModel {
   private int $id;
   private int $idUser;
   private int $idRole;
   private bool $state;
+
+  public function jsonSerialize() {
+    return [
+      'id' => $this->getId(),
+      'idUser' => $this->getIdUser(),
+      'idRole' => $this->getIdRole(),
+      'state' => $this->getState()
+    ];
+  }
 
   /**
    * Get the value of id

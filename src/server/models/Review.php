@@ -2,12 +2,24 @@
 
 namespace Models;
 
-class Review {
+use Core\Bases\IModel;
+
+class Review implements IModel {
   private int $id;
   private int $star;
   private int $idUser;
   private int $idProduct;
   private bool $state;
+
+  public function jsonSerialize() {
+    return [
+      'id' => $this->getId(),
+      'star' => $this->getStar(),
+      'idUser' => $this->getidUser(),
+      'idProduct' => $this->getIdProduct(),
+      'state' => $this->getState()
+    ];
+  }
 
   /**
    * Get the value of id

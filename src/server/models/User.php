@@ -2,7 +2,9 @@
 
 namespace Models;
 
-class User {
+use Core\Bases\IModel;
+
+class User implements IModel {
   private int $id;
   private string $username;
   private string $password;
@@ -13,6 +15,21 @@ class User {
   private string $address;
   private string $phone;
   private bool $state;
+
+  public function jsonSerialize() {
+    return [
+      'id' => $this->getId(),
+      'username' => $this->getUsername(),
+      'password' => $this->getPassword(),
+      'fullName' => $this->getFullName(),
+      'birthday' => $this->getBirthday(),
+      'gender' => $this->getGender(),
+      'email' => $this->getEmail(),
+      'address' => $this->getAddress(),
+      'phone' => $this->getPhone(),
+      'state' => $this->getState()
+    ];
+  }
 
   /**
    * Get the value of id
