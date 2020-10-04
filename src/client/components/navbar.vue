@@ -11,7 +11,7 @@
         <b-navbar-nav>
           <b-nav-item>Trang chủ</b-nav-item>
           <b-nav-item-dropdown text="Danh mục sản phẩm">
-            <b-dropdown-group v-for="(categoryGroup, index) in categoryGroups" :key="categoryGroup.id" :header="categoryGroup.name" v-b-toggle="'my-collapse'">
+            <b-dropdown-group v-for="(categoryGroup, index) in categoryGroups" :key="categoryGroup.id" :header="categoryGroup.name">
               <b-dropdown-item-button v-for="category in categories[index]" :key="category.id">
                 {{ category.name }}
               </b-dropdown-item-button>
