@@ -9,18 +9,17 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <div v-for="(value, key, index) in navigation" :key="index">
-            <b-nav-item-dropdown :text="value.title" v-if="value.subNavigation">
-              <b-dropdown-group v-for="(subValue, subKey, subIndex) in value.subNavigation" :key="subIndex" :header="subValue.title">
-                <b-dropdown-item-button v-for="(subSubValue, subSubKey, subSubIndex) in subValue.subNavigation" :key="subSubIndex">
-                  {{ subSubValue }}
-                </b-dropdown-item-button>
-              </b-dropdown-group>
-            </b-nav-item-dropdown>
-            <b-nav-item v-else>
-              {{ value.title }}
-            </b-nav-item>
-          </div>
+          <b-nav-item>Trang chủ</b-nav-item>
+          <b-nav-item-dropdown text="Danh mục sản phẩm">
+            <b-dropdown-group v-for="(categoryGroup, index) in categoryGroups" :key="categoryGroup.id" :header="categoryGroup.name" v-b-toggle="'my-collapse'">
+              <b-dropdown-item-button v-for="category in categories[index]" :key="category.id">
+                {{ category.name }}
+              </b-dropdown-item-button>
+              <b-dropdown-divider v-if="index < categoryGroups.length - 1"></b-dropdown-divider>
+            </b-dropdown-group>
+          </b-nav-item-dropdown>
+          <b-nav-item>Tin tức - Sự kiện</b-nav-item>
+          <b-nav-item>Chính sách - Hướng dẫn</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -73,7 +72,8 @@
 
   @Component
   export default class AppNavbar extends Vue {
-    @Prop(Object) navigation!: Object;
+    @Prop(Object) categoryGroups!: App.Models.CategoryGroup[];
+    @Prop(Object) categories!: App.Models.Category[][];
   }
 </script>
 
