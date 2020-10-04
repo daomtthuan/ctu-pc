@@ -2,7 +2,9 @@
 
 namespace Models;
 
-class Product {
+use Core\Bases\IModel;
+
+class Product implements IModel {
   private int $id;
   private string $name;
   private float $price;
@@ -10,6 +12,18 @@ class Product {
   private int $idCategory;
   private int $idBrand;
   private bool $state;
+
+  public function jsonSerialize() {
+    return [
+      'id' => $this->getId(),
+      'name' => $this->getName(),
+      'price' => $this->getPrice(),
+      'quantity' => $this->getQuantity(),
+      'idCategory' => $this->getIdCategory(),
+      'idBrand' => $this->getIdBrand(),
+      'state' => $this->getState()
+    ];
+  }
 
   /**
    * Get the value of id
