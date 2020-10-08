@@ -16,12 +16,12 @@
           categoryGroups: App.Models.CategoryGroup[];
           categories: App.Models.Category[][];
         } = {
-          categoryGroups: (await context.$axios.get(`${context.env['SERVER_BASE']}/api/category-group`)).data,
+          categoryGroups: (await context.$axios.get(`${context.env['SERVER']}/api/category-group`)).data,
           categories: [],
         };
 
         for (const categoryGroup of data.categoryGroups) {
-          let categories: App.Models.Category[] = (await context.$axios.get(`${context.env['SERVER_BASE']}/api/category`, { params: { idCategoryGroup: categoryGroup.id } })).data;
+          let categories: App.Models.Category[] = (await context.$axios.get(`${context.env['SERVER']}/api/category`, { params: { idCategoryGroup: categoryGroup.id } })).data;
           data.categories.push(categories);
         }
 

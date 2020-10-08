@@ -17,7 +17,7 @@ class Service {
     require_once __ROOT__ . '\\vendor\\autoload.php';
 
     // Load Environment arguments
-    $dotenv = Dotenv::createImmutable(__ROOT__ . '/../');
+    $dotenv = Dotenv::createImmutable(__ROOT__);
     $dotenv->load();
 
     // Register controllers
