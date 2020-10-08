@@ -34,3 +34,20 @@ values (N'Màn hình', 2),
        (N'Chuột', 2),
        (N'Tai nghe', 2),
        (N'Thiết bị mạng', 2);
+insert into Category(name, idCategoryGroup)
+values (N'Bàn'3),
+       (N'Ghế'3);
+insert into Category(name, idCategoryGroup)
+values (N'Máy chơi game'4),
+       (N'Đĩa game'4),
+       (N'Phụ kiện PS4'4),
+       (N'Gaming Accs'4);
+insert into Category(name, idCategoryGroup)
+values (N'Máy tính đồng bộ'5),
+       (N'Máy tính xách tay'5);
+insert into Category(name, idCategoryGroup)
+values (N'Balo'6),
+       (N'Mic thu thanh'6),
+       (N'Chiếu sáng LED'6),
+       (N'Thiết bị ghi hình'6),
+       (N'Đồ chơi stream'6);
