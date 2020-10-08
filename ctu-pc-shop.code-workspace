@@ -1,12 +1,8 @@
 {
   "folders": [
     {
-      "name": "root repository",
+      "name": "root",
       "path": "."
-    },
-    {
-      "name": "root src",
-      "path": "./src"
     },
     {
       "name": "server",

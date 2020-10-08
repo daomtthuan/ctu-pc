@@ -14,7 +14,6 @@ class Request {
   private function __construct() {
     // Get reques url 
     $this->url = strtok(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', '?');
-    $this->url = substr($this->url, strlen($_ENV['SERVER_PREFIX_URL']));
 
     // Get request params
     $this->params = $_GET;

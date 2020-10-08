@@ -1,9 +1,6 @@
 import Dotenv from 'dotenv';
-import Path from 'path';
 
-const ENV_PATH = Path.resolve(process.cwd(), '../');
-
-Dotenv.config({ path: Path.resolve(ENV_PATH, './.env') });
+Dotenv.config();
 
 export default {
   // Server
@@ -18,22 +15,22 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
-      { name: 'viewport', content: process.env.CLIENT_VIEWPORT },
+      { name: 'viewport', content: process.env.VIEWPORT },
       { name: 'keywords', content: 'NEXUS RENTAL PARTNER, NEXUS, RENTAL PARTNER' },
       { name: 'author', content: 'Daomtthuan' },
       { name: 'robots', content: 'index, follow, archive' },
-      { hid: 'description', name: 'description', content: process.env.CLIENT_DESCRIPTION },
-      { property: 'st:section', content: process.env.CLIENT_DESCRIPTION },
-      { name: 'twitter:title', content: process.env.CLIENT_NAME },
-      { name: 'twitter:description', content: process.env.CLIENT_DESCRIPTION },
+      { hid: 'description', name: 'description', content: process.env.DESCRIPTION },
+      { property: 'st:section', content: process.env.DESCRIPTION },
+      { name: 'twitter:title', content: process.env.NAME },
+      { name: 'twitter:description', content: process.env.DESCRIPTION },
       { name: 'og:locale', content: 'ja_JP' },
-      // { name: 'twitter:image', content: `${process.env.CLIENT_BASE}/images/index/hand.png` },
+      // { name: 'twitter:image', content: `${process.env.BASE}/images/index/hand.png` },
       { name: 'og:image:width', content: '544' },
       { name: 'og:image:height', content: '362' },
-      // { name: 'og:image:secure_url', content: `${process.env.CLIENT_BASE}/images/index/hand.png` },
+      // { name: 'og:image:secure_url', content: `${process.env.BASE}/images/index/hand.png` },
     ],
-    title: process.env.CLIENT_NAME,
-    titleTemplate: `${process.env.CLIENT_NAME} - %s`,
+    title: process.env.NAME,
+    titleTemplate: `${process.env.NAME} - %s`,
     noscript: [{ innerHTML: 'This website requires JavaScript. （このWebサイトにはJavaScriptが必要です。）' }],
   },
   css: ['~/assets/styles/theme'],
@@ -42,23 +39,23 @@ export default {
       '@nuxtjs/pwa',
       {
         meta: {
-          viewport: process.env.CLIENT_VIEWPORT,
-          name: process.env.CLIENT_NAME,
-          author: process.env.CLIENT_AUTHOR,
-          description: process.env.CLIENT_DESCRIPTION,
-          theme_color: process.env.CLIENT_COLOR,
-          lang: process.env.CLIENT_LANGUAGE,
-          ogHost: process.env.CLIENT_BASE,
-          // ogImage: `${process.env.CLIENT_BASE}/images/index/hand.png`,
+          viewport: process.env.VIEWPORT,
+          name: process.env.NAME,
+          author: process.env.AUTHOR,
+          description: process.env.DESCRIPTION,
+          theme_color: process.env.COLOR,
+          lang: process.env.LANGUAGE,
+          ogHost: process.env.BASE,
+          // ogImage: `${process.env.BASE}/images/index/hand.png`,
           twitterCard: 'summary_large_image',
           nativeUI: true,
         },
         manifest: {
-          name: process.env.CLIENT_NAME,
-          description: process.env.CLIENT_DESCRIPTION,
-          lang: process.env.CLIENT_LANGUAGE,
-          background_color: process.env.CLIENT_COLOR,
-          theme_color: process.env.CLIENT_COLOR,
+          name: process.env.NAME,
+          description: process.env.DESCRIPTION,
+          lang: process.env.LANGUAGE,
+          background_color: process.env.COLOR,
+          theme_color: process.env.COLOR,
         },
       },
     ],
@@ -85,19 +82,11 @@ export default {
   ],
 
   // Dev
-  watch: ['~/../.env', '~/@types'],
+  watch: ['~/.env', '~/@types'],
 
   // Build
   target: 'static',
-  buildModules: [
-    '@nuxt/typescript-build',
-    [
-      '@nuxtjs/dotenv',
-      {
-        path: ENV_PATH,
-      },
-    ],
-  ],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv'],
   build: {
     analyze: false,
     babel: {
@@ -106,7 +95,7 @@ export default {
     },
     loaders: {
       scss: {
-        additionalData: `$base: '${process.env.CLIENT_BASE}';`,
+        additionalData: `$base: '${process.env.BASE}';`,
       },
     },
   },
