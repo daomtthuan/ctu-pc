@@ -50,4 +50,5 @@ values (N'Balo'6),
        (N'Mic thu thanh'6),
        (N'Chiếu sáng LED'6),
        (N'Thiết bị ghi hình'6),
+       (N'Hub-Cable-AIC'6),
        (N'Đồ chơi stream'6);
