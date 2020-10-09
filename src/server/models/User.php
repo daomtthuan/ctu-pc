@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class User implements IModel {
+class User extends Model {
   private int $id;
   private string $username;
   private string $password;

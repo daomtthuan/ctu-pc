@@ -55,14 +55,16 @@ class Http {
   /**
    * Set Access-Control-Allow
    * 
-   * @param string $headers Access Control Allow Headers
    * @param string $origin Access Control Allow Origin
+   * @param string $headers Access Control Allow Headers
    * @param string $methods Access Control Allow Methods
+   * @param string $credentials Access Control Allow Credentials
    */
-  public static function setAccessControlAllow(string $headers, string $origin, string $methods) {
-    header("Access-Control-Allow-Headers: $headers");
+  public static function setAccessControlAllow(string $origin, string $headers, string $methods, string $credentials) {
     header("Access-Control-Allow-Origin: $origin");
+    header("Access-Control-Allow-Headers: $headers");
     header("Access-Control-Allow-Methods: $methods");
+    header("Access-Control-Allow-Credentials: $credentials");
   }
 
   /**

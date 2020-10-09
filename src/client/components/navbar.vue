@@ -1,13 +1,16 @@
 <template>
   <section>
-    <b-navbar type="dark" variant="primary" class="fixed-top">
-      <b-navbar-brand to="/" class="py-0 font-weight-bold">CTU PC SHOP</b-navbar-brand>
+    <b-navbar type="light" variant="light" class="fixed-top">
+      <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
+        <b-img :src="$icon(30)" class="mr-2"></b-img>
+        <div>CTU PC SHOP</div>
+      </b-navbar-brand>
 
-      <b-navbar-nav class="d-none d-lg-flex">
+      <b-navbar-nav class="d-none d-lg-flex mr-2">
         <b-nav-item-dropdown text="Danh mục sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
           <b-card v-for="(categoryGroup, index) in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width">
             <b-card-header header-tag="header" class="p-1" role="tab">
-              <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="light" class="text-left">
+              <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="primary" class="text-left">
                 {{ categoryGroup.name }}
               </b-button>
             </b-card-header>
@@ -30,12 +33,12 @@
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
-      <b-navbar-nav class="ml-3 flex-grow-1 d-none d-sm-flex">
+      <b-navbar-nav class="flex-grow-1 d-none d-sm-flex mr-2">
         <b-form action="/search" class="w-100">
           <b-input-group size="sm">
-            <b-form-input name="keyword" placeholder="Tìm kiếm" type="search" class="border-light"></b-form-input>
+            <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
             <b-input-group-append>
-              <b-button type="submit" variant="light" class="text-primary border-light ml-1">
+              <b-button type="submit" variant="primary" class="ml-1">
                 <fa :icon="['fas', 'search']"></fa>
               </b-button>
             </b-input-group-append>
@@ -43,8 +46,18 @@
         </b-form>
       </b-navbar-nav>
 
-      <b-navbar-nav class="ml-auto ml-sm-3">
-        <b-button v-b-toggle.sidebar variant="light" class="d-lg-none" size="sm">
+      <b-navbar-nav class="ml-auto">
+        <b-dropdown text="Tài khoản" class="mr-2" v-if="$auth.loggedIn" variant="light" size="sm" right no-caret>
+          <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
+          <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item>Đăng xuất</b-dropdown-item>
+        </b-dropdown>
+        <b-button variant="primary" size="sm" class="mr-2" v-else to="/login">
+          Đăng nhập
+        </b-button>
+
+        <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none">
           <fa :icon="['fas', 'bars']"></fa>
         </b-button>
       </b-navbar-nav>
@@ -52,12 +65,16 @@
 
     <b-sidebar id="sidebar" shadow backdrop no-header>
       <template v-slot:default="{ hide }">
-        <b-navbar type="primary" variant="light" class="fixed-top">
-          <b-navbar-brand to="/" class="py-0 font-weight-bold">CTU PC SHOP</b-navbar-brand>
-
-          <b-button variant="danger" @click="hide" class="ml-auto" size="sm">
-            <fa :icon="['fas', 'times']"></fa>
-          </b-button>
+        <b-navbar type="light" variant="light" class="fixed-top">
+          <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
+            <b-img :src="$icon(30)" class="mr-2"></b-img>
+            <div>CTU PC SHOP</div>
+          </b-navbar-brand>
+          <b-navbar-nav class="ml-auto">
+            <b-button variant="danger" @click="hide" size="sm">
+              <fa :icon="['fas', 'times']"></fa>
+            </b-button>
+          </b-navbar-nav>
         </b-navbar>
 
         <div class="pt-2">
@@ -118,6 +135,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .margin-logo {
+    margin-bottom: 0.2rem;
+  }
   .dropdown-width {
     min-width: 250px;
   }

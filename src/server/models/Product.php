@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class Product implements IModel {
+class Product extends Model {
   private int $id;
   private string $name;
   private float $price;

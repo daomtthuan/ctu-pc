@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class Review implements IModel {
+class Review extends Model {
   private int $id;
   private int $star;
   private int $idUser;

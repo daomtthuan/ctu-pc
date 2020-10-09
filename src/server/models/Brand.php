@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class Brand implements IModel {
+class Brand extends Model {
   private int $id;
   private string $name;
   private bool $state;

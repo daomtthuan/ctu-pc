@@ -2,8 +2,12 @@
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'bootstrap-vue/src/index.scss';
 
-.btn:focus {
-  box-shadow: none;
+.btn {
+  box-shadow: none !important;
+}
+
+input {
+  box-shadow: none !important;
 }
 
 *::-webkit-scrollbar-track {

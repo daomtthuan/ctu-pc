@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class Permission implements IModel {
+class Permission extends Model {
   private int $id;
   private int $idUser;
   private int $idRole;

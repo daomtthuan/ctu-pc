@@ -2,11 +2,12 @@
 
 namespace Controllers;
 
+use Core\Bases\Controller;
 use Core\Bases\IGetableController;
 use Core\Request;
 use Core\Response;
 
-class Index implements IGetableController {
+class Index extends Controller implements IGetableController {
   public static function mapUrl() {
     return '/';
   }

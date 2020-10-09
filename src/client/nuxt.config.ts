@@ -36,6 +36,9 @@ export default {
     [
       '@nuxtjs/pwa',
       {
+        icon: {
+          sizes: [30, 64, 120, 144, 152, 192, 384, 512],
+        },
         meta: {
           viewport: process.env.VIEWPORT,
           name: process.env.NAME,
@@ -85,7 +88,24 @@ export default {
     ['@nuxtjs/axios', {}],
 
     // Auth
-    ['@nuxtjs/auth', {}],
+    [
+      '@nuxtjs/auth',
+      {
+        strategies: {
+          local: {
+            endpoints: {
+              user: { url: `${process.env.SERVER}/auth/local`, method: 'get', propertyName: 'user' },
+              login: { url: `${process.env.SERVER}/auth/local`, method: 'post', propertyName: 'token' },
+              logout: { url: `${process.env.SERVER}/auth/local`, method: 'delete' },
+            },
+            // tokenRequired: true,
+            // tokenType: 'bearer',
+            // globalToken: true,
+            // autoFetchUser: true
+          },
+        },
+      },
+    ],
   ],
 
   // Dev
@@ -93,6 +113,9 @@ export default {
 
   // Build
   target: 'static',
+  router: {
+    base: process.env.ROUTER,
+  },
   buildModules: [
     // Typescript
     ['@nuxt/typescript-build', {}],

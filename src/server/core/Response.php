@@ -8,7 +8,7 @@ class Response {
 
   private function __construct() {
     // Set full allowed access control
-    Http::setAccessControlAllow('*', '*', '*', '*');
+    Http::setAccessControlAllow('*', '*', '*', '*', '*');
   }
 
   /** 
@@ -43,5 +43,14 @@ class Response {
     Http::setContentType('text');
     Http::setStatus(200);
     Http::setData($data);
+  }
+
+  /**
+   * Send Status
+   * 
+   * @param int $code Status code
+   */
+  public function sendStatus(int $code) {
+    Http::setStatus($code);
   }
 }

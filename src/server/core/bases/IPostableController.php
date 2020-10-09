@@ -5,7 +5,7 @@ namespace Core\Bases;
 use Core\Request;
 use Core\Response;
 
-interface IGetableController {
+interface IPostableController {
   /**
    * Get method
    * 
@@ -14,5 +14,5 @@ interface IGetableController {
    * 
    * @return void
    */
-  public static function get(Request $request, Response $response);
+  public static function post(Request $request, Response $response);
 }

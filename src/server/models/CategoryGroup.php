@@ -2,9 +2,9 @@
 
 namespace Models;
 
-use Core\Bases\IModel;
+use Core\Bases\Model;
 
-class CategoryGroup implements IModel {
+class CategoryGroup extends Model {
   private int $id;
   private string $name;
   private bool $state;
