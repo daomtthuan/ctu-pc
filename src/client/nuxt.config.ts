@@ -4,13 +4,10 @@ Dotenv.config();
 
 export default {
   // Server
-  server: {
-    host: '127.0.0.1',
-    port: 3000,
-  },
+  server: { port: 3000 },
 
   // Project
-  components: [{ path: '~/components', prefix: 'app' }],
+  components: [{ path: '~/components', prefix: 'c' }],
   head: {
     meta: [
       { charset: 'utf-8' },
@@ -35,6 +32,7 @@ export default {
   },
   css: ['~/assets/styles/theme'],
   modules: [
+    //PWA
     [
       '@nuxtjs/pwa',
       {
@@ -59,6 +57,8 @@ export default {
         },
       },
     ],
+
+    // Bootstrap Vue
     [
       'bootstrap-vue/nuxt',
       {
@@ -66,6 +66,8 @@ export default {
         bootstrapVueCSS: false,
       },
     ],
+
+    // Fontawesome
     [
       'nuxt-fontawesome',
       {
@@ -78,7 +80,12 @@ export default {
         ],
       },
     ],
+
+    // Axios
     ['@nuxtjs/axios', {}],
+
+    // Auth
+    ['@nuxtjs/auth', {}],
   ],
 
   // Dev
@@ -86,7 +93,13 @@ export default {
 
   // Build
   target: 'static',
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/dotenv'],
+  buildModules: [
+    // Typescript
+    ['@nuxt/typescript-build', {}],
+
+    // Dotenv
+    ['@nuxtjs/dotenv', {}],
+  ],
   build: {
     analyze: false,
     babel: {

@@ -1,20 +1,20 @@
 <?php
 
-namespace Controllers\Apis;
+namespace Controllers\Data;
 
 use Core\Bases\IGetableController;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 
-class Permission implements IGetableController {
+class Review implements IGetableController {
   public static function mapUrl() {
-    return '/api/Permission';
+    return '/data/review';
   }
 
   public static function get(Request $request, Response $response) {
-    $Permission = Database::select('Permission', $request->getParam());
+    $Review = Database::select('Review', $request->getParam());
 
-    $response->sendJson($Permission);
+    $response->sendJson($Review);
   }
 };

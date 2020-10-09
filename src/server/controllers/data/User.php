@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers\Apis;
+namespace Controllers\Data;
 
 use Core\Bases\IGetableController;
 use Core\Database;
@@ -9,7 +9,7 @@ use Core\Response;
 
 class User implements IGetableController {
   public static function mapUrl() {
-    return '/api/User';
+    return '/data/user';
   }
 
   public static function get(Request $request, Response $response) {

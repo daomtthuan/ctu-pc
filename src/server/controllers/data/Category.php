@@ -1,20 +1,20 @@
 <?php
 
-namespace Controllers\Apis;
+namespace Controllers\Data;
 
 use Core\Bases\IGetableController;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 
-class Review implements IGetableController {
+class Category implements IGetableController {
   public static function mapUrl() {
-    return '/api/Review';
+    return '/data/category';
   }
 
   public static function get(Request $request, Response $response) {
-    $Review = Database::select('Review', $request->getParam());
+    $categories = Database::select('Category', $request->getParam());
 
-    $response->sendJson($Review);
+    $response->sendJson($categories);
   }
 };

@@ -5,7 +5,6 @@ namespace Core;
 use Dotenv\Dotenv;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use ReflectionClass;
 use RegexIterator;
 
 /** Web Service */
@@ -44,7 +43,7 @@ class Service {
           $index += 2; // Skip class keyword and whitespace
           $controller = $namespace . '\\' . $tokens[$index][1];
 
-          Router::registerController($controller::mapUrl(), $controller);
+          Router::registerController(strtolower($controller::mapUrl()), $controller);
           break;
         }
       }
@@ -65,9 +64,6 @@ class Service {
 
   /** Start Web Service */
   public function start() {
-    // Set full allowed access control
-    Http::setAccessControlAllow('*', '*', '*', '*');
-
     // Redirect request
     Router::redirectController();
   }

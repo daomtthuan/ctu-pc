@@ -1,20 +1,20 @@
 <?php
 
-namespace Controllers\Apis;
+namespace Controllers\Data;
 
 use Core\Bases\IGetableController;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 
-class Category implements IGetableController {
+class Brand implements IGetableController {
   public static function mapUrl() {
-    return '/api/category';
+    return '/data/brand';
   }
 
   public static function get(Request $request, Response $response) {
-    $categories = Database::select('Category', $request->getParam());
+    $Brand = Database::select('Brand', $request->getParam());
 
-    $response->sendJson($categories);
+    $response->sendJson($Brand);
   }
 };

@@ -7,6 +7,8 @@ class Response {
   private static Response $instance;
 
   private function __construct() {
+    // Set full allowed access control
+    Http::setAccessControlAllow('*', '*', '*', '*');
   }
 
   /** 

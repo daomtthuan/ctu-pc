@@ -1,20 +1,20 @@
 <?php
 
-namespace Controllers\Apis;
+namespace Controllers\Data;
 
 use Core\Bases\IGetableController;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 
-class Role implements IGetableController {
+class Permission implements IGetableController {
   public static function mapUrl() {
-    return '/api/Role';
+    return '/data/permission';
   }
 
   public static function get(Request $request, Response $response) {
-    $Role = Database::select('Role', $request->getParam());
+    $Permission = Database::select('Permission', $request->getParam());
 
-    $response->sendJson($Role);
+    $response->sendJson($Permission);
   }
 };
