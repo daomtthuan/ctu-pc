@@ -1,7 +1,7 @@
 <template>
   <main>
     <c-navbar :categoryGroups="categoryGroups" :categories="categories"></c-navbar>
-    <div class="pt-2">
+    <div class="pt-2 pt-lg-4">
       <nuxt-child class="container mt-5"></nuxt-child>
     </div>
   </main>
