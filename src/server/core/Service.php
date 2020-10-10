@@ -2,23 +2,17 @@
 
 namespace Core;
 
-use Dotenv\Dotenv;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
 /** Web Service */
 class Service {
+  /** Instance of Service  */
   private static Service $instance;
 
+  /** Create new instance of Service */
   private function __construct() {
-    // Load vendors
-    require_once __ROOT__ . '\\vendor\\autoload.php';
-
-    // Load Environment arguments
-    $dotenv = Dotenv::createImmutable(__ROOT__);
-    $dotenv->load();
-
     // Register controllers
     $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__ROOT__ . '\\controllers'));
     foreach (new RegexIterator($allFiles, '/\.php$/') as $file) {
@@ -43,7 +37,7 @@ class Service {
           $index += 2; // Skip class keyword and whitespace
           $controller = $namespace . '\\' . $tokens[$index][1];
 
-          Router::registerController(strtolower($controller::mapUrl()), $controller);
+          Router::getInstance()->registerController(strtolower($controller::mapUrl()), $controller);
           break;
         }
       }
@@ -65,6 +59,7 @@ class Service {
   /** Start Web Service */
   public function start() {
     // Redirect request
-    Router::redirectController();
+    Router::getInstance()->redirectController();
+    Logger::getInstance()->writeServiceLog();
   }
 }

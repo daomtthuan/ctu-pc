@@ -12,11 +12,13 @@ class Index extends Controller implements IGetableController {
     return '/';
   }
 
-  public static function get(Request $request, Response $response) {
+  public static function get() {
     $log = [
       'Web service' => 'Web service is running',
+      'IP' => Request::getInstance()->getAddress('ip'),
+      'MAC' => Request::getInstance()->getAddress('mac')
     ];
 
-    $response->sendText(print_r($log, true));
+    Response::getInstance()->sendText(print_r($log, true));
   }
 };

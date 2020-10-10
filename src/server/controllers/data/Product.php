@@ -13,9 +13,9 @@ class Product extends Controller implements IGetableController {
     return '/data/product';
   }
 
-  public static function get(Request $request, Response $response) {
-    $Product = Database::select('Product', $request->getParam());
+  public static function get() {
+    $Product = Database::select('Product', Request::getInstance()->getParam());
 
-    $response->sendJson($Product);
+    Response::getInstance()->sendJson($Product);
   }
 };

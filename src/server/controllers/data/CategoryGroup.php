@@ -13,9 +13,9 @@ class CategoryGroup extends Controller implements IGetableController {
     return '/data/category-group';
   }
 
-  public static function get(Request $request, Response $response) {
-    $categoryGroups = Database::select('CategoryGroup', $request->getParam());
+  public static function get() {
+    $categoryGroups = Database::select('CategoryGroup', Request::getInstance()->getParam());
 
-    $response->sendJson($categoryGroups);
+    Response::getInstance()->sendJson($categoryGroups);
   }
 };

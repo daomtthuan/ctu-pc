@@ -13,9 +13,9 @@ class Role extends Controller implements IGetableController {
     return '/data/role';
   }
 
-  public static function get(Request $request, Response $response) {
-    $Role = Database::select('Role', $request->getParam());
+  public static function get() {
+    $Role = Database::select('Role', Request::getInstance()->getParam());
 
-    $response->sendJson($Role);
+    Response::getInstance()->sendJson($Role);
   }
 };

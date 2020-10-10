@@ -19,10 +19,8 @@ abstract class Controller {
    * 
    * @param Request $request Request
    * @param Response $response Response
-   * 
-   * @return void
    */
-  public static function options(Request $request, Response $response) {
-    $response->sendStatus(200);
+  public static function options() {
+    Response::getInstance()->sendStatus(200);
   }
 }

@@ -4,14 +4,32 @@ namespace Core;
 
 /** Request */
 class Request {
+  /** Instance of Request */
   private static Request $instance;
 
+  /** Address Request */
+  private array $address;
+
+  /** Url Request */
   private string $url;
+
+  /** Params Request */
   private array $params;
+
+  /** Method Request */
   private string $method;
+
+  /** Data Request */
   private array $data;
 
+  /** Create new instance of Request */
   private function __construct() {
+    // Get Address request
+    $this->address = [
+      'ip' => $_SERVER['REMOTE_ADDR'],
+      'mac' => strtok(exec('getmac'), ' ')
+    ];
+
     // Get reques url 
     $this->url = strtok(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', '?');
 
@@ -42,7 +60,22 @@ class Request {
   }
 
   /**
-   * Get the value of url
+   * Get Address request
+   * 
+   * @param string|null $key Param Key
+   * 
+   * @return mixed[]|mixed Get All params. Otherwise, value of param has that key
+   */
+  public function getAddress(string $key = null) {
+    if (!isset($key)) {
+      return $this->address;
+    } else {
+      return $this->address[$key];
+    }
+  }
+
+  /**
+   * Get the value of url request
    */
   public function getUrl() {
     return $this->url;
@@ -56,7 +89,7 @@ class Request {
   }
 
   /**
-   * Get data
+   * Get Data request
    * 
    * @param string|null $key Data Key
    * 
@@ -71,7 +104,7 @@ class Request {
   }
 
   /**
-   * Get Param
+   * Get Param request
    * 
    * @param string|null $key Param Key
    * 

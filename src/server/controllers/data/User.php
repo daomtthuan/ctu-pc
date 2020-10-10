@@ -13,9 +13,9 @@ class User extends Controller implements IGetableController {
     return '/data/user';
   }
 
-  public static function get(Request $request, Response $response) {
-    $User = Database::select('User', $request->getParam());
+  public static function get() {
+    $User = Database::select('User', Request::getInstance()->getParam());
 
-    $response->sendJson($User);
+    Response::getInstance()->sendJson($User);
   }
 };

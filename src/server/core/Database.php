@@ -29,10 +29,13 @@ class Database {
       // Execute
       $statement->execute($parameters);
 
+      // Close connection
+      unset($connection);
+
       // Fetch to array Models
       return $statement->fetchAll();
     } catch (Exception $exception) {
-      Router::redirectError(500, $exception->getMessage());
+      Router::getInstance()->redirectError(500, $exception->getMessage());
     }
   }
 }

@@ -13,9 +13,9 @@ class Review extends Controller implements IGetableController {
     return '/data/review';
   }
 
-  public static function get(Request $request, Response $response) {
-    $Review = Database::select('Review', $request->getParam());
+  public static function get() {
+    $Review = Database::select('Review', Request::getInstance()->getParam());
 
-    $response->sendJson($Review);
+    Response::getInstance()->sendJson($Review);
   }
 };

@@ -13,9 +13,9 @@ class Brand extends Controller implements IGetableController {
     return '/data/brand';
   }
 
-  public static function get(Request $request, Response $response) {
-    $Brand = Database::select('Brand', $request->getParam());
+  public static function get() {
+    $Brand = Database::select('Brand', Request::getInstance()->getParam());
 
-    $response->sendJson($Brand);
+    Response::getInstance()->sendJson($Brand);
   }
 };

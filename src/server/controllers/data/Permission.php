@@ -13,9 +13,9 @@ class Permission extends Controller implements IGetableController {
     return '/data/permission';
   }
 
-  public static function get(Request $request, Response $response) {
-    $Permission = Database::select('Permission', $request->getParam());
+  public static function get() {
+    $Permission = Database::select('Permission', Request::getInstance()->getParam());
 
-    $response->sendJson($Permission);
+    Response::getInstance()->sendJson($Permission);
   }
 };

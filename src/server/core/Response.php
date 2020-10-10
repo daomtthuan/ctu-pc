@@ -4,11 +4,14 @@ namespace Core;
 
 /** Response */
 class Response {
+  /** Instance of Response */
   private static Response $instance;
 
+  /** Create new instance of Response */
   private function __construct() {
     // Set full allowed access control
     Http::setAccessControlAllow('*', '*', '*', '*', '*');
+    Logger::getInstance();
   }
 
   /** 
@@ -52,5 +55,6 @@ class Response {
    */
   public function sendStatus(int $code) {
     Http::setStatus($code);
+    Logger::getInstance()->setStatusResponseServiceLog($code);
   }
 }
