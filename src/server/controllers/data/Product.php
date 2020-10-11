@@ -10,11 +10,11 @@ use Core\Response;
 
 class Product extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/product';
+    return '/api/data/product';
   }
 
   public static function get() {
-    $Product = Database::select('Product', Request::getInstance()->getParam());
+    $Product = Database::getInstance()->select('Product', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($Product);
   }

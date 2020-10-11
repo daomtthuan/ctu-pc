@@ -10,11 +10,11 @@ use Core\Response;
 
 class Permission extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/permission';
+    return '/api/data/permission';
   }
 
   public static function get() {
-    $Permission = Database::select('Permission', Request::getInstance()->getParam());
+    $Permission = Database::getInstance()->select('Permission', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($Permission);
   }

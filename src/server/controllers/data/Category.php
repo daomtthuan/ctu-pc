@@ -10,11 +10,11 @@ use Core\Response;
 
 class Category extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/category';
+    return '/api/data/category';
   }
 
   public static function get() {
-    $categories = Database::select('Category', Request::getInstance()->getParam());
+    $categories = Database::getInstance()->select('Category', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($categories);
   }

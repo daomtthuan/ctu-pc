@@ -9,7 +9,7 @@ use Core\Response;
 
 class Index extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/';
+    return '/api';
   }
 
   public static function get() {

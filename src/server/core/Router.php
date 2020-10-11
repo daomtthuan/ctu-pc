@@ -6,6 +6,8 @@ use Exception;
 
 /** Routter */
 class Router {
+  public const CONTROLLER_DIR = __ROOT__ . '\\controllers';
+
   /** Instance of Routter  */
   private static Router $instance;
 
@@ -29,6 +31,7 @@ class Router {
     return self::$instance;
   }
 
+
   /**
    * Register Controller mapping Url
    * 
@@ -41,26 +44,25 @@ class Router {
 
   /** Redirect Controller */
   public function redirectController() {
-    $request = Request::getInstance();
-    $response = Response::getInstance();
-
     // Check Controller mapping
-    if (!isset($this->controllers[$request->getUrl()])) {
+    if (!isset($this->controllers[Request::getInstance()->getUrl()])) {
       $this->redirectError(404, 'Not found ' . Request::getInstance()->getUrl());
     }
 
     // Check method in Controller
-    $controller = $this->controllers[$request->getUrl()];
-    if (!method_exists($controller, $request->getMethod())) {
-      $this->redirectError(405, 'Method ' . $request->getMethod() . ' not allowed');
+    $controller = $this->controllers[Request::getInstance()->getUrl()];
+    if (!method_exists($controller, Request::getInstance()->getMethod())) {
+      $this->redirectError(405, 'Method ' . Request::getInstance()->getMethod() . ' not allowed');
     }
 
     // Call method in Controller
     try {
-      call_user_func("$controller::" . $request->getMethod());
+      call_user_func("$controller::" . Request::getInstance()->getMethod());
     } catch (Exception $exception) {
       $this->redirectError($exception->getCode(), $exception->getMessage());
     }
+
+    Service::getInstance()->stop();
   }
 
   /**
@@ -77,8 +79,8 @@ class Router {
     } else {
       Http::setData("Error $statusCode: $message");
     }
-    Logger::getInstance()->setStatusResponseServiceLog($statusCode);
-    Logger::getInstance()->writeServiceLog();
-    die;
+    Logger::getInstance()->setServiceLog('status', $statusCode);
+
+    Service::getInstance()->stop();
   }
 }

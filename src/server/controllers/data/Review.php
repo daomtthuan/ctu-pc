@@ -10,11 +10,11 @@ use Core\Response;
 
 class Review extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/review';
+    return '/api/data/review';
   }
 
   public static function get() {
-    $Review = Database::select('Review', Request::getInstance()->getParam());
+    $Review = Database::getInstance()->select('Review', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($Review);
   }

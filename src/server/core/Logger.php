@@ -13,18 +13,19 @@ class Logger {
   /** Data sevice log */
   private array $serviceLog;
 
+  /** Create new instance of Logger */
   private function __construct() {
     if (!file_exists(Logger::SERVICE_LOG_DIR)) {
       mkdir(Logger::SERVICE_LOG_DIR, 0777, true);
     }
 
     $this->serviceLog = [
-      date('H:i:s'),
-      Request::getInstance()->getAddress('mac'),
-      Request::getInstance()->getAddress('ip'),
-      Request::getInstance()->getMethod(),
-      200,
-      Request::getInstance()->getUrl()
+      'time' => date('H:i:s'),
+      'mac' => Request::getInstance()->getAddress('mac'),
+      'user' => '__GUEST__',
+      'url' => Request::getInstance()->getUrl(),
+      'method' => Request::getInstance()->getMethod(),
+      'status' => 200
     ];
   }
 
@@ -41,17 +42,18 @@ class Logger {
   }
 
   /**
-   * Log response
+   * Set data in service log
    * 
-   * @param int $statusCode Status code
+   * @param string Key log
+   * @param mixed $value Value log
    */
-  public function setStatusResponseServiceLog(int $statusCode) {
-    $this->serviceLog[4] = $statusCode;
+  public function setServiceLog(string $key, $value) {
+    $this->serviceLog[$key] = $value;
   }
 
+  /** Write serivce log */
   public function writeServiceLog() {
     $path = Logger::SERVICE_LOG_DIR . '\\' . date('Y-m-d') . '.log';
-    $log = implode(" \t\t\t ", $this->serviceLog) . "\n";
-    file_put_contents($path, $log, FILE_APPEND);
+    file_put_contents($path, json_encode($this->serviceLog) . "\n", FILE_APPEND);
   }
 }

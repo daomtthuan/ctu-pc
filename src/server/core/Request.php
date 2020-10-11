@@ -13,6 +13,9 @@ class Request {
   /** Url Request */
   private string $url;
 
+  /** Cookies Request */
+  private array $cookies;
+
   /** Params Request */
   private array $params;
 
@@ -32,6 +35,9 @@ class Request {
 
     // Get reques url 
     $this->url = strtok(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', '?');
+
+    // Get cookies
+    $this->cookies = $_COOKIE;
 
     // Get request params
     $this->params = $_GET;
@@ -82,6 +88,41 @@ class Request {
   }
 
   /**
+   * Get Cookie request
+   * 
+   * @param string|null $key Cookie Key
+   * 
+   * @return mixed Cookies if $key is null. Otherwise, value of Cookie has that key
+   */
+  public function getCookie(string $key = null) {
+    if (!isset($key)) {
+      return $this->cookies;
+    } else {
+      return $this->cookies[str_replace('.', '_', $key)];
+    }
+  }
+
+  /**
+   * Check request has cookie or not
+   * 
+   * @param string[] $keys Cookie Keys
+   * 
+   * @return bool true if has cookie. Otherwise, false.
+   */
+  public function hasCookie(string ...$keys) {
+    if (count($keys) == 0) {
+      return count($this->cookies) > 0;
+    } else {
+      foreach ($keys as $key) {
+        if (!isset($this->cookies[str_replace('.', '_', $key)])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
    * Get the value of method
    */
   public function getMethod() {
@@ -104,6 +145,26 @@ class Request {
   }
 
   /**
+   * Check request has data or not
+   * 
+   * @param string[] $keys Data Keys
+   * 
+   * @return bool true if has data. Otherwise, false.
+   */
+  public function hasData(string ...$keys) {
+    if (count($keys) == 0) {
+      return count($this->data) > 0;
+    } else {
+      foreach ($keys as $key) {
+        if (!isset($this->data[$key])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
    * Get Param request
    * 
    * @param string|null $key Param Key
@@ -115,6 +176,26 @@ class Request {
       return $this->params;
     } else {
       return $this->params[$key];
+    }
+  }
+
+  /**
+   * Check request has paramater or not
+   * 
+   * @param string[] $keys paramater Keys
+   * 
+   * @return bool true if has paramater. Otherwise, false.
+   */
+  public function hasParam(string ...$keys) {
+    if (count($keys) == 0) {
+      return count($this->params) > 0;
+    } else {
+      foreach ($keys as $key) {
+        if (!isset($this->params[$key])) {
+          return false;
+        }
+      }
+      return true;
     }
   }
 }

@@ -4,7 +4,7 @@
       <h1 class="text-danger">Lỗi {{ error.statusCode }}</h1>
       <h4>{{ message }}</h4>
       <hr />
-      <nuxt-link to="/">Về trang chủ</nuxt-link>
+      <b-link href="/">Về trang chủ</b-link>
     </section>
   </main>
 </template>

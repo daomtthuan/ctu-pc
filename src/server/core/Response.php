@@ -11,7 +11,6 @@ class Response {
   private function __construct() {
     // Set full allowed access control
     Http::setAccessControlAllow('*', '*', '*', '*', '*');
-    Logger::getInstance();
   }
 
   /** 
@@ -35,6 +34,8 @@ class Response {
     Http::setContentType('json');
     Http::setStatus(200);
     Http::setData(json_encode($data));
+
+    Service::getInstance()->stop();
   }
 
   /**
@@ -46,6 +47,8 @@ class Response {
     Http::setContentType('text');
     Http::setStatus(200);
     Http::setData($data);
+
+    Service::getInstance()->stop();
   }
 
   /**
@@ -55,6 +58,8 @@ class Response {
    */
   public function sendStatus(int $code) {
     Http::setStatus($code);
-    Logger::getInstance()->setStatusResponseServiceLog($code);
+    Logger::getInstance()->setServiceLog('status', $code);
+
+    Service::getInstance()->stop();
   }
 }

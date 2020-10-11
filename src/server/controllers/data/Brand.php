@@ -10,11 +10,11 @@ use Core\Response;
 
 class Brand extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/brand';
+    return '/api/data/brand';
   }
 
   public static function get() {
-    $Brand = Database::select('Brand', Request::getInstance()->getParam());
+    $Brand = Database::getInstance()->select('Brand', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($Brand);
   }

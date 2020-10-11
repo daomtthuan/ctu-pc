@@ -10,11 +10,11 @@ use Core\Response;
 
 class CategoryGroup extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/category-group';
+    return '/api/data/category-group';
   }
 
   public static function get() {
-    $categoryGroups = Database::select('CategoryGroup', Request::getInstance()->getParam());
+    $categoryGroups = Database::getInstance()->select('CategoryGroup', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($categoryGroups);
   }

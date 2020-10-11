@@ -2,15 +2,55 @@
 
 namespace Core;
 
+use Core\Bases\Model;
 use Exception;
 use PDO;
 
-/** Database Access Data Provider */
+/** Database */
 class Database {
-  public static function select(string $model, array $parameters = null) {
+  /** Instance of Logger */
+  private static Database $instance;
+
+  /** Connection */
+  private PDO $connection;
+
+  /** Create new instance of Database */
+  private function __construct() {
+  }
+
+  /** 
+   * Get instance of Database 
+   * 
+   * @return Database Database
+   */
+  public static function getInstance() {
+    if (!isset(self::$instance)) {
+      self::$instance = new Database();
+    }
+    return self::$instance;
+  }
+
+  /** Open connection */
+  public function open() {
+    $this->connection = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+  }
+
+  /** Close connection */
+  public function close() {
+    unset($this->connection);
+  }
+
+  /**
+   * Select Model in database
+   * 
+   * @param string $model Name model
+   * @param array $parameters Query parameters
+   * 
+   * @return Model[] Models array
+   */
+  public function select(string $model, array $parameters = null) {
     try {
-      // Open connection
-      $connection = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+      $this->open();
 
       // Prepare query
       $query = "select * from $model";
@@ -21,7 +61,7 @@ class Database {
         }
         $query = substr($query, 0, -4);
       }
-      $statement = $connection->prepare($query);
+      $statement = $this->connection->prepare($query);
 
       // Model mapping
       $statement->setFetchMode(PDO::FETCH_CLASS, "Models\\$model");
@@ -29,8 +69,7 @@ class Database {
       // Execute
       $statement->execute($parameters);
 
-      // Close connection
-      unset($connection);
+      $this->close();
 
       // Fetch to array Models
       return $statement->fetchAll();

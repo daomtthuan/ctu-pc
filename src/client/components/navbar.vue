@@ -47,15 +47,23 @@
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
-        <b-dropdown text="Tài khoản" class="mr-2" v-if="$auth.loggedIn" variant="light" size="sm" right no-caret>
-          <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
-          <b-dropdown-item>Giỏ hàng</b-dropdown-item>
-          <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item>Đăng xuất</b-dropdown-item>
-        </b-dropdown>
-        <b-button variant="primary" size="sm" class="mr-2" v-else to="/login">
-          Đăng nhập
-        </b-button>
+        <client-only>
+          <b-dropdown text="Tài khoản" class="mr-2" v-if="$auth.loggedIn" variant="primary" size="sm" right no-caret>
+            <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
+            <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
+          </b-dropdown>
+          <b-button variant="primary" size="sm" class="mr-2" v-else to="/login">
+            Đăng nhập
+          </b-button>
+
+          <template slot="placeholder">
+            <b-button variant="primary" size="sm" class="mr-2" disabled>
+              <b-spinner small></b-spinner>
+            </b-button>
+          </template>
+        </client-only>
 
         <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none">
           <fa :icon="['fas', 'bars']"></fa>
@@ -131,6 +139,10 @@
   export default class Navbar extends Vue {
     @Prop(Array) categoryGroups!: App.Models.CategoryGroup[];
     @Prop(Array) categories!: App.Models.Category[][];
+
+    public async logout() {
+      await this.$auth.logout();
+    }
   }
 </script>
 

@@ -28,9 +28,16 @@ export default {
     ],
     title: process.env.NAME,
     titleTemplate: `${process.env.NAME} - %s`,
-    noscript: [{ innerHTML: 'This website requires JavaScript. （このWebサイトにはJavaScriptが必要です。）' }],
+    noscript: [{ innerHTML: 'This website requires JavaScript.' }],
   },
   css: ['~/assets/styles/theme'],
+  loading: {
+    color: ' #3b84c0',
+    failedColor: '#be5046',
+  },
+  proxy: {
+    '/api': process.env.SERVER,
+  },
   modules: [
     //PWA
     [
@@ -85,23 +92,29 @@ export default {
     ],
 
     // Axios
-    ['@nuxtjs/axios', {}],
+    [
+      '@nuxtjs/axios',
+      {
+        prefix: '/api',
+        proxy: true,
+      },
+    ],
 
     // Auth
     [
       '@nuxtjs/auth',
       {
+        cookie: {
+          // prefix: 'auth_',
+        },
         strategies: {
           local: {
             endpoints: {
-              user: { url: `${process.env.SERVER}/auth/local`, method: 'get', propertyName: 'user' },
-              login: { url: `${process.env.SERVER}/auth/local`, method: 'post', propertyName: 'token' },
-              logout: { url: `${process.env.SERVER}/auth/local`, method: 'delete' },
+              user: { url: '/auth', method: 'get', propertyName: 'user' },
+              login: { url: '/auth', method: 'post', propertyName: 'token' },
+              logout: { url: '/auth', method: 'delete' },
             },
-            // tokenRequired: true,
-            // tokenType: 'bearer',
-            // globalToken: true,
-            // autoFetchUser: true
+            tokenType: '',
           },
         },
       },

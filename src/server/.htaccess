@@ -1,12 +1,9 @@
 RewriteEngine On
 
-# RewriteCond %{REQUEST_FILENAME} !-f
-# RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^favicon\.ico$ /static/favicon.ico [L,R=301]
 
-## Rewrite url path localhost:8000/segment1/segment2/..../ to localhost:8000/index.php/segment1/segment2/...
-
+RewriteCond %{REQUEST_URI} !^/static/.*$
 RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-## Rewrite url path localhost:8000/segment1/segment2/.... to localhost:8000/index.php/segment1/segment2/...
-
+RewriteCond %{REQUEST_URI} !^/static/.*$
 RewriteRule ^(.+)$ index.php [L,QSA]

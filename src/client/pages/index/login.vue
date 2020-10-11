@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-form @submit="login" method="post">
+    <b-form @submit.prevent="login">
       <b-form-group label="Tên đăng nhập:" label-for="input-username">
         <b-form-input id="input-username" v-model="user.username" type="text" required placeholder="Điền tên đăng nhập" autocomplete="on"></b-form-input>
       </b-form-group>

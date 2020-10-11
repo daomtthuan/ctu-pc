@@ -10,11 +10,11 @@ use Core\Response;
 
 class User extends Controller implements IGetableController {
   public static function mapUrl() {
-    return '/data/user';
+    return '/api/data/user';
   }
 
   public static function get() {
-    $User = Database::select('User', Request::getInstance()->getParam());
+    $User = Database::getInstance()->select('User', Request::getInstance()->getParam());
 
     Response::getInstance()->sendJson($User);
   }
