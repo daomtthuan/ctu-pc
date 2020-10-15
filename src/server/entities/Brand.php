@@ -1,13 +1,18 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
-use Core\Bases\Model;
+use Core\Entity;
 
-class Brand extends Model {
-  private int $id;
-  private string $name;
-  private bool $state;
+class Brand extends Entity {
+  /**
+   * Create new instance of Brand
+   * 
+   * @param array $data Data
+   */
+  public function __construct(array $data) {
+    parent::__construct($data);
+  }
 
   public function jsonSerialize() {
     return [
@@ -19,22 +24,28 @@ class Brand extends Model {
 
   /**
    * Get the value of id
+   * 
+   * @return int Id
    */
   public function getId() {
-    return $this->id;
+    return $this->data['id'];
   }
 
   /**
    * Get the value of name
+   * 
+   * @return String Name
    */
   public function getName() {
-    return $this->name;
+    return $this->data['name'];
   }
 
   /**
    * Get the value of state
+   * 
+   * @return int State
    */
   public function getState() {
-    return $this->state;
+    return $this->data['state'];
   }
 }

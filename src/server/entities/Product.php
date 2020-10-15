@@ -1,17 +1,18 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
-use Core\Bases\Model;
+use Core\Entity;
 
-class Product extends Model {
-  private int $id;
-  private string $name;
-  private float $price;
-  private int $quantity;
-  private int $idCategory;
-  private int $idBrand;
-  private bool $state;
+class Product extends Entity {
+  /**
+   * Create new instance of Permission
+   * 
+   * @param array $data Data
+   */
+  public function __construct(array $data) {
+    parent::__construct($data);
+  }
 
   public function jsonSerialize() {
     return [
@@ -27,50 +28,64 @@ class Product extends Model {
 
   /**
    * Get the value of id
+   * 
+   * @return int Id
    */
   public function getId() {
-    return $this->id;
+    return $this->data['id'];
   }
 
   /**
    * Get the value of name
+   * 
+   * @return string Name
    */
   public function getName() {
-    return $this->name;
+    return $this->data['name'];
   }
 
   /**
    * Get the value of price
+   * 
+   * @return float Price
    */
   public function getPrice() {
-    return $this->price;
+    return $this->data['price'];
   }
 
   /**
    * Get the value of quantity
+   * 
+   * @return int Quantity
    */
   public function getQuantity() {
-    return $this->quantity;
+    return $this->data['quantity'];
   }
 
   /**
    * Get the value of idCategory
+   * 
+   * @return int Idcategory
    */
   public function getIdCategory() {
-    return $this->idCategory;
+    return $this->data['idCategory'];
   }
 
   /**
    * Get the value of idBrand
+   * 
+   * @return int IdBrand
    */
   public function getIdBrand() {
-    return $this->idBrand;
+    return $this->data['idBrand'];
   }
 
   /**
    * Get the value of state
+   * 
+   * @return int State
    */
   public function getState() {
-    return $this->state;
+    return $this->data['state'];
   }
 }

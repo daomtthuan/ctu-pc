@@ -1,15 +1,18 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
-use Core\Bases\Model;
+use Core\Entity;
 
-class Review extends Model {
-  private int $id;
-  private int $star;
-  private int $idUser;
-  private int $idProduct;
-  private bool $state;
+class Review extends Entity {
+  /**
+   * Create new instance of Role
+   * 
+   * @param array $data Data
+   */
+  public function __construct(array $data) {
+    parent::__construct($data);
+  }
 
   public function jsonSerialize() {
     return [
@@ -23,36 +26,46 @@ class Review extends Model {
 
   /**
    * Get the value of id
+   * 
+   * @return int Id
    */
   public function getId() {
-    return $this->id;
+    return $this->data['id'];
   }
 
   /**
    * Get the value of star
+   * 
+   * @return int Star
    */
   public function getStar() {
-    return $this->star;
+    return $this->data['star'];
   }
 
   /**
    * Get the value of idUser
+   * 
+   * @return int IdUser
    */
   public function getIdUser() {
-    return $this->idUser;
+    return $this->data['idUser'];
   }
 
   /**
    * Get the value of idProduct
+   * 
+   * @return int IdProduct
    */
   public function getIdProduct() {
-    return $this->idProduct;
+    return $this->data['idProduct'];
   }
 
   /**
    * Get the value of state
+   * 
+   * @return int State
    */
   public function getState() {
-    return $this->state;
+    return $this->data['state'];
   }
 }
