@@ -6,7 +6,7 @@ use Core\Entity;
 
 class Review extends Entity {
   /**
-   * Create new instance of Role
+   * Create new instance of Review
    * 
    * @param array $data Data
    */
