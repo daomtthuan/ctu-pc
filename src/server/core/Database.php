@@ -2,10 +2,8 @@
 
 namespace Core;
 
-use Dotenv\Parser\Value;
 use Exception;
 use PDO;
-use PDOStatement;
 
 /** Database */
 class Database {
@@ -20,7 +18,7 @@ class Database {
    * @param string $entity Entity name
    * @param array $filter Finding filter
    * 
-   * @return PDOStatement Data execute results
+   * @return array Data execute results
    */
   public static function find(string $entity, array $filter = null) {
     try {
@@ -36,7 +34,7 @@ class Database {
       $statement = $pdo->prepare($query);
       $statement->execute($filter);
       unset($pdo);
-      return $statement;
+      return $statement->fetchAll();
     } catch (Exception $exception) {
       Router::getInstance()->redirectError(500, $exception->getMessage());
     }
@@ -52,7 +50,7 @@ class Database {
    * @param string $rightKey Key right entity
    * @param string $typeJoin Type Join
    * 
-   * @return string[] Reference
+   * @return array Reference
    */
   public static function createReference(string $joinEntity, string $leftEntity, string $leftKey, string $rightEntity, string $rightKey, string $typeJoin) {
     return [
@@ -72,7 +70,7 @@ class Database {
    * @param string $key Key entity filter
    * @param string $value Value filter
    * 
-   * @return string[] Reference filter
+   * @return array Reference filter
    */
   public static function createReferenceFilter(string $entity, string $key, string $value) {
     return [
@@ -86,9 +84,9 @@ class Database {
    * Create Reference filter in Join find
    * 
    * @param string $entity Entity
-   * @param mixed[]|null $filter Entity filter
+   * @param array|null $filter Entity filter
    * 
-   * @return string[] Reference filter
+   * @return array Reference filter
    */
   public static function createReferenceFilters(string $entity, array $filter = null) {
     $referenceFilters = [];
@@ -103,11 +101,11 @@ class Database {
   /**
    * Find query
    * 
-   * @param string $entity Entity name
+   * @param string $entity Entity
    * @param array $filter Finding filter
    * @param array $referencesFilters References filters
    * 
-   * @return PDOStatement Data execute results
+   * @return array Data execute results
    */
   public static function findJoin(string $entity, array $references, array $referencesFilters = null) {
     try {
@@ -142,19 +140,19 @@ class Database {
       $statement = $pdo->prepare($query);
       $statement->execute($filter);
       unset($pdo);
-      return $statement;
+      return $statement->fetchAll();
     } catch (Exception $exception) {
       Router::getInstance()->redirectError(500, $exception->getMessage());
     }
   }
 
   /**
-   * Add new
+   * Add new one
    * 
-   * @param string $entity Entity name
+   * @param string $entity Entity
    * @param array $data Adding data
    * 
-   * @return PDOStatement Data execute results
+   * @return int Number of added rows
    */
   public static function add(string $entity, array $data) {
     try {
@@ -169,7 +167,34 @@ class Database {
       $query = "insert into $entity(" . substr($field, 0, -2) . ') value (' . substr($value, 0, -2) . ')';
       $statement = $pdo->prepare($query);
       $statement->execute($data);
-      return $statement;
+      unset($pdo);
+      return $statement->rowCount();
+    } catch (Exception $exception) {
+      Router::getInstance()->redirectError(500, $exception->getMessage());
+    }
+  }
+
+  /**
+   * Edit one
+   * 
+   * @param string $entity Entity
+   * @param int $id Id entity
+   * @param array $data Data entity
+   * 
+   * @return int Number of edited rows
+   */
+  public static function edit(string $entity, int $id, array $data) {
+    try {
+      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+      $query = "update $entity set ";
+      foreach (array_keys($data) as $key) {
+        $query .= "$key = :$key, ";
+      }
+      $query = substr($query, 0, -2) . ' where id = :id';
+      $statement = $pdo->prepare($query);
+      $statement->execute(array_merge(['id' => $id], $data));
+      unset($pdo);
+      return $statement->rowCount();
     } catch (Exception $exception) {
       Router::getInstance()->redirectError(500, $exception->getMessage());
     }

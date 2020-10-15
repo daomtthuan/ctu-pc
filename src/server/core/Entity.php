@@ -23,4 +23,13 @@ abstract class Entity implements JsonSerializable {
    * @return array JSON Object
    */
   public abstract function jsonSerialize();
+
+  /**
+   * Get the value of data
+   * 
+   * @return array Data array
+   */
+  public function getData() {
+    return $this->data;
+  }
 }

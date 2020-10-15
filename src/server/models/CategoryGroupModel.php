@@ -15,8 +15,7 @@ class CategoryGroupModel {
    */
   public static function find(array $filter = null) {
     $categoryGroups = [];
-    $result = Database::find('CategoryGroup', $filter);
-    while ($data = $result->fetch()) {
+    foreach (Database::find('CategoryGroup', $filter) as $data) {
       $categoryGroups[] = new CategoryGroup($data);
     }
     return $categoryGroups;
