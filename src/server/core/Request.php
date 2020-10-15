@@ -2,6 +2,9 @@
 
 namespace Core;
 
+use Entities\User;
+use Models\UserModel;
+
 /** Request */
 class Request {
   private static Request $instance;
@@ -189,18 +192,30 @@ class Request {
   /**
    * Verify user
    * 
-   * @return bool True if valid user, otherwise false.
+   * @return User Verified user
    */
   public function verifyUser() {
-    if (!Request::getInstance()->hasCookie($_ENV['TOKEN_KEY_LOCAL'])) {
-      return false;
+    if (!$this->hasCookie($_ENV['TOKEN_KEY_LOCAL'])) {
+      Response::getInstance()->sendStatus(401);
     }
 
-    Service::getInstance()->startSession(Request::getInstance()->getCookie($_ENV['TOKEN_KEY_LOCAL']));
-    if (!Service::getInstance()->hasSession('user')) {
-      return false;
+    Session::start($this->getCookie($_ENV['TOKEN_KEY_LOCAL']));
+    if (!Session::has('user')) {
+      Response::getInstance()->sendStatus(401);
     }
 
-    return true;
+    $users = UserModel::find([
+      'id' => Session::get('user')
+    ]);
+
+    if (count($users) != 1) {
+      Response::getInstance()->sendStatus(401);
+    }
+
+    if (!$users[0]->getState()) {
+      Response::getInstance()->sendStatus(406);
+    }
+
+    return $users[0];
   }
 }

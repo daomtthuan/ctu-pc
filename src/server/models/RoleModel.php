@@ -4,6 +4,7 @@ namespace Models;
 
 use Core\Database;
 use Entities\Role;
+use Entities\User;
 
 class RoleModel {
   /**
@@ -24,15 +25,15 @@ class RoleModel {
   /**
    * Find roles that be owned by user
    * 
-   * @param int $idUser Id User
+   * @param User $user Owned by user
    * @param array|null $filter Finding filter
    * 
    * @return Role[] Roles
    */
-  public static function findOwnedByUser(int $idUser, array $filter = null) {
+  public static function findOwnedByUser(User $user, array $filter = null) {
     $roleReferenceFilters = Database::createReferenceFilters('Role', $filter);
     $userReferenceFilters = [
-      Database::createReferenceFilter('User', 'id', $idUser)
+      Database::createReferenceFilter('User', 'id', $user->getId())
     ];
 
     $result = Database::findJoin('Role', [

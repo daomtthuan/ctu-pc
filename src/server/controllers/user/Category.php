@@ -7,7 +7,7 @@ use Core\Request;
 use Core\Response;
 use Models\CategoryModel;
 
-class CategoryUserController extends Controller {
+class Category extends Controller {
   public static function mapUrl() {
     return '/api/user/category';
   }

@@ -2,10 +2,8 @@
 
 namespace Core;
 
-use Dotenv\Parser\Value;
 use Exception;
 use PDO;
-use PDOStatement;
 
 /** Database */
 class Database {

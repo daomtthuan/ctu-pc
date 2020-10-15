@@ -5,9 +5,9 @@ namespace Controllers;
 use Core\Controller;
 use Core\Response;
 
-class IndexController extends Controller {
+class Index extends Controller {
   public static function mapUrl() {
-    return '/api';
+    return '/';
   }
 
   public static function get() {

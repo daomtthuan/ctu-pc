@@ -6,7 +6,7 @@ use Core\Controller;
 use Core\Response;
 use Models\CategoryGroupModel;
 
-class CategoryGroupUserController extends Controller {
+class CategoryGroup extends Controller {
   public static function mapUrl() {
     return '/api/user/category-group';
   }
