@@ -15,8 +15,7 @@ class PermissionModel {
    */
   public static function find(array $filter = null) {
     $permissions = [];
-    $result = Database::find('Permission', $filter);
-    while ($data = $result->fetch()) {
+    foreach (Database::find('Permission', $filter) as $data) {
       $permissions[] = new Permission($data);
     }
     return $permissions;

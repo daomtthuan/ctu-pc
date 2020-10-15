@@ -7,7 +7,7 @@ use Entities\User;
 
 class UserModel {
   /**
-   * Find by filter
+   * Find instances by filter
    * 
    * @param array|null $filter Finding filter
    * 
@@ -15,24 +15,35 @@ class UserModel {
    */
   public static function find(array $filter = null) {
     $users = [];
-    $result = Database::find('User', $filter);
-    while ($data = $result->fetch()) {
+    foreach (Database::find('User', $filter) as $data) {
       $users[] = new User($data);
     }
     return $users;
   }
 
   /**
-   * Add new
+   * Add instance
    * 
-   * @param User $user Adding user
+   * @param User $user Added user
+   * 
+   * @return bool True if success, otherwise false
    */
   public static function add(User $user) {
-    $users = [];
-    $result = Database::find('User', $filter);
-    while ($data = $result->fetch()) {
-      $users[] = new User($data);
-    }
-    return $users;
+    $data = $user->getData();
+    unset($data['id'], $data['state']);
+    return Database::add('User', $data) == 1;
+  }
+
+  /**
+   * Edit instance
+   * 
+   * @param User $user Edited user
+   * 
+   * @return bool True if success, otherwise false
+   */
+  public static function edit(User $user) {
+    $data = $user->getData();
+    unset($data['id']);
+    return Database::edit('User', $user->getId(), $data) == 1;
   }
 }

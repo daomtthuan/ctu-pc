@@ -57,7 +57,7 @@ class Request {
    * 
    * @param string|null $key Param Key
    * 
-   * @return mixed[]|mixed Get All params. Otherwise, value of param has that key
+   * @return array|mixed Get All params. Otherwise, value of param has that key
    */
   public function getAddress(string $key = null) {
     if (!isset($key)) {
@@ -156,7 +156,7 @@ class Request {
    * 
    * @param string|null $key Param Key
    * 
-   * @return mixed[]|mixed Get All params. Otherwise, value of param has that key
+   * @return array|mixed Get All params. Otherwise, value of param has that key
    */
   public function getParam(string $key = null) {
     if (!isset($key)) {
