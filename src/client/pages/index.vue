@@ -1,5 +1,5 @@
 <template>
-  <nuxt-child name="home"></nuxt-child>
+  <nuxt-child></nuxt-child>
 </template>
 
 <script lang="ts">
