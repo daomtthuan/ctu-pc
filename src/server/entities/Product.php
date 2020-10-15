@@ -6,7 +6,7 @@ use Core\Entity;
 
 class Product extends Entity {
   /**
-   * Create new instance of Permission
+   * Create new instance of Product
    * 
    * @param array $data Data
    */
