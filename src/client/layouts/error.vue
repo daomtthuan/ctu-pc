@@ -1,5 +1,5 @@
 <template>
-  <main class="d-flex align-items-center vh-100">
+  <main class="d-flex align-items-center vh-min-100">
     <section class="mx-auto text-center">
       <h1 class="text-danger">Lỗi {{ error.statusCode }}</h1>
       <h4>{{ message }}</h4>
@@ -16,16 +16,32 @@
   export default class ErrorLayout extends Vue {
     @Prop(Object)
     private error!: App.Nuxt.ErrorPage;
-    private message: string = 'Đã có lỗi xảy ra';
+    private message: string = 'Máy chủ đã xảy ra lỗi';
 
     public beforeMount() {
       switch (this.error.statusCode) {
-        case 404:
-          this.message = 'Không tìm thấy';
+        case 400:
+          this.message = 'Yêu cầu không hợp lệ';
+          break;
+
+        case 401:
+          this.message = 'Cần đăng nhập để thực hiện yêu cầu này';
           break;
 
         case 403:
           this.message = 'Truy cập bị giới hạn';
+          break;
+
+        case 404:
+          this.message = 'Không tìm thấy';
+          break;
+
+        case 406:
+          this.message = 'Yêu cầu không được chấp nhận';
+          break;
+
+        case 504:
+          this.message = 'Máy chủ không thể xử lý yêu cầu ngay lúc này';
           break;
       }
     }

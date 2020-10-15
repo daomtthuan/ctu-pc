@@ -2,77 +2,174 @@
 
 namespace Core;
 
-use Core\Bases\Model;
+use Dotenv\Parser\Value;
 use Exception;
 use PDO;
+use PDOStatement;
 
 /** Database */
 class Database {
-  /** Instance of Logger */
-  private static Database $instance;
+  public const INNER_JOIN = 'inner join';
+  public const LEFT_OUTER_JOIN = 'left outer join';
+  public const RIGHT_OUTER_JOIN = 'right outer join';
+  public const CROSS_JOIN = 'cross join';
 
-  /** Connection */
-  private PDO $connection;
-
-  /** Create new instance of Database */
-  private function __construct() {
-  }
-
-  /** 
-   * Get instance of Database 
+  /**
+   * Find query
    * 
-   * @return Database Database
+   * @param string $entity Entity name
+   * @param array $filter Finding filter
+   * 
+   * @return PDOStatement Data execute results
    */
-  public static function getInstance() {
-    if (!isset(self::$instance)) {
-      self::$instance = new Database();
+  public static function find(string $entity, array $filter = null) {
+    try {
+      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+      $query = "select * from $entity";
+      if (isset($filter)) {
+        $query .= ' where ';
+        foreach (array_keys($filter) as $key) {
+          $query .= "$key = :$key and ";
+        }
+        $query = substr($query, 0, -5);
+      }
+      $statement = $pdo->prepare($query);
+      $statement->execute($filter);
+      unset($pdo);
+      return $statement;
+    } catch (Exception $exception) {
+      Router::getInstance()->redirectError(500, $exception->getMessage());
     }
-    return self::$instance;
-  }
-
-  /** Open connection */
-  public function open() {
-    $this->connection = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
-  }
-
-  /** Close connection */
-  public function close() {
-    unset($this->connection);
   }
 
   /**
-   * Select Model in database
+   * Create Reference in Join find
    * 
-   * @param string $model Name model
-   * @param array $parameters Query parameters
+   * @param string $joinEntity Name join entity
+   * @param string $leftEntity Name left entity
+   * @param string $leftKey Key left entity
+   * @param string $rightEntity Name right entity
+   * @param string $rightKey Key right entity
+   * @param string $typeJoin Type Join
    * 
-   * @return Model[] Models array
+   * @return string[] Reference
    */
-  public function select(string $model, array $parameters = null) {
-    try {
-      $this->open();
+  public static function createReference(string $joinEntity, string $leftEntity, string $leftKey, string $rightEntity, string $rightKey, string $typeJoin) {
+    return [
+      'joinEntity' => $joinEntity,
+      'leftEntity' => $leftEntity,
+      'leftKey' => $leftKey,
+      'rightEntity' => $rightEntity,
+      'rightKey' => $rightKey,
+      'typeJoin' => $typeJoin
+    ];
+  }
 
-      // Prepare query
-      $query = "select * from $model";
-      if (isset($parameters)) {
-        $query .= ' where';
-        foreach (array_keys($parameters) as $parameter) {
-          $query .= " $parameter = :$parameter and";
-        }
-        $query = substr($query, 0, -4);
+  /**
+   * Create Reference filter in Join find
+   * 
+   * @param string $entity Entity filter
+   * @param string $key Key entity filter
+   * @param string $value Value filter
+   * 
+   * @return string[] Reference filter
+   */
+  public static function createReferenceFilter(string $entity, string $key, string $value) {
+    return [
+      'entity' => $entity,
+      'key' => $key,
+      'value' => $value
+    ];
+  }
+
+  /**
+   * Create Reference filter in Join find
+   * 
+   * @param string $entity Entity
+   * @param mixed[]|null $filter Entity filter
+   * 
+   * @return string[] Reference filter
+   */
+  public static function createReferenceFilters(string $entity, array $filter = null) {
+    $referenceFilters = [];
+    if (isset($filter)) {
+      foreach ($filter as $key => $value) {
+        $referenceFilters[] = Database::createReferenceFilter($entity, $key, $value);
       }
-      $statement = $this->connection->prepare($query);
+    }
+    return $referenceFilters;
+  }
 
-      // Model mapping
-      $statement->setFetchMode(PDO::FETCH_CLASS, "Models\\$model");
+  /**
+   * Find query
+   * 
+   * @param string $entity Entity name
+   * @param array $filter Finding filter
+   * @param array $referencesFilters References filters
+   * 
+   * @return PDOStatement Data execute results
+   */
+  public static function findJoin(string $entity, array $references, array $referencesFilters = null) {
+    try {
+      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+      $query = "select $entity.* from $entity";
 
-      // Execute
-      $statement->execute($parameters);
+      foreach ($references as $reference) {
+        $joinEntity = $reference['leftEntity'];
+        $leftEntity = $reference['leftEntity'];
+        $leftKey = $reference['leftKey'];
+        $rightEntity = $reference['rightEntity'];
+        $rightKey = $reference['rightKey'];
+        $typeJoin = $reference['typeJoin'];
+        $query .= " $typeJoin $joinEntity on $leftEntity.$leftKey = $rightEntity.$rightKey";
+      }
 
-      $this->close();
+      $filter = null;
+      if (isset($referencesFilters)) {
+        $filter = [];
+        $query .= ' where ';
+        foreach ($referencesFilters as $referencesFilter) {
+          $entity = $referencesFilter['entity'];
+          $key = $referencesFilter['key'];
+          $value = $referencesFilter['value'];
+          $filterKey = $entity . '_' . $key;
+          $filter[$filterKey] = $value;
+          $query .= "$entity.$key = :$filterKey and ";
+        }
+        $query = substr($query, 0, -5);
+      }
 
-      // Fetch to array Models
-      return $statement->fetchAll();
+      $statement = $pdo->prepare($query);
+      $statement->execute($filter);
+      unset($pdo);
+      return $statement;
+    } catch (Exception $exception) {
+      Router::getInstance()->redirectError(500, $exception->getMessage());
+    }
+  }
+
+  /**
+   * Add new
+   * 
+   * @param string $entity Entity name
+   * @param array $data Adding data
+   * 
+   * @return PDOStatement Data execute results
+   */
+  public static function add(string $entity, array $data) {
+    try {
+      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
+
+      $field = '';
+      $value = '';
+      foreach (array_keys($data) as $key) {
+        $field .= "$key, ";
+        $value .= ":$key, ";
+      }
+      $query = "insert into $entity(" . substr($field, 0, -2) . ') value (' . substr($value, 0, -2) . ')';
+      $statement = $pdo->prepare($query);
+      $statement->execute($data);
+      return $statement;
     } catch (Exception $exception) {
       Router::getInstance()->redirectError(500, $exception->getMessage());
     }

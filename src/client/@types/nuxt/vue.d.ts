@@ -4,6 +4,7 @@ declare module '*.vue' {
   import '@nuxtjs/axios';
   import '@types/nuxtjs__auth';
   import 'vue-class-component/hooks';
+  import 'bootstrap-vue';
 
   import Vue from 'vue';
   export default Vue;

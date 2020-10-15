@@ -2,20 +2,26 @@
 
 namespace Core;
 
+use Dotenv\Dotenv;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
 /** Web Service */
 class Service {
-
-  /** Instance of Service  */
   private static Service $instance;
 
   /** Create new instance of Service */
   private function __construct() {
+    // Load Environment arguments
+    $dotenv = Dotenv::createImmutable(__ROOT__);
+    $dotenv->load();
+
+    // Set timezone
+    date_default_timezone_set($_ENV['TIMEZONE']);
+
     // Register controllers
-    $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(Router::CONTROLLER_DIR));
+    $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__ROOT__ . $_ENV['CONTROLLER_DIR']));
     foreach (new RegexIterator($allFiles, '/\.php$/') as $file) {
       $content = file_get_contents($file->getRealPath());
       $tokens = token_get_all($content);
@@ -59,9 +65,6 @@ class Service {
 
   /** Start Web Service */
   public function start() {
-    // Init Logger
-    Logger::getInstance();
-
     // Redirect request
     Router::getInstance()->redirectController();
   }
@@ -81,9 +84,16 @@ class Service {
    */
   public function startSession(string $token = null) {
     session_name('auth._token.local');
-    session_id($token);
-    session_start();
-    return session_id();
+    if (isset($token)) {
+      session_id($token);
+      session_start();
+
+      Logger::getInstance()->setServiceLog('user', $this->getSession('user'));
+      return $token;
+    } else {
+      session_start();
+      return session_id();
+    }
   }
 
   /**

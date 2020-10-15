@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-navbar type="light" variant="light" class="fixed-top">
+    <b-navbar type="light" variant="light" class="fixed-top shadow">
       <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
         <b-img :src="$icon(30)" class="mr-2"></b-img>
         <div>CTU PC SHOP</div>
@@ -24,7 +24,7 @@
             </b-collapse>
           </b-card>
         </b-nav-item-dropdown>
-        <b-nav-item>Tin tức - Sự kiện</b-nav-item>
+        <b-nav-item>Sự kiện</b-nav-item>
         <b-nav-item-dropdown text="Chính sách - Hướng dẫn" no-caret>
           <b-dropdown-item to="/guidelines-policies/payment-guide">Hướng dẫn thanh toán</b-dropdown-item>
           <b-dropdown-item to="/guidelines-policies/installment-guide">Hướng dẫn trả góp</b-dropdown-item>
@@ -48,21 +48,25 @@
 
       <b-navbar-nav class="ml-auto">
         <client-only>
-          <b-dropdown text="Tài khoản" class="mr-2" v-if="$auth.loggedIn" variant="primary" size="sm" right no-caret>
-            <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
-            <b-dropdown-item>Giỏ hàng</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
-          </b-dropdown>
-          <b-button variant="primary" size="sm" class="mr-2" v-else to="/login">
-            Đăng nhập
-          </b-button>
-
           <template slot="placeholder">
             <b-button variant="primary" size="sm" class="mr-2" disabled>
               <b-spinner small></b-spinner>
             </b-button>
           </template>
+
+          <b-dropdown text="Tài khoản" class="mr-2" v-if="$auth.loggedIn" variant="primary" size="sm" right no-caret>
+            <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
+            <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+            <div v-if="$auth.hasScope('admin')">
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item>Quản trị</b-dropdown-item>
+            </div>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
+          </b-dropdown>
+          <b-button variant="primary" size="sm" class="mr-2 mr-lg-0" v-else to="/login">
+            Đăng nhập
+          </b-button>
         </client-only>
 
         <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none">
@@ -109,7 +113,7 @@
             </b-collapse>
 
             <b-button block variant="primary" class="text-left my-2">
-              Tin tức - Sự kiện
+              Sự kiện
             </b-button>
 
             <b-button v-b-toggle.guidelines-policies block variant="primary" class="text-left my-2">
@@ -133,15 +137,31 @@
 </template>
 
 <script lang="ts">
+  import { Context } from '@nuxt/types';
   import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component
   export default class Navbar extends Vue {
-    @Prop(Array) categoryGroups!: App.Models.CategoryGroup[];
-    @Prop(Array) categories!: App.Models.Category[][];
+    private categoryGroups: App.Models.CategoryGroup[] = [];
+    private categories: App.Models.Category[][] = [];
+
+    public async fetch() {
+      try {
+        this.categoryGroups = (await this.$axios.get('/user/category-group')).data;
+        this.categories = [];
+
+        for (const categoryGroup of this.categoryGroups) {
+          let categories: App.Models.Category[] = (await this.$axios.get('/user/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
+          this.categories.push(categories);
+        }
+      } catch (error) {
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
+      }
+    }
 
     public async logout() {
       await this.$auth.logout();
+      localStorage.removeItem('token');
     }
   }
 </script>

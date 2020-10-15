@@ -1,12 +1,14 @@
 <template>
-  <section>
-    <h1>Hi</h1>
-  </section>
+  <p>
+    HHHHH
+  </p>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component
-  export default class Index extends Vue {}
+  export default class extends Vue {}
 </script>
+
+<style lang="scss" scoped></style>

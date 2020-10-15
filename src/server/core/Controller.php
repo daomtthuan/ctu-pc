@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Bases;
+namespace Core;
 
 use Core\Request;
 use Core\Response;

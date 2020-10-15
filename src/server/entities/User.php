@@ -1,20 +1,19 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
-use Core\Bases\Model;
+use Core\Entity;
+use DateTime;
 
-class User extends Model {
-  private int $id;
-  private string $username;
-  private string $password;
-  private string $fullName;
-  private string $birthday;
-  private bool $gender;
-  private string $email;
-  private string $address;
-  private string $phone;
-  private bool $state;
+class User extends Entity {
+  /**
+   * Create new instance of User
+   * 
+   * @param array $data Data
+   */
+  public function __construct(array $data) {
+    parent::__construct($data);
+  }
 
   public function jsonSerialize() {
     return [
@@ -33,71 +32,91 @@ class User extends Model {
 
   /**
    * Get the value of id
+   * 
+   * @return int Id
    */
   public function getId() {
-    return $this->id;
+    return $this->data['id'];
   }
 
   /**
    * Get the value of username
+   * 
+   * @return string Username
    */
   public function getUsername() {
-    return $this->username;
+    return $this->data['username'];
   }
 
   /**
-   * Get the value of password
+   * Get the value of hash password
+   * 
+   * @return string Hash password
    */
   public function getPassword() {
-    return $this->password;
+    return $this->data['password'];
   }
 
   /**
-   * Get the value of full_name
+   * Get the value of fullName
+   * 
+   * @return string Full name
    */
   public function getFullName() {
-    return $this->fullName;
+    return $this->data['fullName'];
   }
 
   /**
    * Get the value of birthday
+   * 
+   * @return DateTime Birthday
    */
   public function getBirthday() {
-    return $this->birthday;
+    return $this->data['birthday'];
   }
 
   /**
    * Get the value of gender
+   * 
+   * @return int Gender
    */
   public function getGender() {
-    return $this->gender;
+    return $this->data['gender'];
   }
 
   /**
    * Get the value of email
+   * 
+   * @return string Email
    */
   public function getEmail() {
-    return $this->email;
+    return $this->data['email'];
   }
 
   /**
    * Get the value of address
+   * 
+   * @return string Address
    */
   public function getAddress() {
-    return $this->address;
+    return $this->data['address'];
   }
 
   /**
    * Get the value of phone
+   * 
+   * @return string Phone
    */
   public function getPhone() {
-    return $this->phone;
+    return $this->data['phone'];
   }
 
   /**
    * Get the value of state
+   * 
+   * @return int State
    */
   public function getState() {
-    return $this->state;
+    return $this->data['state'];
   }
 }

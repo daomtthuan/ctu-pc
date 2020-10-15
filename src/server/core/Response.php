@@ -4,7 +4,6 @@ namespace Core;
 
 /** Response */
 class Response {
-  /** Instance of Response */
   private static Response $instance;
 
   /** Create new instance of Response */

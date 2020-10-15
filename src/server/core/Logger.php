@@ -4,25 +4,19 @@ namespace Core;
 
 /** Logger */
 class Logger {
-  /** Service log path dir */
-  public const SERVICE_LOG_DIR = __ROOT__ . '\\logs\\service';
-
-  /** Instance of Logger */
   private static Logger $instance;
-
-  /** Data sevice log */
   private array $serviceLog;
 
   /** Create new instance of Logger */
   private function __construct() {
-    if (!file_exists(Logger::SERVICE_LOG_DIR)) {
-      mkdir(Logger::SERVICE_LOG_DIR, 0777, true);
+    if (!file_exists(__ROOT__ . $_ENV['SERVICE_LOG_DIR'])) {
+      mkdir(__ROOT__ . $_ENV['SERVICE_LOG_DIR'], 0777, true);
     }
 
     $this->serviceLog = [
       'time' => date('H:i:s'),
       'mac' => Request::getInstance()->getAddress('mac'),
-      'user' => '__GUEST__',
+      'user' => null,
       'url' => Request::getInstance()->getUrl(),
       'method' => Request::getInstance()->getMethod(),
       'status' => 200
@@ -53,7 +47,9 @@ class Logger {
 
   /** Write serivce log */
   public function writeServiceLog() {
-    $path = Logger::SERVICE_LOG_DIR . '\\' . date('Y-m-d') . '.log';
-    file_put_contents($path, json_encode($this->serviceLog) . "\n", FILE_APPEND);
+    if ($_ENV['LOG'] == 'true') {
+      $path = __ROOT__ . $_ENV['SERVICE_LOG_DIR'] . '\\' . date('Y-m-d') . '.log';
+      file_put_contents($path, json_encode($this->serviceLog) . "\n", FILE_APPEND);
+    }
   }
 }

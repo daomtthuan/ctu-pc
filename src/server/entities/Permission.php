@@ -1,14 +1,18 @@
 <?php
 
-namespace Models;
+namespace Entities;
 
-use Core\Bases\Model;
+use Core\Entity;
 
-class Permission extends Model {
-  private int $id;
-  private int $idUser;
-  private int $idRole;
-  private bool $state;
+class Permission extends Entity {
+  /**
+   * Create new instance of Permission
+   * 
+   * @param array $data Data
+   */
+  public function __construct(array $data) {
+    parent::__construct($data);
+  }
 
   public function jsonSerialize() {
     return [
@@ -21,29 +25,37 @@ class Permission extends Model {
 
   /**
    * Get the value of id
+   * 
+   * @return int Id
    */
   public function getId() {
-    return $this->id;
+    return $this->data['id'];
   }
 
   /**
    * Get the value of idUser
+   * 
+   * @return int Id user
    */
   public function getIdUser() {
-    return $this->idUser;
+    return $this->data['idUser'];
   }
 
   /**
    * Get the value of idRole
+   * 
+   * @return int Id role
    */
   public function getIdRole() {
-    return $this->idRole;
+    return $this->data['idRole'];
   }
 
   /**
    * Get the value of state
+   * 
+   * @return int State
    */
   public function getState() {
-    return $this->state;
+    return $this->data['state'];
   }
 }

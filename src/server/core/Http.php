@@ -4,7 +4,8 @@ namespace Core;
 
 /** Response */
 class Http {
-  private const STATUS_CODES  = [
+  /** Status codes */
+  public const STATUS_CODES  = [
     100 => 'HTTP/1.1 100 Continue',
     101 => 'HTTP/1.1 101 Switching Protocols',
     200 => 'HTTP/1.1 200 OK',
@@ -47,7 +48,8 @@ class Http {
     505 => 'HTTP/1.1 505 HTTP Version Not Supported',
   ];
 
-  private const CONTENT_TYPES = [
+  /** Content types */
+  public const CONTENT_TYPES = [
     'json' => 'application/json; charset=UTF-8',
     'text' => 'text/plain; charset=UTF-8'
   ];

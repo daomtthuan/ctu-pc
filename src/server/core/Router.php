@@ -2,16 +2,9 @@
 
 namespace Core;
 
-use Exception;
-
 /** Routter */
 class Router {
-  public const CONTROLLER_DIR = __ROOT__ . '\\controllers';
-
-  /** Instance of Routter  */
   private static Router $instance;
-
-  /** List Controllers mapping */
   private array $controllers;
 
   /** Create new instance of Routter */
@@ -58,7 +51,7 @@ class Router {
     // Call method in Controller
     try {
       call_user_func("$controller::" . Request::getInstance()->getMethod());
-    } catch (Exception $exception) {
+    } catch (\Exception $exception) {
       $this->redirectError($exception->getCode(), $exception->getMessage());
     }
 

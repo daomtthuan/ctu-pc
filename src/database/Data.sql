@@ -18,11 +18,19 @@ values ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO',
 
 # Insert Role
 insert into Role(name)
-values ('Quản lý');
+values ('admin'),
+       ('user');
 
 # Insert Permission
 insert into Permission(idUser, idRole)
 values (1, 1);
+insert into Permission(idUser, idRole)
+values (1, 2),
+       (2, 2),
+       (3, 2),
+       (4, 2),
+       (5, 2),
+       (6, 2);
 
 # Insert data Category Group
 insert into CategoryGroup(name)

@@ -4,25 +4,12 @@ namespace Core;
 
 /** Request */
 class Request {
-  /** Instance of Request */
   private static Request $instance;
-
-  /** Address Request */
   private array $address;
-
-  /** Url Request */
   private string $url;
-
-  /** Cookies Request */
   private array $cookies;
-
-  /** Params Request */
   private array $params;
-
-  /** Method Request */
   private string $method;
-
-  /** Data Request */
   private array $data;
 
   /** Create new instance of Request */
@@ -197,5 +184,23 @@ class Request {
       }
       return true;
     }
+  }
+
+  /**
+   * Verify user
+   * 
+   * @return bool True if valid user, otherwise false.
+   */
+  public function verifyUser() {
+    if (!Request::getInstance()->hasCookie($_ENV['TOKEN_KEY_LOCAL'])) {
+      return false;
+    }
+
+    Service::getInstance()->startSession(Request::getInstance()->getCookie($_ENV['TOKEN_KEY_LOCAL']));
+    if (!Service::getInstance()->hasSession('user')) {
+      return false;
+    }
+
+    return true;
   }
 }
