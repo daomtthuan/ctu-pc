@@ -59,7 +59,7 @@
             <b-dropdown-item>Giỏ hàng</b-dropdown-item>
             <div v-if="$auth.hasScope('admin')">
               <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item>Quản trị</b-dropdown-item>
+              <b-dropdown-item to="/admin">Quản trị</b-dropdown-item>
             </div>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>

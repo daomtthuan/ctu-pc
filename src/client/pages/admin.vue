@@ -1,6 +1,6 @@
 <template>
   <div>
-    User
+    Admin
   </div>
 </template>
 
@@ -10,7 +10,5 @@
   @Component({
     middleware: 'auth',
   })
-  export default class User extends Vue {}
+  export default class Admin extends Vue {}
 </script>
-
-<style lang="scss" scoped></style>

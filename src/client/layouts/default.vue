@@ -1,8 +1,5 @@
 <template>
-  <main class="vh-min-100 pt-4">
-    <c-navbar></c-navbar>
-    <nuxt class="container mt-5 pt-3"></nuxt>
-  </main>
+  <nuxt></nuxt>
 </template>
 
 <script lang="ts">
@@ -11,5 +8,3 @@
   @Component
   export default class DefaultLayout extends Vue {}
 </script>
-
-<style lang="scss" scoped></style>

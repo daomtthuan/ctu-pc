@@ -4,7 +4,7 @@ Dotenv.config();
 
 export default {
   server: { port: 3000 },
-  components: [{ path: '~/components', prefix: 'c' }],
+  components: [{ path: '~/components', prefix: 'app' }],
   head: {
     meta: [
       { charset: 'utf-8' },

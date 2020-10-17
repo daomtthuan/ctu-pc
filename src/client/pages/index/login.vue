@@ -41,7 +41,7 @@
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component
-  export default class extends Vue {
+  export default class LoginIndex extends Vue {
     private user: App.Pages.Index.User = {
       username: '',
       password: '',

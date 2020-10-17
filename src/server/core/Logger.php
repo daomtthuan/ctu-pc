@@ -47,7 +47,7 @@ class Logger {
 
   /** Write serivce log */
   public function writeServiceLog() {
-    if ($_ENV['LOG'] == 'true') {
+    if ($_ENV['LOG'] == 'true' && $this->serviceLog['method'] != 'get') {
       $path = __ROOT__ . $_ENV['SERVICE_LOG_DIR'] . '\\' . date('Y-m-d') . '.log';
       file_put_contents($path, json_encode($this->serviceLog) . "\n", FILE_APPEND);
     }

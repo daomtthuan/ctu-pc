@@ -12,7 +12,9 @@
 <script lang="ts">
   import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
-  @Component
+  @Component({
+    layout: 'error',
+  })
   export default class ErrorLayout extends Vue {
     @Prop(Object)
     private error!: App.Nuxt.ErrorPage;
@@ -47,5 +49,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped></style>
