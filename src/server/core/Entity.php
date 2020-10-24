@@ -4,7 +4,7 @@ namespace Core;
 
 use JsonSerializable;
 
-/** Model Base */
+/** Entity Base */
 abstract class Entity implements JsonSerializable {
   protected array $data;
 

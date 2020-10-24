@@ -21,7 +21,7 @@ class Service {
     date_default_timezone_set($_ENV['TIMEZONE']);
 
     // Register controllers
-    $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__ROOT__ . $_ENV['CONTROLLER_DIR']));
+    $allFiles = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__ROOT__ . $_ENV['API_DIR']));
     foreach (new RegexIterator($allFiles, '/\.php$/') as $file) {
       $content = file_get_contents($file->getRealPath());
       $tokens = token_get_all($content);
@@ -44,7 +44,7 @@ class Service {
           $index += 2; // Skip class keyword and whitespace
           $controller = $namespace . '\\' . $tokens[$index][1];
 
-          Router::getInstance()->registerController(strtolower($controller::mapUrl()), $controller);
+          Router::getInstance()->registerApi(strtolower($controller::mapUrl()), $controller);
           break;
         }
       }
@@ -66,7 +66,7 @@ class Service {
   /** Start Web Service */
   public function start() {
     // Redirect request
-    Router::getInstance()->redirectController();
+    Router::getInstance()->redirectApi();
   }
 
   /** Stop Web Service */

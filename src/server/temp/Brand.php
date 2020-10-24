@@ -1,14 +1,14 @@
 <?php
 
-namespace Controllers\Data;
+namespace Api\Data;
 
-use Core\Bases\Controller;
-use Core\Bases\IGetableController;
+use Core\Bases\Api;
+use Core\Bases\IGetableApi;
 use Core\Database;
 use Core\Request;
 use Core\Response;
 
-class Brand extends Controller implements IGetableController {
+class Brand extends Api implements IGetableApi {
   public static function mapUrl() {
     return '/api/data/brand';
   }

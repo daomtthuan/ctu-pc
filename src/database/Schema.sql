@@ -1,5 +1,5 @@
 # Settings
-set names utf8mb4;
+set names utf8mb4 collate utf8mb4_unicode_ci;
 set character set utf8mb4;
 set session collation_connection = utf8mb4_unicode_ci;
 set time_zone = '+7:00';
@@ -20,7 +20,7 @@ create table User
   birthday date          not null,                # Birthday User
   gender   bit           not null,                # Gender User (0: female, 1: male)
   email    varchar(100)  not null,                # Email User
-  address  text          not null,                # Address User
+  address  nvarchar(500)          not null,                # Address User
   phone    varchar(15)   not null,                # Phone number User
   state    bit default 1,                         # State User (0: Disabled, 1: Enabled)
 
@@ -111,3 +111,8 @@ create table Review
   foreign key (idUser) references User (id),      # Id User references to table User by Id
   foreign key (idProduct) references Product (id) # Id Product references to table Product by Id
 );
+
+# Insert Role
+insert into Role(name)
+values ('admin'),
+       ('user');

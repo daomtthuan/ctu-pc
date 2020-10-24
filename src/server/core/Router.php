@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Exception;
+
 /** Routter */
 class Router {
   private static Router $instance;
@@ -26,33 +28,33 @@ class Router {
 
 
   /**
-   * Register Controller mapping Url
+   * Register Api mapping Url
    * 
    * @param string $url Mapping url
-   * @param string $name Controller class name
+   * @param string $name Api class name
    */
-  public function registerController(string $url, string $name) {
+  public function registerApi(string $url, string $name) {
     $this->controllers[$url] = $name;
   }
 
-  /** Redirect Controller */
-  public function redirectController() {
-    // Check Controller mapping
+  /** Redirect Api */
+  public function redirectApi() {
+    // Check Api mapping
     if (!isset($this->controllers[Request::getInstance()->getUrl()])) {
       $this->redirectError(404, 'Not found ' . Request::getInstance()->getUrl());
     }
 
-    // Check method in Controller
+    // Check method in Api
     $controller = $this->controllers[Request::getInstance()->getUrl()];
     if (!method_exists($controller, Request::getInstance()->getMethod())) {
       $this->redirectError(405, 'Method ' . Request::getInstance()->getMethod() . ' not allowed');
     }
 
-    // Call method in Controller
+    // Call method in Api
     try {
       call_user_func("$controller::" . Request::getInstance()->getMethod());
-    } catch (\Exception $exception) {
-      $this->redirectError($exception->getCode(), $exception->getMessage());
+    } catch (Exception $exception) {
+      $this->redirectError(500, $exception->getMessage());
     }
 
     Service::getInstance()->stop();

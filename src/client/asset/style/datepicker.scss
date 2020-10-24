@@ -1,0 +1,11 @@
+@import 'variables';
+
+$namespace: 'date-picker';
+$default-color: $dark;
+$primary-color: $blue;
+
+@import '~vue2-datepicker/scss/index.scss';
+
+.date-picker-btn:focus {
+  outline: 0 !important;
+}

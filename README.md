@@ -129,27 +129,39 @@ Server will run at [http://localhost:8000/](http://localhost:8000/)
 ## Project structure
 
 ```pre
-ctu-pc-shop ( directories: 22 )
+ctu-pc-shop ( directories: 34 )
  ├─ design
+ │ ├─ documentation
+ │ └─ user-interface
  ├─ docs
  │ ├─ export
  │ ├─ teacher
  │ └─ work
  └─ src
    ├─ client
-   │ ├─ assets
+   │ ├─ @types
+   │ ├─ asset
    │ │ └─ styles
-   │ ├─ layouts
-   │ ├─ pages
-   │ └─ static
+   │ ├─ component
+   │ │ ├─ form
+   │ │ └─ guide-policy
+   │ ├─ layout
+   │ ├─ page
+   │ │ ├─ admin
+   │ │ └─ guide-policy
+   │ ├─ plugin
+   │ ├─ static
+   │ └─ store
    ├─ database
-   │ ├─ data
-   │ ├─ schema
-   │ │ └─ tables
-   │ └─ script
    └─ server
-     ├─ controllers
-     │ └─ auth
+     ├─ api
+     │ ├─ authentication
+     │ └─ user
      ├─ core
-     └─ models
+     ├─ entity
+     ├─ log
+     │ └─ service
+     ├─ provider
+     ├─ static
+     └─ temp
 ```

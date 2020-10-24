@@ -2,8 +2,8 @@
 
 namespace Core;
 
-use Exception;
 use PDO;
+use PDOException;
 
 /** Database */
 class Database {
@@ -11,6 +11,38 @@ class Database {
   public const LEFT_OUTER_JOIN = 'left outer join';
   public const RIGHT_OUTER_JOIN = 'right outer join';
   public const CROSS_JOIN = 'cross join';
+
+  private static Database $instance;
+  private PDO $connection;
+
+  /** 
+   * Create new instance of Database
+   * 
+   * @throws PDOException — if the attempt to connect to the requested database fails
+   */
+  private function __construct() {
+    $this->connection = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD'], [
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    ]);
+    $this->connection->query('set names utf8mb4 collate utf8mb4_unicode_ci')->execute();
+    $this->connection->query('set character set utf8mb4')->execute();
+    $this->connection->query('set session collation_connection = utf8mb4_unicode_ci')->execute();
+    $this->connection->query('set time_zone = \'+7:00\'')->execute();
+  }
+
+  /** 
+   * Get instance of Database 
+   * 
+   * @return Database Database
+   * 
+   * @throws PDOException — if the attempt to connect to the requested database fails
+   */
+  public static function getInstance() {
+    if (!isset(self::$instance)) {
+      self::$instance = new Database();
+    }
+    return self::$instance;
+  }
 
   /**
    * Find query
@@ -20,24 +52,18 @@ class Database {
    * 
    * @return array Data execute results
    */
-  public static function find(string $entity, array $filter = null) {
-    try {
-      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
-      $query = "select * from $entity";
-      if (isset($filter)) {
-        $query .= ' where ';
-        foreach (array_keys($filter) as $key) {
-          $query .= "$key = :$key and ";
-        }
-        $query = substr($query, 0, -5);
+  public function find(string $entity, array $filter = null) {
+    $query = "select * from $entity";
+    if (isset($filter)) {
+      $query .= ' where ';
+      foreach (array_keys($filter) as $key) {
+        $query .= "$key = :$key and ";
       }
-      $statement = $pdo->prepare($query);
-      $statement->execute($filter);
-      unset($pdo);
-      return $statement->fetchAll();
-    } catch (Exception $exception) {
-      Router::getInstance()->redirectError(500, $exception->getMessage());
+      $query = substr($query, 0, -5);
     }
+    $statement = $this->connection->prepare($query);
+    $statement->execute($filter);
+    return $statement->fetchAll();
   }
 
   /**
@@ -52,7 +78,7 @@ class Database {
    * 
    * @return array Reference
    */
-  public static function createReference(string $joinEntity, string $leftEntity, string $leftKey, string $rightEntity, string $rightKey, string $typeJoin) {
+  public function createReference(string $joinEntity, string $leftEntity, string $leftKey, string $rightEntity, string $rightKey, string $typeJoin) {
     return [
       'joinEntity' => $joinEntity,
       'leftEntity' => $leftEntity,
@@ -72,7 +98,7 @@ class Database {
    * 
    * @return array Reference filter
    */
-  public static function createReferenceFilter(string $entity, string $key, string $value) {
+  public function createReferenceFilter(string $entity, string $key, string $value) {
     return [
       'entity' => $entity,
       'key' => $key,
@@ -88,11 +114,11 @@ class Database {
    * 
    * @return array Reference filter
    */
-  public static function createReferenceFilters(string $entity, array $filter = null) {
+  public function createReferenceFilters(string $entity, array $filter = null) {
     $referenceFilters = [];
     if (isset($filter)) {
       foreach ($filter as $key => $value) {
-        $referenceFilters[] = Database::createReferenceFilter($entity, $key, $value);
+        $referenceFilters[] = $this->createReferenceFilter($entity, $key, $value);
       }
     }
     return $referenceFilters;
@@ -107,43 +133,37 @@ class Database {
    * 
    * @return array Data execute results
    */
-  public static function findJoin(string $entity, array $references, array $referencesFilters = null) {
-    try {
-      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
-      $query = "select $entity.* from $entity";
+  public function findJoin(string $entity, array $references, array $referencesFilters = null) {
+    $query = "select $entity.* from $entity";
 
-      foreach ($references as $reference) {
-        $joinEntity = $reference['leftEntity'];
-        $leftEntity = $reference['leftEntity'];
-        $leftKey = $reference['leftKey'];
-        $rightEntity = $reference['rightEntity'];
-        $rightKey = $reference['rightKey'];
-        $typeJoin = $reference['typeJoin'];
-        $query .= " $typeJoin $joinEntity on $leftEntity.$leftKey = $rightEntity.$rightKey";
-      }
-
-      $filter = null;
-      if (isset($referencesFilters)) {
-        $filter = [];
-        $query .= ' where ';
-        foreach ($referencesFilters as $referencesFilter) {
-          $entity = $referencesFilter['entity'];
-          $key = $referencesFilter['key'];
-          $value = $referencesFilter['value'];
-          $filterKey = $entity . '_' . $key;
-          $filter[$filterKey] = $value;
-          $query .= "$entity.$key = :$filterKey and ";
-        }
-        $query = substr($query, 0, -5);
-      }
-
-      $statement = $pdo->prepare($query);
-      $statement->execute($filter);
-      unset($pdo);
-      return $statement->fetchAll();
-    } catch (Exception $exception) {
-      Router::getInstance()->redirectError(500, $exception->getMessage());
+    foreach ($references as $reference) {
+      $joinEntity = $reference['leftEntity'];
+      $leftEntity = $reference['leftEntity'];
+      $leftKey = $reference['leftKey'];
+      $rightEntity = $reference['rightEntity'];
+      $rightKey = $reference['rightKey'];
+      $typeJoin = $reference['typeJoin'];
+      $query .= " $typeJoin $joinEntity on $leftEntity.$leftKey = $rightEntity.$rightKey";
     }
+
+    $filter = null;
+    if (isset($referencesFilters)) {
+      $filter = [];
+      $query .= ' where ';
+      foreach ($referencesFilters as $referencesFilter) {
+        $entity = $referencesFilter['entity'];
+        $key = $referencesFilter['key'];
+        $value = $referencesFilter['value'];
+        $filterKey = $entity . '_' . $key;
+        $filter[$filterKey] = $value;
+        $query .= "$entity.$key = :$filterKey and ";
+      }
+      $query = substr($query, 0, -5);
+    }
+
+    $statement = $this->connection->prepare($query);
+    $statement->execute($filter);
+    return $statement->fetchAll();
   }
 
   /**
@@ -154,24 +174,17 @@ class Database {
    * 
    * @return int Number of added rows
    */
-  public static function add(string $entity, array $data) {
-    try {
-      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
-
-      $field = '';
-      $value = '';
-      foreach (array_keys($data) as $key) {
-        $field .= "$key, ";
-        $value .= ":$key, ";
-      }
-      $query = "insert into $entity(" . substr($field, 0, -2) . ') value (' . substr($value, 0, -2) . ')';
-      $statement = $pdo->prepare($query);
-      $statement->execute($data);
-      unset($pdo);
-      return $statement->rowCount();
-    } catch (Exception $exception) {
-      Router::getInstance()->redirectError(500, $exception->getMessage());
+  public function add(string $entity, array $data) {
+    $field = '';
+    $value = '';
+    foreach (array_keys($data) as $key) {
+      $field .= "$key, ";
+      $value .= ":$key, ";
     }
+    $query = "insert into $entity(" . substr($field, 0, -2) . ') value (' . substr($value, 0, -2) . ')';
+    $statement = $this->connection->prepare($query);
+    $statement->execute($data);
+    return $statement->rowCount();
   }
 
   /**
@@ -183,20 +196,39 @@ class Database {
    * 
    * @return int Number of edited rows
    */
-  public static function edit(string $entity, int $id, array $data) {
-    try {
-      $pdo = new PDO($_ENV['DATABASE_DNS'], $_ENV['DATABASE_USERNAME'], $_ENV['DATABASE_PASSWORD']);
-      $query = "update $entity set ";
-      foreach (array_keys($data) as $key) {
-        $query .= "$key = :$key, ";
-      }
-      $query = substr($query, 0, -2) . ' where id = :id';
-      $statement = $pdo->prepare($query);
-      $statement->execute(array_merge(['id' => $id], $data));
-      unset($pdo);
-      return $statement->rowCount();
-    } catch (Exception $exception) {
-      Router::getInstance()->redirectError(500, $exception->getMessage());
+  public function edit(string $entity, int $id, array $data) {
+    $query = "update $entity set ";
+    foreach (array_keys($data) as $key) {
+      $query .= "$key = :$key, ";
     }
+    $query = substr($query, 0, -2) . ' where id = :id';
+    $statement = $this->connection->prepare($query);
+    $statement->execute(array_merge(['id' => $id], $data));
+    return $statement->rowCount();
+  }
+
+  /**
+   * Do transaction
+   * 
+   * @param function:void $action Action
+   */
+  public function doTransaction($action) {
+    try {
+      $this->connection->beginTransaction();
+      $action();
+      $this->connection->commit();
+    } catch (PDOException $exception) {
+      $this->connection->rollBack();
+      throw $exception;
+    }
+  }
+
+  /**
+   * Get last inserted id
+   * 
+   * @return int Last inserted id
+   */
+  public function getLastInsertedId() {
+    return $this->connection->lastInsertId();
   }
 }

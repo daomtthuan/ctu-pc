@@ -1,58 +1,16 @@
 {
   "folders": [
     {
-      "name": "root",
-      "path": "."
+      "name": "client",
+      "path": "./src/client"
     },
     {
       "name": "server",
-      "path": "src\\server"
+      "path": "./src/server"
     },
     {
-      "name": "client",
-      "path": "src\\client"
+      "name": "root",
+      "path": "."
     }
-  ],
-  "settings": {
-    "files.autoSave": "onFocusChange",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2,
-    "editor.formatOnPaste": true,
-    "editor.formatOnType": true,
-    "prettier.singleQuote": true,
-    "prettier.vueIndentScriptAndStyle": true,
-    "html.format.endWithNewline": true,
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "explorer.compactFolders": false,
-    "[json]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[typescript]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[vue]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[xml]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[html]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
-    },
-    "[php]": {
-      "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
-    },
-    "prettier.printWidth": 240,
-    "editor.wordWrapColumn": 240,
-    "editor.wordWrap": "wordWrapColumn",
-    "html.format.wrapLineLength": 240,
-    "editor.renameOnType": true,
-    "vetur.format.styleInitialIndent": true,
-    "vetur.format.scriptInitialIndent": true,
-    "javascript.preferences.quoteStyle": "single",
-    "typescript.preferences.quoteStyle": "single",
-    "intelephense.format.braces": "k&r",
-    "intelephense.files.exclude": ["**/.git/**", "**/.svn/**", "**/.hg/**", "**/CVS/**", "**/.DS_Store/**", "**/node_modules/**", "**/bower_components/**", "**/.history/**"]
-  }
+  ]
 }

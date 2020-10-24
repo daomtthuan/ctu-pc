@@ -1,0 +1,2 @@
+{"time":"07:24:15","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"07:24:21","mac":"30-D1-6B-40-E8-D7","user":"1","url":"\/api\/authentication\/local","method":"delete","status":200}

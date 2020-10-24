@@ -1,0 +1,16 @@
+{"time":"18:37:32","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"18:38:51","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"18:39:52","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":401}
+{"time":"18:39:57","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"18:45:18","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:41:06","mac":"30-D1-6B-40-E8-D7","user":"1","url":"\/api\/authentication\/local","method":"delete","status":200}
+{"time":"19:41:35","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:41:37","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:41:41","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:41:43","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:41:44","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:45:36","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"19:47:03","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"20:04:09","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}
+{"time":"20:08:25","mac":"30-D1-6B-40-E8-D7","user":"1","url":"\/api\/authentication\/local","method":"delete","status":200}
+{"time":"20:09:12","mac":"30-D1-6B-40-E8-D7","user":null,"url":"\/api\/authentication\/local","method":"post","status":200}

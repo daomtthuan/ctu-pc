@@ -1,5 +1,5 @@
 # Settings
-set names utf8mb4;
+set names utf8mb4 collate utf8mb4_unicode_ci;
 set character set utf8mb4;
 set session collation_connection = utf8mb4_unicode_ci;
 set time_zone = '+7:00';
@@ -15,11 +15,6 @@ values ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO',
        ('user3', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Lâm Đường Thạch', '1984-07-07', 1, 'daomtthuan.user@gmail.com', N'901 Phố Cái Duệ Võ, Ấp Cát Vương, Quận Trình Thái Bình', '0586781301'),
        ('user4', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Văn Phước Nữ', '1997-05-26', 0, 'daomtthuan.user@gmail.com', N'0516 Phố Đồng Khôi Chung, Thôn Nghị Xuyến, Quận Tuệ Tường Hà Nội', '02183697771'),
        ('user5', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Bành Ẩn', '1994-05-26', 1, 'daomtthuan.user@gmail.com', N'4668 Phố Liễu, Phường Thiên Thiên, Quận Đôn Ngọc Miên Hồ Chí Minh', '02300532958');
-
-# Insert Role
-insert into Role(name)
-values ('admin'),
-       ('user');
 
 # Insert Permission
 insert into Permission(idUser, idRole)

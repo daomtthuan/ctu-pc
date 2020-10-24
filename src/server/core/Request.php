@@ -2,8 +2,8 @@
 
 namespace Core;
 
-use Entities\User;
-use Models\UserModel;
+use Entity\User;
+use Provider\UserProvider;
 
 /** Request */
 class Request {
@@ -204,7 +204,7 @@ class Request {
       Response::getInstance()->sendStatus(401);
     }
 
-    $users = UserModel::find([
+    $users = UserProvider::find([
       'id' => Session::get('user')
     ]);
 

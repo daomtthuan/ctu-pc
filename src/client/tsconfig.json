@@ -12,10 +12,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "typeRoots": ["./@types/**/*"]
+    "typeRoots": ["@types"],
+    "types": ["@types/node", "@nuxt/types", "vue-class-component/hooks", "@types/nuxtjs__auth", "bootstrap-vue", "@nuxtjs/axios", "@types/vuelidate"]
   },
   "exclude": ["node_modules"]
 }
