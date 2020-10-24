@@ -8,9 +8,7 @@
 
       <b-navbar-nav class="d-none d-lg-flex mr-2">
         <b-nav-item-dropdown text="Danh mục sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
-          <div class="text-center py-3 border" v-if="$fetchState.pending">
-            <b-spinner small></b-spinner>
-          </div>
+          <div class="text-center py-3 border" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
           <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else-if="!$fetchState.error">
             <b-card-header header-tag="header" class="p-1" role="tab">
@@ -51,30 +49,33 @@
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
-        <b-button variant="primary" size="sm" class="mr-2" disabled v-if="$fetchState.pending">
-          <b-spinner small></b-spinner>
-        </b-button>
-        <b-dropdown text="" class="mr-2" variant="primary" size="sm" right no-caret v-else-if="$auth.loggedIn && !$fetchState.error">
-          <template #button-content>
-            <span class="d-none d-sm-inline">
-              Tài khoản
-            </span>
-            <span class="d-sm-none">
-              <fa :icon="['fas', 'user']"></fa>
-            </span>
-          </template>
-          <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
-          <b-dropdown-item>Giỏ hàng</b-dropdown-item>
-          <div v-if="$auth.hasScope('admin')">
+        <client-only>
+          <b-dropdown text="" class="mr-2" variant="primary" size="sm" right no-caret v-if="$auth.loggedIn">
+            <template #button-content>
+              <span class="d-none d-sm-inline">
+                Tài khoản
+              </span>
+              <span class="d-sm-none">
+                <fa :icon="['fas', 'user']"></fa>
+              </span>
+            </template>
+            <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
+            <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+            <div v-if="$auth.hasScope('admin')">
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item to="/admin">Quản trị</b-dropdown-item>
+            </div>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item to="/admin">Quản trị</b-dropdown-item>
-          </div>
-          <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
-        </b-dropdown>
-        <b-button variant="primary" size="sm" class="mr-2 mr-lg-0" to="/login" v-else>
-          Đăng nhập
-        </b-button>
+            <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
+          </b-dropdown>
+          <b-button variant="primary" size="sm" class="mr-2 mr-lg-0" to="/login" v-else>
+            Đăng nhập
+          </b-button>
+
+          <template #placeholder>
+            <b-button variant="primary" size="sm" class="mr-2" disabled> <b-spinner small></b-spinner> Xác thực...</b-button>
+          </template>
+        </client-only>
 
         <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none">
           <fa :icon="['fas', 'bars']"></fa>
@@ -112,9 +113,7 @@
               Danh mục sản phẩm
             </b-button>
             <b-collapse id="category-group" class="accordion my-2">
-              <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending">
-                <b-spinner small></b-spinner>
-              </div>
+              <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
               <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body v-else-if="!$fetchState.error">
                 <b-card-header header-tag="header" class="p-1" role="tab">
@@ -162,7 +161,6 @@
 
   @Component({
     name: 'component-navbar',
-    fetchOnServer: false,
   })
   export default class extends Vue {
     private categoryGroups: Entity.CategoryGroup[] = [];

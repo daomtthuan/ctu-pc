@@ -1,6 +1,6 @@
 <template>
   <main>
-    Admin
+    <nuxt-child></nuxt-child>
   </main>
 </template>
 
@@ -11,5 +11,11 @@
     name: 'page-admin',
     middleware: 'auth',
   })
-  export default class extends Vue {}
+  export default class extends Vue {
+    public fetch() {
+      if (!this.$auth.hasScope('admin')) {
+        this.$nuxt.error({ statusCode: 404 });
+      }
+    }
+  }
 </script>

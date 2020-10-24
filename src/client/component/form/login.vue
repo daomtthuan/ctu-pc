@@ -13,7 +13,10 @@
         Ghi nhớ đăng nhập
       </b-form-checkbox>
     </b-form-group>
-    <b-button type="submit" variant="primary">Đăng nhập</b-button>
+    <b-button type="submit" variant="primary" :disabled="pending">
+      <span v-if="!pending">Đăng nhập</span>
+      <span v-else><b-spinner small></b-spinner> Xác thực...</span>
+    </b-button>
   </b-form>
 </template>
 
@@ -31,6 +34,7 @@
       password: null,
     };
     private remember: boolean = false;
+    private pending: boolean = false;
 
     public validateState(name: string) {
       let validate = this.$v.form[name];
@@ -44,11 +48,13 @@
       }
 
       try {
+        this.pending = true;
         await this.$auth.loginWith('local', { data: this.form });
         if (this.remember) {
           localStorage.setItem('token', this.$auth.getToken('local'));
         }
       } catch (error) {
+        this.pending = false;
         this.$v.$reset();
         this.form = {
           username: null,

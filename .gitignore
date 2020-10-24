@@ -127,4 +127,3 @@ test
 sw.*
 
 # Server logs
-/src/server/logs

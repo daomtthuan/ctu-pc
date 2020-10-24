@@ -63,7 +63,10 @@
     </b-form-group>
 
     <b-form-group class="text-center">
-      <b-button type="submit" variant="primary">Đăng ký</b-button>
+      <b-button type="submit" variant="primary" :disabled="pending">
+        <span v-if="!pending">Đăng ký</span>
+        <span v-else><b-spinner small></b-spinner> Xử lý...</span>
+      </b-button>
     </b-form-group>
   </b-form>
 </template>
@@ -90,6 +93,7 @@
       phone: null,
       address: null,
     };
+    private pending: boolean = false;
 
     public disabledDate(date: Date) {
       let maxBirthday = new Date();
@@ -112,9 +116,11 @@
       delete user.repassword;
 
       try {
+        this.pending = true;
         await this.$axios.post('/user/user', user);
         this.$router.push('/login');
       } catch (error) {
+        this.pending = false;
         let response = <Response>error.response;
         if (response.status == 406) {
           this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
