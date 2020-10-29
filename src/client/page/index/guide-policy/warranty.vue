@@ -47,12 +47,14 @@
     </ul>
   </b-card-body>
 </template>
-
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-guide-policy-warranty',
+    name: 'page-child-guide-policy-warranty',
+    head: {
+      title: 'Chính sách bảo hành',
+    },
   })
   export default class extends Vue {}
 </script>

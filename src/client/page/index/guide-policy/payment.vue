@@ -53,7 +53,10 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-guide-policy-payment',
+    name: 'page-child-guide-policy-payment',
+    head: {
+      title: 'Hướng dẫn thanh toán',
+    },
   })
   export default class extends Vue {}
 </script>

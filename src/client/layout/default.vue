@@ -1,5 +1,5 @@
 <template>
-  <nuxt class="vh-min-100 py-4"></nuxt>
+  <nuxt></nuxt>
 </template>
 
 <script lang="ts">
@@ -8,7 +8,21 @@
   @Component({
     name: 'layout',
   })
-  export default class extends Vue {}
+  export default class extends Vue {
+    public async beforeCreate() {
+      if (process.client) {
+        try {
+          let token = localStorage.getItem('token');
+          if (token != null && token != this.$auth.getToken('local')) {
+            this.$auth.setToken('local', token);
+            await this.$auth.fetchUser();
+          }
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        }
+      }
+    }
+  }
 </script>
 
 <style lang="scss">

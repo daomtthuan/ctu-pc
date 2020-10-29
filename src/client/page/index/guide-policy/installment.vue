@@ -132,7 +132,10 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-guide-policy-installment',
+    name: 'page-child-guide-policy-installment',
+    head: {
+      title: 'Hướng dẫn trả góp',
+    },
   })
   export default class extends Vue {}
 </script>

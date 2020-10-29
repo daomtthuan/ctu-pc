@@ -1,18 +1,14 @@
 <template>
-  <main>
-    <c-navbar></c-navbar>
-    <section class="container mt-5 pt-3">
-      User
-    </section>
-  </main>
+  <b-card border-variant="primary" class="shadow-sm">
+    <nuxt-child></nuxt-child>
+  </b-card>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-user',
-    middleware: 'auth',
+    name: 'page-child-guide-policy',
   })
   export default class extends Vue {}
 </script>

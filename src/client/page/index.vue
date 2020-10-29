@@ -2,7 +2,7 @@
   <main>
     <c-navbar></c-navbar>
     <section class="container mt-5 pt-3">
-      Index
+      <nuxt-child></nuxt-child>
     </section>
   </main>
 </template>
@@ -12,6 +12,9 @@
 
   @Component({
     name: 'page-index',
+    head: {
+      title: 'Trang chủ',
+    },
   })
   export default class extends Vue {}
 </script>

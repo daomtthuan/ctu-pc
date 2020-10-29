@@ -38,12 +38,14 @@
     </ul>
   </b-card-body>
 </template>
-
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-guide-policy-shipping',
+    name: 'page-child-guide-policy-shipping',
+    head: {
+      title: 'Chính sách vận chuyển',
+    },
   })
   export default class extends Vue {}
 </script>

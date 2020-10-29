@@ -2,9 +2,7 @@
   <main>
     <c-navbar></c-navbar>
     <section class="container mt-5 pt-3">
-      <b-card border-variant="primary" class="shadow-sm">
-        <c-guide-policy-installment></c-guide-policy-installment>
-      </b-card>
+      User
     </section>
   </main>
 </template>
@@ -13,7 +11,11 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-guide-policy-installment',
+    name: 'page-user-index',
+    head: {
+      title: 'Thông tin tài khoản',
+    },
+    middleware: 'auth',
   })
   export default class extends Vue {}
 </script>

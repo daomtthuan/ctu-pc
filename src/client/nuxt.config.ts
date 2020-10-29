@@ -86,7 +86,7 @@ let config: NuxtConfig = {
         tokenType: '',
       },
     },
-    plugins: ['@/plugin/authentication'],
+    plugins: [],
   },
   watch: ['@/.env', '@types'],
   target: 'static',

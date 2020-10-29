@@ -25,6 +25,7 @@
   export default class extends Vue {
     @Prop(Object)
     private error!: ErrorPage;
+
     private message: string = 'Máy chủ đã xảy ra lỗi';
 
     public beforeMount() {

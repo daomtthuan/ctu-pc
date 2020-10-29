@@ -1,7 +1,5 @@
 <template>
-  <div>
-    Index Admin
-  </div>
+  <div>Admin</div>
 </template>
 
 <script lang="ts">
