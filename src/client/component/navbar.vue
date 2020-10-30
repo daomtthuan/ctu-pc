@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="light" variant="light" class="fixed-top shadow">
+  <b-navbar type="light" variant="light" class="c-navbar fixed-top shadow">
     <b-navbar-brand to="/" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0">
       <c-logo class="mr-3"></c-logo>
       <div>CTU PC SHOP</div>
@@ -62,7 +62,7 @@
           <b-dropdown-item>Giỏ hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('admin')">
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item to="/admin">Quản trị</b-dropdown-item>
+            <b-dropdown-item to="/admin">Quản trị viên</b-dropdown-item>
           </div>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
@@ -186,11 +186,13 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .margin-logo {
-    margin-bottom: 0.2rem;
-  }
-  .dropdown-width {
-    min-width: 250px;
+<style lang="scss">
+  .c-navbar {
+    .margin-logo {
+      margin-bottom: 0.2rem;
+    }
+    .dropdown-width {
+      min-width: 250px;
+    }
   }
 </style>

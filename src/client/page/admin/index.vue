@@ -7,6 +7,9 @@
 
   @Component({
     name: 'page-child-admin-index',
+    head: {
+      title: 'Quản trị - Trang chủ',
+    },
   })
   export default class extends Vue {}
 </script>

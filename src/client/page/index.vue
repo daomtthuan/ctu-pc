@@ -1,7 +1,7 @@
 <template>
   <main>
     <c-navbar></c-navbar>
-    <section class="container mt-5 pt-3">
+    <section class="container mt-5 pt-4">
       <nuxt-child></nuxt-child>
     </section>
   </main>

@@ -1,11 +1,11 @@
 <template>
-  <b-navbar type="light" variant="light" class="fixed-top shadow">
-    <b-navbar-brand to="/" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0">
+  <b-navbar type="light" variant="light" class="fixed-top" :style="{ paddingLeft: visible ? width : null }">
+    <b-navbar-brand to="/admin" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0" v-if="!largeDevice">
       <c-logo class="mr-3"></c-logo>
       <div>CTU PC SHOP</div>
     </b-navbar-brand>
 
-    <b-navbar-nav class="flex-grow-1 d-none d-sm-flex mr-2">
+    <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2">
       <b-form action="/admin/search" class="w-100">
         <b-input-group size="sm">
           <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
@@ -30,18 +30,20 @@
         </template>
         <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
+        <b-dropdown-item to="/">Trở về vai trò người dùng</b-dropdown-item>
+        <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
       </b-dropdown>
-      <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none ml-2">
+      <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-xl-none ml-2">
         <fa :icon="['fas', 'bars']"></fa>
       </b-button>
     </b-navbar-nav>
 
-    <b-sidebar id="sidebar" :shadow="!largeDevice" :backdrop="!largeDevice" no-header :visible="visible">
+    <b-sidebar id="sidebar" :shadow="!largeDevice" :backdrop="!largeDevice" no-header :visible="visible" :style="{ width }">
       <template #default="{ hide }">
         <b-navbar type="light" variant="light" class="fixed-top">
-          <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
-            <c-logo class="mr-3"></c-logo>
+          <b-navbar-brand to="/admin" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
+            <c-logo class="mr-3" width="32px"></c-logo>
             <div>CTU PC SHOP</div>
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto" v-if="!largeDevice">
@@ -50,10 +52,9 @@
             </b-button>
           </b-navbar-nav>
         </b-navbar>
-
         <div class="pt-2">
           <div class="px-3 mt-5">
-            <b-form action="/admin/search" class="d-sm-none">
+            <b-form action="/admin/search" class="d-md-none">
               <b-input-group size="sm">
                 <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
                 <b-input-group-append>
@@ -110,6 +111,9 @@
 
     @Prop(Boolean)
     private visible!: boolean;
+
+    @Prop(String)
+    private width!: string;
 
     public async logout() {
       await this.$auth.logout();
