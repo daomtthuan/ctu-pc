@@ -1,9 +1,11 @@
 <template>
   <main v-if="!$fetchState.pending">
     <c-admin-navbar :large-device="largeDevice" :visible="visibleNavbar" :width="widthSidebar"></c-admin-navbar>
-    <section class="mt-5 pt-4" :style="{ paddingLeft: visibleNavbar ? widthSidebar : null }">
-      <nuxt-child class="container-fluid"></nuxt-child>
-    </section>
+    <div class="mt-5 pt-4" :style="{ paddingLeft: visibleNavbar ? widthSidebar : null }">
+      <div class="container-fluid">
+        <nuxt-child></nuxt-child>
+      </div>
+    </div>
   </main>
 </template>
 

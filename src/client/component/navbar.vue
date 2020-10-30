@@ -1,12 +1,12 @@
 <template>
-  <b-navbar type="light" variant="light" class="c-navbar fixed-top shadow">
+  <b-navbar type="light" variant="light" class="c-navbar fixed-top">
     <b-navbar-brand to="/" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0">
       <c-logo class="mr-3"></c-logo>
       <div>CTU PC SHOP</div>
     </b-navbar-brand>
 
     <b-navbar-nav class="d-none d-lg-flex mr-2">
-      <b-nav-item-dropdown text="Danh mục sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
+      <b-nav-item-dropdown text="Ssản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
         <div class="text-center py-3 border" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
         <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else-if="!$fetchState.error">
@@ -34,9 +34,9 @@
       </b-nav-item-dropdown>
     </b-navbar-nav>
 
-    <b-navbar-nav class="flex-grow-1 d-none d-sm-flex mr-2">
+    <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2">
       <b-form action="/search" class="w-100">
-        <b-input-group size="sm">
+        <b-input-group>
           <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
           <b-input-group-append>
             <b-button type="submit" variant="primary" class="ml-1">
@@ -49,12 +49,12 @@
 
     <b-navbar-nav class="ml-auto">
       <client-only>
-        <b-dropdown variant="primary" size="sm" right no-caret v-if="$auth.loggedIn">
+        <b-dropdown variant="primary" right no-caret v-if="$auth.loggedIn">
           <template #button-content>
-            <span class="d-none d-sm-inline">
+            <span class="d-none d-md-inline">
               Tài khoản
             </span>
-            <span class="d-sm-none">
+            <span class="d-md-none">
               <fa :icon="['fas', 'user']"></fa>
             </span>
           </template>
@@ -67,16 +67,21 @@
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
         </b-dropdown>
-        <b-button variant="primary" size="sm" to="/login" v-else>
-          Đăng nhập
+        <b-button variant="primary" to="/login" v-else>
+          <span class="d-none d-sm-inline">
+            Đăng nhập
+          </span>
+          <span class="d-sm-none">
+            <fa :icon="['fas', 'sign-in-alt']"></fa>
+          </span>
         </b-button>
 
         <template #placeholder>
-          <b-button variant="primary" size="sm" class="mr-2" disabled> <b-spinner small></b-spinner> Xác thực...</b-button>
+          <b-button variant="primary" class="mr-2" disabled> <b-spinner small></b-spinner> Xác thực...</b-button>
         </template>
       </client-only>
 
-      <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-lg-none ml-2">
+      <b-button v-b-toggle.sidebar variant="primary" class="d-lg-none ml-2">
         <fa :icon="['fas', 'bars']"></fa>
       </b-button>
     </b-navbar-nav>
@@ -89,7 +94,7 @@
             <div>CTU PC SHOP</div>
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto">
-            <b-button variant="danger" @click="hide" size="sm">
+            <b-button variant="outline-danger" class="border-0" @click="hide">
               <fa :icon="['fas', 'times']"></fa>
             </b-button>
           </b-navbar-nav>
@@ -97,8 +102,8 @@
 
         <div class="pt-2">
           <div class="px-3 mt-5">
-            <b-form action="/search" class="d-sm-none">
-              <b-input-group size="sm">
+            <b-form action="/search" class="d-md-none">
+              <b-input-group>
                 <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
                 <b-input-group-append>
                   <b-button type="submit" variant="primary" class="ml-1">
@@ -108,7 +113,7 @@
               </b-input-group>
             </b-form>
             <b-button v-b-toggle.category-group block variant="primary" class="text-left my-2">
-              Danh mục sản phẩm
+              Sản phẩm
             </b-button>
             <b-collapse id="category-group" class="accordion my-2">
               <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>

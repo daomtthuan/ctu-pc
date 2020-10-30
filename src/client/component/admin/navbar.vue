@@ -7,7 +7,7 @@
 
     <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2">
       <b-form action="/admin/search" class="w-100">
-        <b-input-group size="sm">
+        <b-input-group>
           <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
           <b-input-group-append>
             <b-button type="submit" variant="primary" class="ml-1">
@@ -19,7 +19,7 @@
     </b-navbar-nav>
 
     <b-navbar-nav class="ml-auto">
-      <b-dropdown variant="primary" size="sm" right no-caret>
+      <b-dropdown variant="primary" right no-caret>
         <template #button-content>
           <span class="d-none d-sm-inline">
             Tài khoản
@@ -34,12 +34,12 @@
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
       </b-dropdown>
-      <b-button v-b-toggle.sidebar variant="primary" size="sm" class="d-xl-none ml-2">
+      <b-button v-b-toggle.sidebar variant="primary" class="d-xl-none ml-2">
         <fa :icon="['fas', 'bars']"></fa>
       </b-button>
     </b-navbar-nav>
 
-    <b-sidebar id="sidebar" :shadow="!largeDevice" :backdrop="!largeDevice" no-header :visible="visible" :style="{ width }">
+    <b-sidebar id="sidebar" :shadow="!largeDevice" :backdrop="!largeDevice" :no-slide="largeDevice" :no-close-on-esc="largeDevice" :no-close-on-route-change="largeDevice" no-header :visible="visible" :style="{ width }">
       <template #default="{ hide }">
         <b-navbar type="light" variant="light" class="fixed-top">
           <b-navbar-brand to="/admin" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
@@ -47,7 +47,7 @@
             <div>CTU PC SHOP</div>
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto" v-if="!largeDevice">
-            <b-button variant="danger" @click="hide" size="sm">
+            <b-button variant="outline-danger" class="border-0" @click="hide">
               <fa :icon="['fas', 'times']"></fa>
             </b-button>
           </b-navbar-nav>
@@ -55,7 +55,7 @@
         <div class="pt-2">
           <div class="px-3 mt-5">
             <b-form action="/admin/search" class="d-md-none">
-              <b-input-group size="sm">
+              <b-input-group>
                 <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
                 <b-input-group-append>
                   <b-button type="submit" variant="primary" class="ml-1">

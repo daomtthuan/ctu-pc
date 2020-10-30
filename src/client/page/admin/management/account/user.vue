@@ -1,18 +1,15 @@
 <template>
-  <div>
-    User
-  </div>
+  <div>User</div>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-user-index',
+    name: 'page-child-admin-management-account-user',
     head: {
-      title: 'Thông tin tài khoản',
+      title: 'Quản trị - Quản lý - Tài khoản - Người dùng',
     },
-    middleware: 'auth',
   })
   export default class extends Vue {}
 </script>

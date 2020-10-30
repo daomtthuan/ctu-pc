@@ -1,7 +1,9 @@
 <template>
-  <b-card border-variant="primary" class="shadow-sm">
-    <nuxt-child></nuxt-child>
-  </b-card>
+  <div class="container">
+    <b-card border-variant="primary" class="shadow-sm">
+      <nuxt-child></nuxt-child>
+    </b-card>
+  </div>
 </template>
 
 <script lang="ts">

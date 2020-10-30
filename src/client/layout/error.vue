@@ -1,12 +1,12 @@
 <template>
   <transition name="page">
     <main class="d-flex align-items-center vh-100">
-      <section class="mx-auto text-center">
+      <div class="mx-auto text-center">
         <h1 class="text-danger">Lỗi {{ error.statusCode }}</h1>
         <h4>{{ message }}</h4>
         <hr />
         <b-link href="/">Về trang chủ</b-link>
-      </section>
+      </div>
     </main>
   </transition>
 </template>

@@ -1,18 +1,15 @@
 <template>
-  <div>
-    User
-  </div>
+  <div>Permission</div>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-user-index',
+    name: 'page-child-admin-management-account-permission',
     head: {
-      title: 'Thông tin tài khoản',
+      title: 'Quản trị - Quản lý - Tài khoản - Phân quyền',
     },
-    middleware: 'auth',
   })
   export default class extends Vue {}
 </script>
