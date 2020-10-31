@@ -167,14 +167,14 @@ class Database {
   }
 
   /**
-   * Add new one
+   * Create new one
    * 
    * @param string $entity Entity
    * @param array $data Adding data
    * 
    * @return int Number of added rows
    */
-  public function add(string $entity, array $data) {
+  public function create(string $entity, array $data) {
     $field = '';
     $value = '';
     foreach (array_keys($data) as $key) {

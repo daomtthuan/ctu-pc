@@ -58,12 +58,17 @@
               <fa :icon="['fas', 'user']"></fa>
             </span>
           </template>
-          <b-dropdown-item>Thông tin tài khoản</b-dropdown-item>
+          <b-dropdown-item to="/user">Thông tin tài khoản</b-dropdown-item>
           <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+          <b-dropdown-item>Đơn hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('admin')">
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item to="/admin">Quản trị viên</b-dropdown-item>
           </div>
+          <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-item>Giới thiệu</b-dropdown-item>
+          <b-dropdown-item>Ý kiến phản hồi</b-dropdown-item>
+          <b-dropdown-item>Trợ giúp</b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
         </b-dropdown>

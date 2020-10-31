@@ -8,7 +8,6 @@ use Core\Request;
 use Core\Response;
 use Entity\Permission;
 use Entity\User;
-use Exception;
 use Provider\PermissionProvider;
 use Provider\RoleProvider;
 use Provider\UserProvider;
@@ -19,6 +18,9 @@ class UserApi extends Api {
   }
 
   public static function get() {
+    $user = Request::getInstance()->verifyUser()->getData();
+    unset($user['id'], $user['password'], $user['state']);
+    Response::getInstance()->sendJson($user);
   }
 
   public static function post() {
@@ -34,7 +36,7 @@ class UserApi extends Api {
     }
 
     Database::getInstance()->doTransaction(function () {
-      UserProvider::add(new User([
+      UserProvider::create(new User([
         'username' => Request::getInstance()->getData('username'),
         'password' => password_hash(Request::getInstance()->getData('password'), PASSWORD_DEFAULT),
         'fullName' => Request::getInstance()->getData('fullName'),
@@ -45,7 +47,7 @@ class UserApi extends Api {
         'phone' => Request::getInstance()->getData('phone'),
       ]));
 
-      PermissionProvider::add(new Permission([
+      PermissionProvider::create(new Permission([
         'idUser' => Database::getInstance()->getLastInsertedId(),
         'idRole' => RoleProvider::USER_ID
       ]));

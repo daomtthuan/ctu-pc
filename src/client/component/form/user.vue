@@ -1,27 +1,23 @@
 <template>
-  <b-form @submit.prevent="register">
+  <b-form @submit.prevent="edit">
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tài khoản:" label-for="input-username">
-          <b-form-input id="input-username" type="text" placeholder="Nhập tài khoản" autocomplete="on" v-model="$v.form.username.$model" :state="validateState('username')"></b-form-input>
+          <b-form-input id="input-username" type="text" placeholder="Nhập tài khoản" autocomplete="on" v-model="$v.form.username.$model" :state="validateState('username')" :disabled="!editing"></b-form-input>
           <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group label="Mật khẩu:" label-for="input-password">
-          <b-form-input id="input-password" type="password" placeholder="Nhập mật khẩu" autocomplete="on" v-model="$v.form.password.$model" :state="validateState('password')"></b-form-input>
-          <b-form-invalid-feedback>Mật khẩu không hợp lệ</b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group label="Nhập lại mật khẩu:" label-for="input-repassword">
-          <b-form-input id="input-repassword" type="password" placeholder="Nhập lại mật khẩu" autocomplete="on" v-model="$v.form.repassword.$model" :state="validateState('repassword')"></b-form-input>
-          <b-form-invalid-feedback>Mật khẩu nhập lại không đúng</b-form-invalid-feedback>
-        </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
+          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')" :disabled="!editing"></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
+        </b-form-group>
+        <b-form-group label="Số điện thoại:">
+          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')" :disabled="!editing"></b-form-input>
+          <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
       <b-col lg="6">
         <b-form-group label="Họ và tên:" label-for="input-full-name">
-          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')"></b-form-input>
+          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')" :disabled="!editing"></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Ngày sinh:" label-for="input-birthday">
@@ -37,6 +33,7 @@
             class="w-100"
             prefix-class="date-picker"
             :disabled-date="disabledDate"
+            :disabled="!editing"
           >
             <template #icon-calendar>
               <i></i>
@@ -45,26 +42,23 @@
           <div class="text-danger small mt-1" v-show="validateState('birthday') === false">Ngày sinh không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Giới tính:">
-          <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')">
+          <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')" :disabled="!editing">
             <b-form-radio id="radio-gender-male" name="gender" :value="1" autocomplete="on">Nam</b-form-radio>
             <b-form-radio id="radio-gender-female" name="gender" :value="0" autocomplete="on">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
-        <b-form-group label="Số điện thoại:">
-          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')"></b-form-input>
-          <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
-        </b-form-group>
       </b-col>
     </b-row>
     <b-form-group label="Địa chỉ:">
-      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')"></b-form-textarea>
+      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')" :disabled="!editing"></b-form-textarea>
       <b-form-invalid-feedback>Địa chỉ không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
     <b-form-group class="text-center">
-      <b-button type="submit" variant="primary" :disabled="pending">
-        <span v-if="!pending">Đăng ký</span>
+      <b-button variant="primary" v-if="!editing" @click.prevent="toggleEditing">Thay đổi</b-button>
+      <b-button type="submit" variant="primary" :disabled="pending" v-if="editing">
+        <span v-if="!pending">Lưu</span>
         <span v-else><b-spinner small></b-spinner> Xử lý...</span>
       </b-button>
     </b-form-group>
@@ -73,27 +67,28 @@
 
 <script lang="ts">
   import { createValidation, validationMixin } from '@/plugin/validation';
-  import { Component, mixins, Vue } from 'nuxt-property-decorator';
+  import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
-    name: 'component-form-register',
+    name: 'component-form-user',
     components: { DatePicker },
-    validations: createValidation('username', 'password', 'repassword', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
+    validations: createValidation('username', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
   })
   export default class extends mixins(validationMixin) {
-    private form = {
-      username: null,
-      password: null,
-      repassword: null,
-      email: null,
-      fullName: null,
-      birthday: null,
-      gender: null,
-      phone: null,
-      address: null,
-    };
+    private editing: boolean = false;
     private pending: boolean = false;
+
+    @Prop(Object)
+    private form!: {
+      username: null | string;
+      email: null | string;
+      fullName: null | string;
+      birthday: null | string;
+      gender: null | boolean;
+      phone: null | string;
+      address: null | string;
+    };
 
     public disabledDate(date: Date) {
       let maxBirthday = new Date();
@@ -106,7 +101,11 @@
       return validate!.$dirty ? !validate!.$error : null;
     }
 
-    public async register() {
+    public toggleEditing() {
+      this.editing = !this.editing;
+    }
+
+    public async edit() {
       this.$v.form.$touch();
       if (this.$v.$anyError) {
         return;

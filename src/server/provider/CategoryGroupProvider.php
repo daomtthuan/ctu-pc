@@ -7,7 +7,7 @@ use Entity\CategoryGroup;
 
 class CategoryGroupProvider {
   /**
-   * Find by filter
+   * Find category group by filter
    * 
    * @param array|null $filter Finding filter
    * 

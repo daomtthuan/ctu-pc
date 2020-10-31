@@ -1,5 +1,5 @@
 <template>
-  <b-card-body>
+  <div>
     <b-card-title title-tag="h2" class="text-primary">
       Chính Sách Bảo Hành
     </b-card-title>
@@ -45,7 +45,7 @@
       </li>
       <li>Hỗ trợ phí gửi trả bảo hành đối với khách hàng ở khu vực ngoài TP. Cần Thơ.</li>
     </ul>
-  </b-card-body>
+  </div>
 </template>
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';

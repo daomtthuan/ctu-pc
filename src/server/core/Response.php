@@ -27,9 +27,9 @@ class Response {
   /**
    * Send JSON Data
    * 
-   * @param array $data Sending Data
+   * @param mixed $data Sending Data
    */
-  public function sendJson(array $data) {
+  public function sendJson($data) {
     Http::setContentType('json');
     Http::setStatus(200);
     Http::setData(json_encode($data));

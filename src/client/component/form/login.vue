@@ -25,7 +25,7 @@
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-login',
+    name: 'component-form-login',
     validations: createValidation('username', 'password'),
   })
   export default class extends mixins(validationMixin) {

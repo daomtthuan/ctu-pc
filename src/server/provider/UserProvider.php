@@ -7,7 +7,7 @@ use Entity\User;
 
 class UserProvider {
   /**
-   * Find instances by filter
+   * Find user by filter
    * 
    * @param array|null $filter Finding filter
    * 
@@ -22,20 +22,20 @@ class UserProvider {
   }
 
   /**
-   * Add instance
+   * Create user
    * 
    * @param User $user Added user
    * 
    * @return bool True if success, otherwise false
    */
-  public static function add(User $user) {
+  public static function create(User $user) {
     $data = $user->getData();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->add('User', $data) == 1;
+    return Database::getInstance()->create('User', $data) == 1;
   }
 
   /**
-   * Edit instance
+   * Edit user
    * 
    * @param User $user Edited user
    * 

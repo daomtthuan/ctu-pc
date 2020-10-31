@@ -7,7 +7,7 @@ use Entity\Permission;
 
 class PermissionProvider {
   /**
-   * Find by filter
+   * Find permission by filter
    * 
    * @param array|null $filter Finding filter
    * 
@@ -22,15 +22,15 @@ class PermissionProvider {
   }
 
   /**
-   * Add instance
+   * Create permission
    * 
    * @param Permission $permission Added permission
    * 
    * @return bool True if success, otherwise false
    */
-  public static function add(Permission $permission) {
+  public static function create(Permission $permission) {
     $data = $permission->getData();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->add('Permission', $data) == 1;
+    return Database::getInstance()->create('Permission', $data) == 1;
   }
 }
