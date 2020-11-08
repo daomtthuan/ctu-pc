@@ -1,16 +1,16 @@
 <template>
-  <div class="container">
-    <b-card border-variant="primary" class="shadow-sm">
+  <b-container>
+    <b-card border-variant="primary">
       <nuxt-child></nuxt-child>
     </b-card>
-  </div>
+  </b-container>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-child-guide-policy',
+    name: 'page-child-home-guide-policy',
   })
   export default class extends Vue {}
 </script>

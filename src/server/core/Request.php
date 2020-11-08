@@ -2,8 +2,9 @@
 
 namespace Core;
 
-use Entity\User;
-use Provider\UserProvider;
+use Entity\Account;
+use Provider\AccountProvider;
+use Provider\RoleProvider;
 
 /** Request */
 class Request {
@@ -190,32 +191,49 @@ class Request {
   }
 
   /**
-   * Verify user
+   * Verify account
    * 
-   * @return User Verified user
+   * @return Account Verified account
    */
-  public function verifyUser() {
+  public function verifyAccount() {
     if (!$this->hasCookie($_ENV['TOKEN_KEY_LOCAL'])) {
       Response::getInstance()->sendStatus(401);
     }
 
     Session::start($this->getCookie($_ENV['TOKEN_KEY_LOCAL']));
-    if (!Session::has('user')) {
+    if (!Session::has('account')) {
       Response::getInstance()->sendStatus(401);
     }
 
-    $users = UserProvider::find([
-      'id' => Session::get('user')
+    $accounts = AccountProvider::find([
+      'id' => Session::get('account')
     ]);
 
-    if (count($users) != 1) {
+    if (count($accounts) != 1) {
       Response::getInstance()->sendStatus(401);
     }
 
-    if (!$users[0]->getState()) {
+    if (!$accounts[0]->getState()) {
       Response::getInstance()->sendStatus(406);
     }
 
-    return $users[0];
+    return $accounts[0];
+  }
+
+  /**
+   * Verify admin account
+   * 
+   * @return Account Verified admin account
+   */
+  public function verifyAdminAccount() {
+    $account = $this->verifyAccount();
+    $roles = RoleProvider::findOwnedByAccount($account, [
+      'id' => RoleProvider::ADMIN_ID,
+      'state' => 1
+    ]);
+    if (count($roles) == 0) {
+      Response::getInstance()->sendStatus(404);
+    }
+    return $account;
   }
 }

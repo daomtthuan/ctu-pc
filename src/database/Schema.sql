@@ -10,21 +10,21 @@ create schema CtuPcShop;
 
 use CtuPcShop;
 
-# Create table User
-create table User
+# Create table Account
+create table Account
 (
-  id       int           not null auto_increment, # Id User
-  username varchar(100)  not null unique,         # Username User
-  password varchar(100)  not null,                # Password User
-  fullName nvarchar(100) not null,                # Full name User
-  birthday date          not null,                # Birthday User
-  gender   bit           not null,                # Gender User (0: female, 1: male)
-  email    varchar(100)  not null,                # Email User
-  address  nvarchar(500)          not null,                # Address User
-  phone    varchar(15)   not null,                # Phone number User
-  state    bit default 1,                         # State User (0: Disabled, 1: Enabled)
+  id       int           not null auto_increment, # Id Account
+  username varchar(100)  not null unique,         # Username Account
+  password varchar(100)  not null,                # Password Account
+  fullName nvarchar(100) not null,                # Full name Account
+  birthday date          not null,                # Birthday Account
+  gender   bit           not null,                # Gender Account (0: female, 1: male)
+  email    varchar(100)  not null,                # Email Account
+  address  nvarchar(500) not null,                # Address Account
+  phone    varchar(15)   not null,                # Phone number Account
+  state    bit default 1,                         # State Account (0: Disabled, 1: Enabled)
 
-  primary key (id)                                # Id User is primary key
+  primary key (id)                                # Id Account is primary key
 );
 
 # Create table Role
@@ -40,14 +40,14 @@ create table Role
 # Create table Permission
 create table Permission
 (
-  id     int not null auto_increment,        # Id Permission
-  idUser int not null,                       # Id User Permission
-  idRole int not null,                       # Id Role Permission
-  state  bit default 1,                      # State Permission (0: Disabled, 1: Enabled)
+  id        int not null auto_increment,           # Id Permission
+  idAccount int not null,                          # Id Account Permission
+  idRole    int not null,                          # Id Role Permission
+  state     bit default 1,                         # State Permission (0: Disabled, 1: Enabled)
 
-  primary key (id),                          # Id Role is primary key
-  foreign key (idUser) references User (id), # Id User references to table User by Id
-  foreign key (idRole) references Role (id)  # Id Role references to table Role by Id
+  primary key (id),                                # Id Role is primary key
+  foreign key (idAccount) references Account (id), # Id Account references to table Account by Id
+  foreign key (idRole) references Role (id)        # Id Role references to table Role by Id
 );
 
 # Create table Brand
@@ -101,15 +101,15 @@ create table Product
 # Create table Review
 create table Review
 (
-  id        int     not null auto_increment,      # Id Review
-  star      tinyint not null,                     # Star Review
-  idUser    int     not null,                     # Id User Review
-  idProduct int     not null,                     # Id Product Review
-  state     bit default 1,                        # State Review (0: Disabled, 1: Enabled)
+  id        int     not null auto_increment,       # Id Review
+  star      tinyint not null,                      # Star Review
+  idAccount int     not null,                      # Id Account Review
+  idProduct int     not null,                      # Id Product Review
+  state     bit default 1,                         # State Review (0: Disabled, 1: Enabled)
 
-  primary key (id),                               # Id Product is primary key
-  foreign key (idUser) references User (id),      # Id User references to table User by Id
-  foreign key (idProduct) references Product (id) # Id Product references to table Product by Id
+  primary key (id),                                # Id Product is primary key
+  foreign key (idAccount) references Account (id), # Id Account references to table Account by Id
+  foreign key (idProduct) references Product (id)  # Id Product references to table Product by Id
 );
 
 # Insert Role

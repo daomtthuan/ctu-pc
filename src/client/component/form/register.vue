@@ -117,12 +117,19 @@
 
       try {
         this.pending = true;
-        await this.$axios.post('/user/user', user);
-        this.$router.push('/login');
+        await this.$axios.post('/user/account', user);
+        let response: { data: { fullName: string; token: string } } = await this.$auth.loginWith('local', { data: this.form });
+        this.$router.push('/', () => {
+          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đến với CTU PC SHOP!']), {
+            title: 'Đăng ký thành công!',
+            variant: 'success',
+            solid: true,
+          });
+        });
       } catch (error) {
-        this.pending = false;
         let response = <Response>error.response;
         if (response.status == 406) {
+          this.pending = false;
           this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
             title: 'Đăng ký không thành công!',
             variant: 'danger',

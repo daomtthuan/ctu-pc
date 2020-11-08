@@ -4,7 +4,7 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Role;
-use Entity\User;
+use Entity\Account;
 
 class RoleProvider {
   public const ADMIN_ID = 1;
@@ -26,23 +26,23 @@ class RoleProvider {
   }
 
   /**
-   * Find roles that be owned by user
+   * Find roles that be owned by Account
    * 
-   * @param User $user Owned by user
+   * @param Account $account Owned by Account
    * @param array|null $filter Finding filter
    * 
    * @return Role[] Roles
    */
-  public static function findOwnedByUser(User $user, array $filter = null) {
+  public static function findOwnedByAccount(Account $account, array $filter = null) {
     $roleReferenceFilters = Database::getInstance()->createReferenceFilters('Role', $filter);
-    $userReferenceFilters = [
-      Database::getInstance()->createReferenceFilter('User', 'id', $user->getId())
+    $accountReferenceFilters = [
+      Database::getInstance()->createReferenceFilter('Account', 'id', $account->getId())
     ];
 
     $result = Database::getInstance()->findJoin('Role', [
       Database::getInstance()->createReference('Permission', 'Permission', 'idRole', 'Role', 'id', Database::INNER_JOIN),
-      Database::getInstance()->createReference('User', 'User', 'id', 'Permission', 'idUser', Database::INNER_JOIN),
-    ], array_merge($userReferenceFilters, $roleReferenceFilters));
+      Database::getInstance()->createReference('Account', 'Account', 'id', 'Permission', 'idAccount', Database::INNER_JOIN),
+    ], array_merge($accountReferenceFilters, $roleReferenceFilters));
 
     $roles = [];
     foreach ($result as $data) {

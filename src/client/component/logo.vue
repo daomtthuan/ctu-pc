@@ -129,7 +129,7 @@
     name: 'component-logo',
   })
   export default class extends Vue {
-    @Prop({ default: '32px' })
+    @Prop({ type: String, default: '32px' })
     private width!: string;
   }
 </script>

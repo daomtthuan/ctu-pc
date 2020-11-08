@@ -63,7 +63,7 @@ class Database {
     }
     $statement = $this->connection->prepare($query);
     $statement->execute($filter);
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
@@ -163,7 +163,7 @@ class Database {
 
     $statement = $this->connection->prepare($query);
     $statement->execute($filter);
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**

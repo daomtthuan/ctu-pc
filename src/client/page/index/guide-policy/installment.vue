@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-card-body>
     <b-card-title title-tag="h2" class="text-primary">
       Hướng Dẫn Trả Góp
     </b-card-title>
@@ -125,14 +125,14 @@
       <li>Các điều khoản &amp; điều kiện khác áp dụng cho Chủ thẻ khi sử dụng Dịch vụ Trả góp theo quy định của mPOS và có thể được mPOS thay đổi trong từng thời kỳ.</li>
       <li>Khách hàng tham gia trả góp qua thẻ tín dụng mPOS, tra cứu mức phí áp dụng <a href="https://mpos.vn/congcuhotro">tại đây</a>.</li>
     </ul>
-  </div>
+  </b-card-body>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-child-guide-policy-installment',
+    name: 'page-guide-policy-installment',
     head: {
       title: 'Hướng dẫn trả góp',
     },

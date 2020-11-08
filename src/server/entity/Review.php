@@ -18,7 +18,7 @@ class Review extends Entity {
     return [
       'id' => $this->getId(),
       'star' => $this->getStar(),
-      'idUser' => $this->getidUser(),
+      'idAccount' => $this->getidAccount(),
       'idProduct' => $this->getIdProduct(),
       'state' => $this->getState()
     ];
@@ -43,12 +43,12 @@ class Review extends Entity {
   }
 
   /**
-   * Get the value of idUser
+   * Get the value of idAccount
    * 
-   * @return int IdUser
+   * @return int IdAccount
    */
-  public function getIdUser() {
-    return $this->data['idUser'];
+  public function getIdAccount() {
+    return $this->data['idAccount'];
   }
 
   /**

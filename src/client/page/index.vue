@@ -1,7 +1,7 @@
 <template>
   <main>
     <c-navbar></c-navbar>
-    <div class="mt-5 pt-4">
+    <div class="mt-5 pt-3">
       <nuxt-child></nuxt-child>
     </div>
   </main>

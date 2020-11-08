@@ -1,9 +1,9 @@
 RewriteEngine On
 
-RewriteRule ^favicon\.ico$ /static/favicon.ico [L,R=301]
+RewriteRule ^favicon\.ico$ /asset/favicon.ico [L,R=301]
 
-RewriteCond %{REQUEST_URI} !^/static/.*$
+RewriteCond %{REQUEST_URI} !^/asset/.*$
 RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-RewriteCond %{REQUEST_URI} !^/static/.*$
+RewriteCond %{REQUEST_URI} !^/asset/.*$
 RewriteRule ^(.+)$ index.php [L,QSA]

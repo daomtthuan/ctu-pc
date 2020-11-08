@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-card-body>
     <b-card-title title-tag="h2" class="text-primary">
       Chính Sách Vận Chuyển
     </b-card-title>
@@ -36,13 +36,13 @@
       <li>Ưu đãi giao hàng Chuyển Phát Nhanh : Miễn phí toàn bộ với đơn hàng trên 2.000.000đ (tối đa 100.000đ và không áp dụng hình thức COD)</li>
       <li>Ưu đãi giao hàng qua nhà xe : Miễn phí toàn bộ tiền vận chuyển qua nhà xe với đơn hàng trên 5.000.000đ (tối đa 100.000đ và không áp dụng với các sản phẩm đang khuyến mãi).</li>
     </ul>
-  </div>
+  </b-card-body>
 </template>
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-child-guide-policy-shipping',
+    name: 'page-guide-policy-shipping',
     head: {
       title: 'Chính sách vận chuyển',
     },

@@ -74,14 +74,19 @@ let config: NuxtConfig = {
   proxy: { '/api': process.env.SERVER },
   axios: { prefix: '/api', proxy: true },
   auth: {
+    redirect: {
+      logout: '/login',
+      home: false,
+    },
     fullPathRedirect: true,
     localStorage: false,
+    scopeKey: 'roles',
     strategies: {
       local: {
         endpoints: {
-          user: { url: '/authentication/local', method: 'get', propertyName: 'user' },
-          login: { url: '/authentication/local', method: 'post', propertyName: 'token' },
-          logout: { url: '/authentication/local', method: 'delete' },
+          user: { url: '/auth/local', method: 'get', propertyName: 'account' },
+          login: { url: '/auth/local', method: 'post', propertyName: 'token' },
+          logout: { url: '/auth/local', method: 'delete' },
         },
         tokenType: '',
       },

@@ -12,16 +12,15 @@ class Session {
    */
   public static function start(string $token = null) {
     session_name('auth._token.local');
-    if (isset($token)) {
-      session_id($token);
-      session_start();
-
-      Logger::getInstance()->setServiceLog('user', Session::get('user'));
-      return $token;
-    } else {
+    if (!isset($token) || $token == 'false') {
       session_start();
       return session_id();
     }
+
+    session_id($token);
+    session_start();
+    Logger::getInstance()->setServiceLog('account', Session::get('account'));
+    return $token;
   }
 
   /**

@@ -16,7 +16,7 @@ class Logger {
     $this->serviceLog = [
       'time' => date('H:i:s'),
       'mac' => Request::getInstance()->getAddress('mac'),
-      'user' => null,
+      'account' => null,
       'url' => Request::getInstance()->getUrl(),
       'method' => Request::getInstance()->getMethod(),
       'status' => 200

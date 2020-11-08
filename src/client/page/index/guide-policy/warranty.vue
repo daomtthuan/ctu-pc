@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-card-body>
     <b-card-title title-tag="h2" class="text-primary">
       Chính Sách Bảo Hành
     </b-card-title>
@@ -45,13 +45,13 @@
       </li>
       <li>Hỗ trợ phí gửi trả bảo hành đối với khách hàng ở khu vực ngoài TP. Cần Thơ.</li>
     </ul>
-  </div>
+  </b-card-body>
 </template>
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-child-guide-policy-warranty',
+    name: 'page-guide-policy-warranty',
     head: {
       title: 'Chính sách bảo hành',
     },

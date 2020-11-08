@@ -49,10 +49,18 @@
 
       try {
         this.pending = true;
-        await this.$auth.loginWith('local', { data: this.form });
+        let response: { data: { fullName: string; token: string } } = await this.$auth.loginWith('local', { data: this.form });
         if (this.remember) {
           localStorage.setItem('token', this.$auth.getToken('local'));
         }
+
+        this.$router.push(this.$auth.$state.redirect ?? '/', () => {
+          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đã trở lại!']), {
+            title: 'Đăng nhập thành công!',
+            variant: 'success',
+            solid: true,
+          });
+        });
       } catch (error) {
         this.pending = false;
         this.$v.$reset();

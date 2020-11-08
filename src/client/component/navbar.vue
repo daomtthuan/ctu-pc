@@ -1,12 +1,12 @@
 <template>
-  <b-navbar type="light" variant="light" class="c-navbar fixed-top">
+  <b-navbar type="light" variant="light" class="c-navbar fixed-top border-bottom border-primary">
     <b-navbar-brand to="/" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0">
       <c-logo class="mr-3"></c-logo>
       <div>CTU PC SHOP</div>
     </b-navbar-brand>
 
     <b-navbar-nav class="d-none d-lg-flex mr-2">
-      <b-nav-item-dropdown text="Ssản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
+      <b-nav-item-dropdown text="Sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
         <div class="text-center py-3 border" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
         <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else-if="!$fetchState.error">
@@ -49,26 +49,32 @@
 
     <b-navbar-nav class="ml-auto">
       <client-only>
-        <b-dropdown variant="primary" right no-caret v-if="$auth.loggedIn">
+        <b-dropdown variant="primary" right no-caret v-if="$auth.loggedIn" :disabled="pending">
           <template #button-content>
-            <span class="d-none d-md-inline">
-              Tài khoản
+            <span v-if="!pending">
+              <span class="d-none d-md-inline">
+                Tài khoản
+              </span>
+              <span class="d-md-none">
+                <fa :icon="['fas', 'user']"></fa>
+              </span>
             </span>
-            <span class="d-md-none">
-              <fa :icon="['fas', 'user']"></fa>
-            </span>
+            <span v-else><b-spinner small></b-spinner> Xử lý...</span>
           </template>
-          <b-dropdown-item to="/user">Thông tin tài khoản</b-dropdown-item>
+          <b-dropdown-header>Tài khoản</b-dropdown-header>
+          <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
           <b-dropdown-item>Giỏ hàng</b-dropdown-item>
           <b-dropdown-item>Đơn hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('admin')">
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item to="/admin">Quản trị viên</b-dropdown-item>
+            <b-dropdown-header>Dành cho quản trị</b-dropdown-header>
+            <b-dropdown-item to="/dashboard">Bảng điều khiển</b-dropdown-item>
           </div>
           <b-dropdown-divider></b-dropdown-divider>
+          <b-dropdown-header>Hỗ trợ</b-dropdown-header>
           <b-dropdown-item>Giới thiệu</b-dropdown-item>
           <b-dropdown-item>Ý kiến phản hồi</b-dropdown-item>
-          <b-dropdown-item>Trợ giúp</b-dropdown-item>
+          <b-dropdown-item>Thông tin liên hệ</b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
         </b-dropdown>
@@ -91,8 +97,8 @@
       </b-button>
     </b-navbar-nav>
 
-    <b-sidebar id="sidebar" shadow backdrop no-header>
-      <template #default="{ hide }">
+    <b-sidebar id="sidebar" sidebar-class="border-right border-primary" shadow backdrop>
+      <template #title="{ hide }">
         <b-navbar type="light" variant="light" class="fixed-top">
           <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
             <c-logo class="mr-3"></c-logo>
@@ -104,7 +110,8 @@
             </b-button>
           </b-navbar-nav>
         </b-navbar>
-
+      </template>
+      <template #default>
         <div class="pt-2">
           <div class="px-3 mt-5">
             <b-form action="/search" class="d-md-none">
@@ -164,24 +171,25 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'nuxt-property-decorator';
+  import { Component, Vue } from 'nuxt-property-decorator';
   import { Context } from '@nuxt/types';
 
   @Component({
     name: 'component-navbar',
   })
   export default class extends Vue {
+    private pending: boolean = false;
     private categoryGroups: Entity.CategoryGroup[] = [];
     private categories: { [id: number]: Entity.Category[] } = {};
 
     public async fetch() {
       try {
-        this.categoryGroups = (await this.$axios.get('/user/category-group')).data;
+        this.categoryGroups = (await this.$axios.get('/category-group')).data;
         this.categories = {};
 
         await Promise.all(
           this.categoryGroups.map(async (categoryGroup) => {
-            this.categories[categoryGroup.id] = <Entity.Category[]>(await this.$axios.get('/user/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
+            this.categories[categoryGroup.id] = <Entity.Category[]>(await this.$axios.get('/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
           })
         );
       } catch (error) {
@@ -190,8 +198,10 @@
     }
 
     public async logout() {
+      this.pending = true;
       await this.$auth.logout();
       localStorage.removeItem('token');
+      this.pending = false;
     }
   }
 </script>

@@ -17,7 +17,7 @@ class Permission extends Entity {
   public function jsonSerialize() {
     return [
       'id' => $this->getId(),
-      'idUser' => $this->getIdUser(),
+      'idAccount' => $this->getIdAccount(),
       'idRole' => $this->getIdRole(),
       'state' => $this->getState()
     ];
@@ -33,12 +33,12 @@ class Permission extends Entity {
   }
 
   /**
-   * Get the value of idUser
+   * Get the value of idAccount
    * 
-   * @return int Id user
+   * @return int Id Account
    */
-  public function getIdUser() {
-    return $this->data['idUser'];
+  public function getIdAccount() {
+    return $this->data['idAccount'];
   }
 
   /**

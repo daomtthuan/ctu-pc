@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-card-body>
     <b-card-title title-tag="h2" class="text-primary">
       Phương thức thanh toán
     </b-card-title>
@@ -46,14 +46,14 @@
     <p>
       <em>Quý khách lưu ý: nên chuyển cùng ngân hàng để tiết kiệm chi phí chuyển tiền</em>
     </p>
-  </div>
+  </b-card-body>
 </template>
 
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-child-guide-policy-payment',
+    name: 'page-guide-policy-payment',
     head: {
       title: 'Hướng dẫn thanh toán',
     },
