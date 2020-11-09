@@ -38,7 +38,7 @@ class AccountApi extends Api {
     Database::getInstance()->doTransaction(function () {
       AccountProvider::create(new Account([
         'username' => Request::getInstance()->getData('username'),
-        'password' => password_hash(Request::getInstance()->getData('password'), PASSWORD_DEFAULT),
+        'password' => password_hash(Request::getInstance()->getData('password'), PASSWORD_BCRYPT),
         'fullName' => Request::getInstance()->getData('fullName'),
         'birthday' => Request::getInstance()->getData('birthday'),
         'gender' => Request::getInstance()->getData('gender'),

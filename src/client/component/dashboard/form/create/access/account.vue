@@ -102,43 +102,52 @@
         return;
       }
 
-      // submit
+      try {
+        this.pending = true;
+        let password = (await this.$axios.post('/admin/account', this.form)).data.password;
+        this.$bvModal.msgBoxOk(
+          [
+            this.$createElement('div', [
+              //
+              'Đã thêm mới tài khoản ',
+              this.$createElement('strong', this.form.username),
+              ' vơi mật khẩu:',
+              this.$createElement('br'),
+              this.$createElement('strong', { class: 'text-danger' }, password),
+            ]),
+          ],
+          {
+            title: 'Thêm mới thành công',
+            okVariant: 'primary',
+            okTitle: 'Xác nhận',
+          }
+        );
 
-      this.form = {
-        username: null,
-        email: null,
-        fullName: null,
-        birthday: null,
-        gender: null,
-        phone: null,
-        address: null,
-      };
+        this.form = {
+          username: null,
+          email: null,
+          fullName: null,
+          birthday: null,
+          gender: null,
+          phone: null,
+          address: null,
+        };
 
-      this.$nextTick(() => this.$v.$reset());
-
-      // try {
-      //   this.pending = true;
-      //   await this.$axios.post('/admin/account', this.form);
-      //   this.$router.push('/', () => {
-      //     this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đến với CTU PC SHOP!']), {
-      //       title: 'Thêm mới thành công!',
-      //       variant: 'success',
-      //       solid: true,
-      //     });
-      //   });
-      // } catch (error) {
-      //   let response = <Response>error.response;
-      //   if (response.status == 406) {
-      //     this.pending = false;
-      //     this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
-      //       title: 'Thêm mới không thành công!',
-      //       variant: 'danger',
-      //       solid: true,
-      //     });
-      //   } else {
-      //     this.$nuxt.error({ statusCode: response.status });
-      //   }
-      // }
+        this.$nextTick(() => this.$v.$reset());
+      } catch (error) {
+        let response = <Response>error.response;
+        if (response.status == 406) {
+          this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
+            title: 'Thêm mới không thành công!',
+            variant: 'danger',
+            solid: true,
+          });
+        } else {
+          this.$nuxt.error({ statusCode: response.status });
+        }
+      } finally {
+        this.pending = false;
+      }
     }
   }
 </script>

@@ -211,11 +211,12 @@ class Database {
    * Do transaction
    * 
    * @param function:void $action Action
+   * @param mixed[] ...$parameters Parameters of action
    */
-  public function doTransaction($action) {
+  public function doTransaction($action, ...$parameters) {
     try {
       $this->connection->beginTransaction();
-      $action();
+      $action(...$parameters);
       $this->connection->commit();
     } catch (PDOException $exception) {
       $this->connection->rollBack();
