@@ -6,7 +6,6 @@ use Core\Api;
 use Core\Database;
 use Core\Request;
 use Core\Response;
-use Dotenv\Parser\Value;
 use Entity\Permission;
 use Entity\Account;
 use Plugin\HtmlPlugin;
