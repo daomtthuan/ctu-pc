@@ -8,11 +8,14 @@
         minHeight: 'calc(100vh - 3.4rem)',
         width: 'calc(100vw - ' + (largeDevice ? widthSidebar : '0px') + ')',
       }"
-      class="border-primary border-top border-left"
+      class="d-flex flex-column"
     >
       <b-container fluid class="pt-2">
-        <nuxt-child class="mt-1"></nuxt-child>
+        <div class="pt-1">
+          <nuxt-child></nuxt-child>
+        </div>
       </b-container>
+      <c-footer class="mt-auto"></c-footer>
     </div>
   </main>
 </template>

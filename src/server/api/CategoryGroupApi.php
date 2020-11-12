@@ -6,6 +6,7 @@ use Core\Api;
 use Core\Response;
 use Provider\CategoryGroupProvider;
 
+/** CategoryGroup api */
 class CategoryGroupApi extends Api {
   public static function mapUrl() {
     return '/api/category-group';

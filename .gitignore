@@ -84,9 +84,6 @@
 
 # Gatsby files
 /src/client/.cache/
-# Comment in the public line in if your project uses Gatsby and *not* Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
 
 # vuepress build output
 /src/client/.vuepress/dist
@@ -110,16 +107,15 @@
 /src/server/composer.phar
 /src/server/vendor
 
-# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
-# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
-# composer.lock
-
 # --------------------
 # git ignore for project
 # --------------------
 # generate tree directory
 /dir-info.txt
 /tree.bat
+
+# env file
+.env
 
 # tester script
 test.*

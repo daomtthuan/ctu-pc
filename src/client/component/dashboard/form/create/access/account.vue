@@ -104,24 +104,12 @@
 
       try {
         this.pending = true;
-        let password = (await this.$axios.post('/admin/account', this.form)).data.password;
-        this.$bvModal.msgBoxOk(
-          [
-            this.$createElement('div', [
-              //
-              'Đã thêm mới tài khoản ',
-              this.$createElement('strong', this.form.username),
-              ' vơi mật khẩu:',
-              this.$createElement('br'),
-              this.$createElement('strong', { class: 'text-danger' }, password),
-            ]),
-          ],
-          {
-            title: 'Thêm mới thành công',
-            okVariant: 'primary',
-            okTitle: 'Xác nhận',
-          }
-        );
+        await this.$axios.post('/admin/account', this.form);
+        this.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
+          title: 'Thêm mới thành công!',
+          variant: 'success',
+          solid: true,
+        });
 
         this.form = {
           username: null,

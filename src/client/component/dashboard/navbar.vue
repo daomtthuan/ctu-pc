@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="light" variant="light" class="fixed-top" :style="{ paddingLeft: visible ? width : null }">
+  <b-navbar type="light" variant="light" class="fixed-top border-bottom border-primary" :style="{ paddingLeft: visible ? width : null }">
     <b-navbar-brand to="/dashboard" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo py-0" v-if="!largeDevice">
       <c-logo class="mr-3"></c-logo>
       <div>CTU PC SHOP</div>
@@ -42,7 +42,7 @@
 
     <b-sidebar
       id="sidebar"
-      :body-class="!largeDevice ? 'pt-2 px-3 border-right border-primary' : 'pt-2 px-3'"
+      body-class="pt-2 px-3 border-right border-primary"
       :shadow="!largeDevice"
       :backdrop="!largeDevice"
       :no-slide="largeDevice"
@@ -54,7 +54,7 @@
       <template #title="{ hide }">
         <b-navbar type="light" variant="light" class="fixed-top" :class="!largeDevice ? 'border-right border-primary' : ''">
           <b-navbar-brand to="/dashboard" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
-            <c-logo class="mr-3" width="32px"></c-logo>
+            <c-logo class="mr-3"></c-logo>
             <div>CTU PC SHOP</div>
           </b-navbar-brand>
           <b-navbar-nav class="ml-auto" v-if="!largeDevice">

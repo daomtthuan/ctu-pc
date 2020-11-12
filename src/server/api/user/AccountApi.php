@@ -12,6 +12,7 @@ use Provider\PermissionProvider;
 use Provider\RoleProvider;
 use Provider\AccountProvider;
 
+/** User account api */
 class AccountApi extends Api {
   public static function mapUrl() {
     return '/api/user/account';

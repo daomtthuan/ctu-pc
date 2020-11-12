@@ -59,8 +59,6 @@
     "C_Cpp.clang_format_fallbackStyle": "Chromium",
     "C_Cpp.formatting": "vcFormat",
     "window.zoomLevel": 0,
-    "workbench.iconTheme": "bearded-icons",
-    "vetur.validation.templateProps": true,
-    "files.autoSaveDelay": 500
+    "vetur.validation.templateProps": true
   }
 }

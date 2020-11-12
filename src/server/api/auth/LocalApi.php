@@ -9,6 +9,7 @@ use Core\Session;
 use Provider\RoleProvider;
 use Provider\AccountProvider;
 
+/** Auth local api */
 class LocalApi extends Api {
   public static function mapUrl() {
     return '/api/auth/local';

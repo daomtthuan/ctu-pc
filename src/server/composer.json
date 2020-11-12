@@ -24,6 +24,7 @@
     "dev": "start msedge http://localhost:8000"
   },
   "require": {
-    "vlucas/phpdotenv": "^5.2"
+    "vlucas/phpdotenv": "^5.2",
+    "phpmailer/phpmailer": "^6.1"
   }
 }

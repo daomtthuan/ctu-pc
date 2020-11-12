@@ -1,8 +1,11 @@
 <template>
   <main>
     <c-navbar></c-navbar>
-    <div class="mt-5 pt-3">
-      <nuxt-child></nuxt-child>
+    <div class="d-flex flex-column pt-5 vh-min-100">
+      <div class="pt-3">
+        <nuxt-child></nuxt-child>
+      </div>
+      <c-footer class="mt-auto"></c-footer>
     </div>
   </main>
 </template>
