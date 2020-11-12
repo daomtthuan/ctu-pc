@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý truy cập - Quyền truy cập" to="/dashboard/access/role"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Quản lý truy cập - Phân quyền" to="/dashboard/access/permission"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
@@ -14,26 +14,27 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-access-role',
+    name: 'page-dashboard-access-permission',
     head: {
-      title: 'Bảng điều khiển - Quản lý truy cập - Quyền truy cập',
+      title: 'Bảng điều khiển - Quản lý truy cập - Phân quyền',
     },
   })
   export default class extends Vue {
-    private items: Entity.Role[] = [];
+    private items: Entity.Permission[] = [];
     private fields: Table.Field[] = [];
     private notes: Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
 
-    public rowClass(item: Entity.Role) {
+    public rowClass(item: Entity.Permission) {
       return item.state == '1' ? null : 'text-secondary bg-light font-weight-light';
     }
 
     public async fetch() {
       try {
-        this.items = (await this.$axios.get('admin/role')).data;
+        this.items = (await this.$axios.get('admin/permission')).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'align-middle text-md-right fit' },
-          { key: 'name', label: 'Quyền', sortable: true, class: 'align-middle' },
+          { key: 'idAccount', label: 'Id tài khoản', sortable: true, class: 'align-middle' },
+          { key: 'idRole', label: 'Id quyền', sortable: true, class: 'align-middle' },
           { key: 'state', label: 'Trạng thái', sortable: true, class: 'd-none', formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá') },
           { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
         ];
