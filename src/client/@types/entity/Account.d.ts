@@ -1,13 +1,13 @@
 declare namespace Entity {
   interface Account {
-    id: number;
+    id: string;
     username: string;
     fullName: string;
     birthday: string;
-    gender: boolean;
+    gender: string;
     email: string;
     address: string;
     phone: string;
-    state: boolean;
+    state: string;
   }
 }

@@ -219,6 +219,8 @@
     }
 
     public createRowClass(item: object, type: string) {
+      console.log(item);
+
       if (item && type == 'row') {
         return this.rowClass(item);
       }
@@ -256,7 +258,7 @@
       return fields.length ? fields[0].formatter : null;
     }
 
-    public deleteRow(id: number) {
+    public deleteRow(id: string) {
       this.$bvModal
         .msgBoxConfirm('Bạn có chắc muốn xoá?', {
           title: 'Xác nhận',

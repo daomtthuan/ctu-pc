@@ -1,7 +1,7 @@
 declare namespace Entity {
   interface CategoryGroup {
-    id: number;
+    id: string;
     name: string;
-    state: boolean;
+    state: string;
   }
 }

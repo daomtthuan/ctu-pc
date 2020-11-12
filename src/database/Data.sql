@@ -16,6 +16,8 @@ values ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO',
        ('user4', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Văn Phước Nữ', '1997-05-26', 0, 'daomtthuan.user@gmail.com', N'0516 Phố Đồng Khôi Chung, Thôn Nghị Xuyến, Quận Tuệ Tường Hà Nội', '02183697771'),
        ('user5', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Bành Ẩn', '1994-05-26', 1, 'daomtthuan.user@gmail.com', N'4668 Phố Liễu, Phường Thiên Thiên, Quận Đôn Ngọc Miên Hồ Chí Minh', '02300532958');
 
+update table Account set state = 0 where id = 4;
+
 # Insert Permission
 insert into Permission(idAccount, idRole)
 values (1, 1);
