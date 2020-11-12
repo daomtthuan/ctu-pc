@@ -97,10 +97,10 @@
       </b-button>
     </b-navbar-nav>
 
-    <b-sidebar id="sidebar" sidebar-class="border-right border-primary" shadow backdrop>
+    <b-sidebar id="sidebar" sidebar-class="border-right border-primary" body-class="p-3" shadow backdrop>
       <template #title="{ hide }">
         <b-navbar type="light" variant="light" class="fixed-top">
-          <b-navbar-brand to="/" class="py-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
+          <b-navbar-brand to="/" class="pb-0 font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
             <c-logo class="mr-3"></c-logo>
             <div>CTU PC SHOP</div>
           </b-navbar-brand>
@@ -112,59 +112,55 @@
         </b-navbar>
       </template>
       <template #default>
-        <div class="pt-2">
-          <div class="px-3 mt-5">
-            <b-form action="/search" class="d-md-none">
-              <b-input-group>
-                <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
-                <b-input-group-append>
-                  <b-button type="submit" variant="primary" class="ml-1">
-                    <fa :icon="['fas', 'search']"></fa>
-                  </b-button>
-                </b-input-group-append>
-              </b-input-group>
-            </b-form>
-            <b-button v-b-toggle.category-group block variant="primary" class="text-left my-2">
-              Sản phẩm
-            </b-button>
-            <b-collapse id="category-group" class="accordion my-2">
-              <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+        <b-form action="/search" class="d-md-none">
+          <b-input-group>
+            <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
+            <b-input-group-append>
+              <b-button type="submit" variant="primary" class="ml-1">
+                <fa :icon="['fas', 'search']"></fa>
+              </b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form>
+        <b-button v-b-toggle.category-group block variant="primary" class="text-left my-2">
+          Sản phẩm
+        </b-button>
+        <b-collapse id="category-group" class="accordion my-2">
+          <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
-              <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body v-else-if="!$fetchState.error">
-                <b-card-header header-tag="header" class="p-1" role="tab">
-                  <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="light" class="text-left">
-                    {{ categoryGroup.name }}
-                  </b-button>
-                </b-card-header>
-                <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
-                  <b-card-body class="py-2 px-0">
-                    <nuxt-link v-for="category in categories[categoryGroup.id]" :key="category.id" class="dropdown-item" to="/">
-                      {{ category.name }}
-                    </nuxt-link>
-                  </b-card-body>
-                </b-collapse>
-              </b-card>
+          <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body v-else-if="!$fetchState.error">
+            <b-card-header header-tag="header" class="p-1" role="tab">
+              <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="light" class="text-left">
+                {{ categoryGroup.name }}
+              </b-button>
+            </b-card-header>
+            <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
+              <b-card-body class="py-2 px-0">
+                <nuxt-link v-for="category in categories[categoryGroup.id]" :key="category.id" class="dropdown-item" to="/">
+                  {{ category.name }}
+                </nuxt-link>
+              </b-card-body>
             </b-collapse>
+          </b-card>
+        </b-collapse>
 
-            <b-button block variant="primary" class="text-left my-2">
-              Sự kiện
-            </b-button>
+        <b-button block variant="primary" class="text-left my-2">
+          Sự kiện
+        </b-button>
 
-            <b-button v-b-toggle.guidelines-policies block variant="primary" class="text-left my-2">
-              Chính sách - Hướng dẫn
-            </b-button>
-            <b-collapse id="guidelines-policies" class="my-2">
-              <b-card no-body>
-                <b-card-body class="py-2 px-0">
-                  <nuxt-link to="/guide-policy/payment" class="dropdown-item">Hướng dẫn thanh toán</nuxt-link>
-                  <nuxt-link to="/guide-policy/installment" class="dropdown-item">Hướng dẫn trả góp</nuxt-link>
-                  <nuxt-link to="/guide-policy/shipping" class="dropdown-item">Chính sách vận chuyển</nuxt-link>
-                  <nuxt-link to="/guide-policy/warranty" class="dropdown-item">Chính sách bảo hành</nuxt-link>
-                </b-card-body>
-              </b-card>
-            </b-collapse>
-          </div>
-        </div>
+        <b-button v-b-toggle.guidelines-policies block variant="primary" class="text-left my-2">
+          Chính sách - Hướng dẫn
+        </b-button>
+        <b-collapse id="guidelines-policies" class="my-2">
+          <b-card no-body>
+            <b-card-body class="py-2 px-0">
+              <nuxt-link to="/guide-policy/payment" class="dropdown-item">Hướng dẫn thanh toán</nuxt-link>
+              <nuxt-link to="/guide-policy/installment" class="dropdown-item">Hướng dẫn trả góp</nuxt-link>
+              <nuxt-link to="/guide-policy/shipping" class="dropdown-item">Chính sách vận chuyển</nuxt-link>
+              <nuxt-link to="/guide-policy/warranty" class="dropdown-item">Chính sách bảo hành</nuxt-link>
+            </b-card-body>
+          </b-card>
+        </b-collapse>
       </template>
     </b-sidebar>
   </b-navbar>

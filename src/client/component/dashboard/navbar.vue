@@ -5,7 +5,7 @@
       <div>CTU PC SHOP</div>
     </b-navbar-brand>
 
-    <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2">
+    <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2" :class="largeDevice ? 'ml-3' : null">
       <b-form action="/dashboard/search" class="w-100">
         <b-input-group>
           <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
@@ -42,17 +42,18 @@
 
     <b-sidebar
       id="sidebar"
-      body-class="pt-2 px-3 border-right border-primary"
+      sidebar-class="border-right border-primary"
+      body-class="p-3"
       :shadow="!largeDevice"
       :backdrop="!largeDevice"
       :no-slide="largeDevice"
       :no-close-on-esc="largeDevice"
-      :no-close-on-route-change="largeDevice"
+      no-close-on-route-change
       :visible="visible"
       :style="{ width }"
     >
       <template #title="{ hide }">
-        <b-navbar type="light" variant="light" class="fixed-top" :class="!largeDevice ? 'border-right border-primary' : ''">
+        <b-navbar type="light" variant="light" class="fixed-top">
           <b-navbar-brand to="/dashboard" class="font-weight-bold text-primary d-flex align-items-center h-100 margin-logo">
             <c-logo class="mr-3"></c-logo>
             <div>CTU PC SHOP</div>

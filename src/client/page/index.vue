@@ -2,10 +2,10 @@
   <main>
     <c-navbar></c-navbar>
     <div class="d-flex flex-column pt-5 vh-min-100">
-      <div class="pt-3">
+      <div class="py-5">
         <nuxt-child></nuxt-child>
       </div>
-      <c-footer class="mt-auto"></c-footer>
+      <c-footer class="mt-auto" :fluid="false"></c-footer>
     </div>
   </main>
 </template>
