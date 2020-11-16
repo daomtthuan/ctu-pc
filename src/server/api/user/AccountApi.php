@@ -56,4 +56,20 @@ class AccountApi extends Api {
 
     Response::getInstance()->sendStatus(200);
   }
+
+  public static function put() {
+    $account = Request::getInstance()->verifyAccount();
+    if (!Request::getInstance()->hasData('email', 'fullName', 'birthday', 'gender', 'phone', 'address')) {
+      Response::getInstance()->sendStatus(400);
+    }
+    $account->setEmail(Request::getInstance()->getData('email'));
+    $account->setFullName(Request::getInstance()->getData('fullName'));
+    $account->setBirthday(Request::getInstance()->getData('birthday'));
+    $account->setGender(Request::getInstance()->getData('gender'));
+    $account->setPhone(Request::getInstance()->getData('phone'));
+    $account->setAddress(Request::getInstance()->getData('address'));
+
+    AccountProvider::edit($account);
+    Response::getInstance()->sendStatus(200);
+  }
 };
