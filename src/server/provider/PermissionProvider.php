@@ -29,7 +29,7 @@ class PermissionProvider {
    * @return bool True if success, otherwise false
    */
   public static function create(Permission $permission) {
-    $data = $permission->getData();
+    $data = $permission->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Permission', $data) == 1;
   }

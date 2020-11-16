@@ -3,14 +3,32 @@
 namespace Entity;
 
 use Core\Entity;
+use DateTime;
 
 class Account extends Entity {
-  /**
+  private string $username;
+  private string $password;
+  private string $fullName;
+  private string $birthday;
+  private bool $gender;
+  private string $email;
+  private string $address;
+  private string $phone;
+
+  /** 
    * Create new instance of Account
    * 
-   * @param array $data Data
+   * @param array $data Data Account
    */
   public function __construct(array $data) {
+    $this->username = (string)$data['username'];
+    $this->password = (string)$data['password'];
+    $this->fullName = (string)$data['fullName'];
+    $this->birthday = (string)$data['birthday'];
+    $this->gender = (bool)$data['gender'];
+    $this->email = (string)$data['email'];
+    $this->address = (string)$data['address'];
+    $this->phone = (string)$data['phone'];
     parent::__construct($data);
   }
 
@@ -30,21 +48,12 @@ class Account extends Entity {
   }
 
   /**
-   * Get the value of id
-   * 
-   * @return int Id
-   */
-  public function getId() {
-    return $this->data['id'];
-  }
-
-  /**
    * Get the value of username
    * 
    * @return string Username
    */
   public function getUsername() {
-    return $this->data['username'];
+    return $this->username;
   }
 
   /**
@@ -53,7 +62,7 @@ class Account extends Entity {
    * @return string Hash password
    */
   public function getPassword() {
-    return $this->data['password'];
+    return $this->password;
   }
 
   /**
@@ -62,7 +71,7 @@ class Account extends Entity {
    * @param string $password Hash password
    */
   public function setPassword(string $password) {
-    $this->data['password'] = $password;
+    $this->password = $password;
   }
 
   /**
@@ -71,7 +80,7 @@ class Account extends Entity {
    * @return string Full name
    */
   public function getFullName() {
-    return $this->data['fullName'];
+    return $this->fullName;
   }
 
   /**
@@ -80,16 +89,16 @@ class Account extends Entity {
    * @param string $fullName Full name
    */
   public function setFullName(string $fullName) {
-    $this->data['fullName'] = $fullName;
+    $this->fullName = $fullName;
   }
 
   /**
    * Get the value of birthday
    * 
-   * @return string Birthday
+   * @return DateTime Birthday
    */
   public function getBirthday() {
-    return $this->data['birthday'];
+    return $this->birthday;
   }
 
   /**
@@ -98,26 +107,26 @@ class Account extends Entity {
    * @param string $birthday Birthday
    */
   public function setBirthday(string $birthday) {
-    $this->data['birthday'] = $birthday;
+    $this->birthday = $birthday;
   }
 
 
   /**
    * Get the value of gender
    * 
-   * @return int Gender
+   * @return bool Gender
    */
   public function getGender() {
-    return $this->data['gender'];
+    return $this->gender;
   }
 
   /**
    * Set the value of gender
    * 
-   * @param int $gender Gender
+   * @param bool $gender Gender
    */
-  public function setGender(int $gender) {
-    $this->data['gender'] = $gender;
+  public function setGender(bool $gender) {
+    $this->gender = $gender;
   }
 
   /**
@@ -126,7 +135,7 @@ class Account extends Entity {
    * @return string Email
    */
   public function getEmail() {
-    return $this->data['email'];
+    return $this->email;
   }
 
   /**
@@ -135,7 +144,7 @@ class Account extends Entity {
    * @param string $email Email
    */
   public function setEmail(string $email) {
-    $this->data['email'] = $email;
+    $this->email = $email;
   }
 
   /**
@@ -144,7 +153,7 @@ class Account extends Entity {
    * @return string Address
    */
   public function getAddress() {
-    return $this->data['address'];
+    return $this->address;
   }
 
   /**
@@ -153,7 +162,7 @@ class Account extends Entity {
    * @param string $address Address
    */
   public function setAddress(string $address) {
-    $this->data['address'] = $address;
+    $this->address = $address;
   }
 
 
@@ -163,7 +172,7 @@ class Account extends Entity {
    * @return string Phone
    */
   public function getPhone() {
-    return $this->data['phone'];
+    return $this->phone;
   }
 
   /**
@@ -172,24 +181,15 @@ class Account extends Entity {
    * @param string $phone Phone
    */
   public function setPhone(string $phone) {
-    $this->data['phone'] = $phone;
-  }
-
-  /**
-   * Get the value of state
-   * 
-   * @return int State
-   */
-  public function getState() {
-    return $this->data['state'];
+    $this->phone = $phone;
   }
 
   /**
    * Set the value of state
    * 
-   * @param int $phone State
+   * @param bool $phone State
    */
-  public function setState(int $state) {
-    $this->data['state'] = $state;
+  public function setState(bool $state) {
+    $this->state = $state;
   }
 }

@@ -5,12 +5,19 @@ namespace Entity;
 use Core\Entity;
 
 class Review extends Entity {
-  /**
+  private int $star;
+  private int $idAccount;
+  private int $idProduct;
+
+  /** 
    * Create new instance of Review
    * 
-   * @param array $data Data
+   * @param array $data Data Review
    */
   public function __construct(array $data) {
+    $this->star = (int)$data['star'];
+    $this->idAccount = (int)$data['idAccount'];
+    $this->idProduct = (int)$data['idProduct'];
     parent::__construct($data);
   }
 
@@ -25,21 +32,12 @@ class Review extends Entity {
   }
 
   /**
-   * Get the value of id
-   * 
-   * @return int Id
-   */
-  public function getId() {
-    return $this->data['id'];
-  }
-
-  /**
    * Get the value of star
    * 
    * @return int Star
    */
   public function getStar() {
-    return $this->data['star'];
+    return $this->star;
   }
 
   /**
@@ -48,7 +46,7 @@ class Review extends Entity {
    * @return int IdAccount
    */
   public function getIdAccount() {
-    return $this->data['idAccount'];
+    return $this->idAccount;
   }
 
   /**
@@ -57,15 +55,6 @@ class Review extends Entity {
    * @return int IdProduct
    */
   public function getIdProduct() {
-    return $this->data['idProduct'];
-  }
-
-  /**
-   * Get the value of state
-   * 
-   * @return int State
-   */
-  public function getState() {
-    return $this->data['state'];
+    return $this->idProduct;
   }
 }

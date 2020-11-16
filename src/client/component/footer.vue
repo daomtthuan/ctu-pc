@@ -1,11 +1,11 @@
 <template>
   <div class="bg-light border-primary border-top pt-3">
     <b-container :fluid="fluid">
-      <b-container class="text-center">
+      <div class="text-center">
         <c-logo :size="64"></c-logo>
         <h3 class="text-primary my-1 font-weight-bold">CTU PC SHOP</h3>
         <h5>Cửa hàng máy tính trường Đại học Cần Thơ</h5>
-      </b-container>
+      </div>
       <hr />
       <b-row>
         <b-col lg="4" md="6">

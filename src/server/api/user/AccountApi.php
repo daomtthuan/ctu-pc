@@ -19,7 +19,7 @@ class AccountApi extends Api {
   }
 
   public static function get() {
-    $account = Request::getInstance()->verifyAccount()->getData();
+    $account = Request::getInstance()->verifyAccount()->jsonSerialize();
     unset($account['id'], $account['password'], $account['state']);
     Response::getInstance()->sendJson($account);
   }
@@ -62,6 +62,7 @@ class AccountApi extends Api {
     if (!Request::getInstance()->hasData('email', 'fullName', 'birthday', 'gender', 'phone', 'address')) {
       Response::getInstance()->sendStatus(400);
     }
+
     $account->setEmail(Request::getInstance()->getData('email'));
     $account->setFullName(Request::getInstance()->getData('fullName'));
     $account->setBirthday(Request::getInstance()->getData('birthday'));

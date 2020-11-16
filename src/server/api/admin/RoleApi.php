@@ -26,7 +26,7 @@ class RoleApi extends Api {
 
     $roles = [];
     foreach (RoleProvider::find() as $role) {
-      $data = $role->getData();
+      $data = $role->jsonSerialize();
       $roles[] = $data;
     }
     Response::getInstance()->sendJson($roles);

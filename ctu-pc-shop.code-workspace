@@ -9,8 +9,8 @@
       "path": "./src/server"
     },
     {
-      "name": "root",
-      "path": "."
+      "name": "database",
+      "path": "./src/database"
     }
   ],
   "settings": {
@@ -58,7 +58,7 @@
     },
     "C_Cpp.clang_format_fallbackStyle": "Chromium",
     "C_Cpp.formatting": "vcFormat",
-    "window.zoomLevel": 0,
+    "window.zoomLevel": -1,
     "vetur.validation.templateProps": true
   }
 }

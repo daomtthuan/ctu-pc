@@ -29,7 +29,7 @@ class AccountProvider {
    * @return bool True if success, otherwise false
    */
   public static function create(Account $account) {
-    $data = $account->getData();
+    $data = $account->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Account', $data) == 1;
   }
@@ -42,7 +42,8 @@ class AccountProvider {
    * @return bool True if success, otherwise false
    */
   public static function edit(Account $account) {
-    $data = $account->getData();
+    $data = $account->jsonSerialize();
+
     unset($data['id']);
     return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
   }

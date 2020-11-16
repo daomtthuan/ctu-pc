@@ -48,7 +48,7 @@
       :backdrop="!largeDevice"
       :no-slide="largeDevice"
       :no-close-on-esc="largeDevice"
-      no-close-on-route-change
+      :no-close-on-route-change="largeDevice"
       :visible="visible"
       :style="{ width }"
     >

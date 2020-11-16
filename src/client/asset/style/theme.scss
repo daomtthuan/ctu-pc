@@ -31,14 +31,10 @@
   opacity: 0;
 }
 
-html {
+body {
   background-image: linear-gradient(rgba(250, 250, 250, 0.9), rgba(250, 250, 250, 1)), url('/image/background.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  min-height: 100vh;
-}
-
-body {
-  background-color: transparent;
+  overflow-x: hidden;
 }

@@ -8,7 +8,7 @@
             Thông tin tài khoản
           </b-card-title>
           <hr />
-          <c-user-form-user :form="form"></c-user-form-user>
+          <c-user-form-account :form="form"></c-user-form-account>
         </div>
       </b-card-body>
     </b-card>

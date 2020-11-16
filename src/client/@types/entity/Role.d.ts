@@ -1,7 +1,7 @@
 declare namespace Entity {
   interface Role {
-    id: string;
+    id: number;
     name: string;
-    state: string;
+    state: boolean;
   }
 }

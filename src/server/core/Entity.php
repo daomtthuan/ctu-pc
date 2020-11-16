@@ -6,15 +6,17 @@ use JsonSerializable;
 
 /** Entity Base */
 abstract class Entity implements JsonSerializable {
-  protected array $data;
+  protected int $id;
+  protected bool $state;
 
-  /**
+  /** 
    * Create new instance of Entity
    * 
-   * @param array $data Data
+   * @param array $data Data entity
    */
   protected function __construct(array $data) {
-    $this->data = $data;
+    $this->id = (int)$data['id'];
+    $this->state = (bool)$data['state'];
   }
 
   /**
@@ -25,11 +27,29 @@ abstract class Entity implements JsonSerializable {
   public abstract function jsonSerialize();
 
   /**
-   * Get the value of data
+   * Get the value of id
    * 
-   * @return array Data array
+   * @return int Id
    */
-  public function getData() {
-    return $this->data;
+  public function getId() {
+    return $this->id;
+  }
+
+  /**
+   * Get the value of state
+   * 
+   * @return bool State
+   */
+  public function getState() {
+    return $this->state;
+  }
+
+  /**
+   * Set the value of state
+   * 
+   * @param bool State
+   */
+  public function setState(bool $state) {
+    $this->state = $state;
   }
 }

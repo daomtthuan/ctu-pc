@@ -37,6 +37,7 @@ let config: NuxtConfig = {
     title: process.env.NAME,
     titleTemplate: `${process.env.NAME} - %s`,
     noscript: [{ innerHTML: 'This website requires JavaScript.' }],
+    script: [],
   },
   loading: { color: ' #3b84c0', failedColor: '#be5046', height: '3px' },
   loadingIndicator: {

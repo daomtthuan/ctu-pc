@@ -26,7 +26,7 @@ class PermissionApi extends Api {
 
     $permissions = [];
     foreach (PermissionProvider::find() as $permission) {
-      $data = $permission->getData();
+      $data = $permission->jsonSerialize();
       $permissions[] = $data;
     }
     Response::getInstance()->sendJson($permissions);

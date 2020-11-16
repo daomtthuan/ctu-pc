@@ -5,12 +5,15 @@ namespace Entity;
 use Core\Entity;
 
 class CategoryGroup extends Entity {
-  /**
+  private string $name;
+
+  /** 
    * Create new instance of CategoryGroup
    * 
-   * @param array $data Data
+   * @param array $data Data CategoryGroup
    */
   public function __construct(array $data) {
+    $this->name = (string)$data['name'];
     parent::__construct($data);
   }
 
@@ -23,29 +26,11 @@ class CategoryGroup extends Entity {
   }
 
   /**
-   * Get the value of id
-   * 
-   * @return int Id
-   */
-  public function getId() {
-    return $this->data['id'];
-  }
-
-  /**
    * Get the value of name
    * 
    * @return string Name
    */
   public function getName() {
-    return $this->data['name'];
-  }
-
-  /**
-   * Get the value of state
-   *
-   * @return int State
-   */
-  public function getState() {
-    return $this->data['state'];
+    return $this->name;
   }
 }

@@ -42,8 +42,8 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')" :disabled="!editing">
-            <b-form-radio id="radio-gender-male" name="gender" :value="1" autocomplete="on">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="0" autocomplete="on">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" name="gender" :value="true" autocomplete="on">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" name="gender" :value="false" autocomplete="on">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
@@ -70,7 +70,7 @@
   import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
-    name: 'component-user-form-user',
+    name: 'component-user-form-account',
     components: { DatePicker },
     validations: createValidation('email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
   })
@@ -112,9 +112,11 @@
       try {
         this.pending = true;
         await this.$axios.put('/user/account', user);
-        this.editing = false;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
+      } finally {
+        this.pending = false;
+        this.editing = false;
       }
     }
   }

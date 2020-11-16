@@ -48,23 +48,3 @@ values 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
         (N'Dell Vostro 3470ST (HXKWJ1) Desktop PC',7250,100,23,6),
         (N'Laptop Dell G3 Inspiron 3579 70167040 (Black) Geforce GTX1050Ti 4GB Intel Core i7 8750H 128GB 8GB',23490,100,24,6),
         (N'ASUS ROG Ranger BP3703 Gaming Backpack – Balo Gaming',6490,100,25,3);
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-        

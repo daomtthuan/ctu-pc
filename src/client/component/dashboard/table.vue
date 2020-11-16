@@ -219,8 +219,6 @@
     }
 
     public createRowClass(item: object, type: string) {
-      console.log(item);
-
       if (item && type == 'row') {
         return this.rowClass(item);
       }

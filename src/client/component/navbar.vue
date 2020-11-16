@@ -65,7 +65,7 @@
           <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
           <b-dropdown-item>Giỏ hàng</b-dropdown-item>
           <b-dropdown-item>Đơn hàng</b-dropdown-item>
-          <div v-if="$auth.hasScope('admin')">
+          <div v-if="$auth.hasScope('Admin')">
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-header>Dành cho quản trị</b-dropdown-header>
             <b-dropdown-item to="/dashboard">Bảng điều khiển</b-dropdown-item>

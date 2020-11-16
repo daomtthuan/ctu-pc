@@ -1,8 +1,8 @@
 declare namespace Entity {
   interface Category {
-    id: string;
+    id: number;
     name: string;
     idCategoryGroup: string;
-    state: string;
+    state: boolean;
   }
 }

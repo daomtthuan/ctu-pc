@@ -25,7 +25,7 @@
     private notes: Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
 
     public rowClass(item: Entity.Account) {
-      return item.state == '1' ? null : 'text-secondary bg-light font-weight-light';
+      return item.state ? null : 'text-secondary bg-light font-weight-light';
     }
 
     public async fetch() {

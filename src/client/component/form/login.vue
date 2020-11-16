@@ -62,7 +62,6 @@
           });
         });
       } catch (error) {
-        this.pending = false;
         this.$v.$reset();
         this.form = {
           username: null,
@@ -91,6 +90,8 @@
             this.$nuxt.error({ statusCode: response.status });
             break;
         }
+      } finally {
+        this.pending = false;
       }
     }
 

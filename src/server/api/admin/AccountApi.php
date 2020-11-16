@@ -26,7 +26,7 @@ class AccountApi extends Api {
 
     $accounts = [];
     foreach (AccountProvider::find() as $account) {
-      $data = $account->getData();
+      $data = $account->jsonSerialize();
       unset($data['password']);
       $accounts[] = $data;
     }

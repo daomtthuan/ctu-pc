@@ -5,12 +5,23 @@ namespace Entity;
 use Core\Entity;
 
 class Product extends Entity {
-  /**
+  private int $name;
+  private float $price;
+  private int $quantity;
+  private int $idCategory;
+  private int $idBrand;
+
+  /** 
    * Create new instance of Product
    * 
-   * @param array $data Data
+   * @param array $data Data Product
    */
   public function __construct(array $data) {
+    $this->name = (int)$data['name'];
+    $this->price = (float)$data['price'];
+    $this->quantity = (int)$data['quantity'];
+    $this->idCategory = (int)$data['idCategory'];
+    $this->idBrand = (int)$data['idBrand'];
     parent::__construct($data);
   }
 
@@ -27,21 +38,12 @@ class Product extends Entity {
   }
 
   /**
-   * Get the value of id
-   * 
-   * @return int Id
-   */
-  public function getId() {
-    return $this->data['id'];
-  }
-
-  /**
    * Get the value of name
    * 
    * @return string Name
    */
   public function getName() {
-    return $this->data['name'];
+    return $this->name;
   }
 
   /**
@@ -50,7 +52,7 @@ class Product extends Entity {
    * @return float Price
    */
   public function getPrice() {
-    return $this->data['price'];
+    return $this->price;
   }
 
   /**
@@ -59,7 +61,7 @@ class Product extends Entity {
    * @return int Quantity
    */
   public function getQuantity() {
-    return $this->data['quantity'];
+    return $this->quantity;
   }
 
   /**
@@ -68,7 +70,7 @@ class Product extends Entity {
    * @return int Idcategory
    */
   public function getIdCategory() {
-    return $this->data['idCategory'];
+    return $this->idCategory;
   }
 
   /**
@@ -77,15 +79,6 @@ class Product extends Entity {
    * @return int IdBrand
    */
   public function getIdBrand() {
-    return $this->data['idBrand'];
-  }
-
-  /**
-   * Get the value of state
-   * 
-   * @return int State
-   */
-  public function getState() {
-    return $this->data['state'];
+    return $this->idBrand;
   }
 }

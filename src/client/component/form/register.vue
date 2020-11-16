@@ -129,7 +129,6 @@
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {
-          this.pending = false;
           this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
             title: 'Đăng ký không thành công!',
             variant: 'danger',
@@ -138,6 +137,8 @@
         } else {
           this.$nuxt.error({ statusCode: response.status });
         }
+      } finally {
+        this.pending = false;
       }
     }
   }

@@ -8,7 +8,7 @@
         minHeight: 'calc(100vh - 3.4rem)',
         width: 'calc(100vw - ' + (largeDevice ? widthSidebar : '0px') + ')',
       }"
-      class="d-flex flex-column"
+      class="d-flex flex-column vh-min-100"
     >
       <b-container fluid class="pt-2">
         <div class="pt-1">
@@ -37,7 +37,7 @@
     private widthSidebar: string = '320px';
 
     public fetch() {
-      if (!this.$auth.hasScope('admin')) {
+      if (!this.$auth.hasScope('Admin')) {
         this.$nuxt.error({ statusCode: 404 });
       }
     }

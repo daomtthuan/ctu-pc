@@ -1,4 +1,4 @@
-import { email, integer, maxLength, maxValue, minLength, minValue, required, sameAs } from 'vuelidate/lib/validators';
+import { email, helpers, maxLength, minLength, required, sameAs } from 'vuelidate/lib/validators';
 
 export { validationMixin } from 'vuelidate';
 
@@ -10,6 +10,7 @@ let validations: { [name: string]: any } = {
     required: required,
     minLength: minLength(4),
     maxLength: maxLength(100),
+    regex: (value: any) => helpers.regex(value, /^(?=.{4,50}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
   },
   password: {
     required: required,
@@ -30,20 +31,26 @@ let validations: { [name: string]: any } = {
   fullName: {
     required: required,
     maxLength: maxLength(100),
+    regex: (value: any) =>
+      helpers.regex(
+        value,
+        /^[a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+( [a-zA-ZàáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ]+)*$/
+      ),
   },
   birthday: {
     required: required,
-    // maxValue: maxValue(maxBirthday),
+    regex: (value: any) => helpers.regex(value, /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/),
+    maxValue: (value: any) => new Date(value) <= maxBirthday,
   },
   gender: {
     required: required,
-    integer: integer,
-    minValue: minValue(0),
-    maxValue: maxValue(1),
+    boolean: (value: any) => typeof value == 'boolean',
   },
   phone: {
     required: required,
     maxLength: maxLength(15),
+    minLength: minLength(10),
+    regex: (value: any) => helpers.regex(value, /^(\+?\d)+$/),
   },
   address: {
     required: required,
