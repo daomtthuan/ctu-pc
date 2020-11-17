@@ -71,7 +71,7 @@
         let response = <Response>error.response;
         switch (response.status) {
           case 401:
-            this.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không đúng.', {
+            this.$nuxt.$bvToast.toast('Tên đăng nhập hoặc mật khẩu không đúng.', {
               title: 'Đăng nhập không thành công!',
               variant: 'danger',
               solid: true,
@@ -79,7 +79,7 @@
             break;
 
           case 406:
-            this.$bvToast.toast('Tài khoản đã bị vô hiệu hoá.', {
+            this.$nuxt.$bvToast.toast('Tài khoản đã bị vô hiệu hoá.', {
               title: 'Đăng nhập không thành công!',
               variant: 'danger',
               solid: true,
@@ -98,7 +98,7 @@
     @Watch('remember')
     public onRememberChanged(newValue: boolean, oldValue: boolean) {
       if (newValue) {
-        this.$bvToast.toast('Không nên ghi nhớ đăng nhập trên thiết bị công cộng hoặc không đáng tin cậy.', {
+        this.$nuxt.$bvToast.toast('Không nên ghi nhớ đăng nhập trên thiết bị công cộng hoặc không đáng tin cậy.', {
           title: 'Cảnh báo bảo mật!',
           variant: 'warning',
           solid: true,

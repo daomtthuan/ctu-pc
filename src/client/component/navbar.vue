@@ -176,7 +176,7 @@
   export default class extends Vue {
     private pending: boolean = false;
     private categoryGroups: Entity.CategoryGroup[] = [];
-    private categories: { [id: string]: Entity.Category[] } = {};
+    private categories: { [id: number]: Entity.Category[] } = {};
 
     public async fetch() {
       try {

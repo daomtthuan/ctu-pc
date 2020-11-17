@@ -37,7 +37,7 @@ class AccountApi extends Api {
     }
 
     Database::getInstance()->doTransaction(function () {
-      AccountProvider::create(new Account([
+      $idAccount = AccountProvider::create(new Account([
         'username' => Request::getInstance()->getData('username'),
         'password' => password_hash(Request::getInstance()->getData('password'), PASSWORD_BCRYPT),
         'fullName' => Request::getInstance()->getData('fullName'),
@@ -49,7 +49,7 @@ class AccountApi extends Api {
       ]));
 
       PermissionProvider::create(new Permission([
-        'idAccount' => Database::getInstance()->getLastInsertedId(),
+        'idAccount' => $idAccount,
         'idRole' => RoleProvider::USER_ID
       ]));
     });

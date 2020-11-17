@@ -26,7 +26,7 @@ class AccountProvider {
    * 
    * @param Account $account Added Account
    * 
-   * @return bool True if success, otherwise false
+   * @return int Id account
    */
   public static function create(Account $account) {
     $data = $account->jsonSerialize();
@@ -46,5 +46,16 @@ class AccountProvider {
 
     unset($data['id']);
     return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
+  }
+
+  /**
+   * Remove account by filter
+   * 
+   * @param array|null $filter Removing filter
+   * 
+   * @return int Number removed account
+   */
+  public static function remove(array $filter = null) {
+    return Database::getInstance()->remove('Account', $filter);
   }
 }

@@ -45,12 +45,12 @@ class Database {
   }
 
   /**
-   * Find query
+   * Find entities
    * 
    * @param string $entity Entity name
    * @param array $filter Finding filter
    * 
-   * @return array Data execute results
+   * @return array Entities
    */
   public function find(string $entity, array $filter = null) {
     $query = "select * from $entity";
@@ -125,13 +125,13 @@ class Database {
   }
 
   /**
-   * Find query
+   * Find join entities
    * 
    * @param string $entity Entity
    * @param array $filter Finding filter
    * @param array $referencesFilters References filters
    * 
-   * @return array Data execute results
+   * @return array Entities
    */
   public function findJoin(string $entity, array $references, array $referencesFilters = null) {
     $query = "select $entity.* from $entity";
@@ -167,12 +167,12 @@ class Database {
   }
 
   /**
-   * Create new one
+   * Create entity
    * 
-   * @param string $entity Entity
-   * @param array $data Adding data
+   * @param string $entity Entity class name
+   * @param array $data Data entity
    * 
-   * @return int Number of added rows
+   * @return int Created id entity
    */
   public function create(string $entity, array $data) {
     $field = '';
@@ -184,17 +184,17 @@ class Database {
     $query = "insert into $entity(" . substr($field, 0, -2) . ') value (' . substr($value, 0, -2) . ')';
     $statement = $this->connection->prepare($query);
     $statement->execute($data);
-    return $statement->rowCount();
+    return $this->connection->lastInsertId();
   }
 
   /**
    * Edit one
    * 
-   * @param string $entity Entity
+   * @param string $entity Entity class name
    * @param int $id Id entity
    * @param array $data Data entity
    * 
-   * @return int Number of edited rows
+   * @return int Number of edited entities
    */
   public function edit(string $entity, int $id, array $data) {
     $query = "update $entity set ";
@@ -208,28 +208,44 @@ class Database {
   }
 
   /**
+   * Remove entities
+   * 
+   * @param string $entity Entity name
+   * @param array $filter Removing filter
+   * 
+   * @return array Number of removed entities
+   */
+  public function remove(string $entity, array $filter = null) {
+    $query = "delete from $entity";
+    if (isset($filter)) {
+      $query .= ' where ';
+      foreach (array_keys($filter) as $key) {
+        $query .= "$key = :$key and ";
+      }
+      $query = substr($query, 0, -5);
+    }
+    $statement = $this->connection->prepare($query);
+    $statement->execute($filter);
+    return $statement->rowCount();
+  }
+
+  /**
    * Do transaction
    * 
    * @param function:void $action Action
    * @param mixed[] ...$parameters Parameters of action
+   * 
+   * @return bool True if success, otherwise false
    */
   public function doTransaction($action, ...$parameters) {
     try {
       $this->connection->beginTransaction();
       $action(...$parameters);
       $this->connection->commit();
+      return true;
     } catch (PDOException $exception) {
       $this->connection->rollBack();
-      throw $exception;
+      return false;
     }
-  }
-
-  /**
-   * Get last inserted id
-   * 
-   * @return int Last inserted id
-   */
-  public function getLastInsertedId() {
-    return $this->connection->lastInsertId();
   }
 }

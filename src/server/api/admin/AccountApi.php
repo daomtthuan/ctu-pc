@@ -34,7 +34,6 @@ class AccountApi extends Api {
   }
 
   public static function post() {
-
     Request::getInstance()->verifyAdminAccount();
 
     if (!Request::getInstance()->hasData('username', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address')) {
@@ -48,10 +47,10 @@ class AccountApi extends Api {
       Response::getInstance()->sendStatus(406);
     }
 
-    Database::getInstance()->doTransaction(function () {
+    $success = Database::getInstance()->doTransaction(function () {
       $randomPassword = StringPlugin::generateRandomString(10);
 
-      AccountProvider::create(new Account([
+      $idAccount = AccountProvider::create(new Account([
         'username' => Request::getInstance()->getData('username'),
         'password' => password_hash($randomPassword, PASSWORD_BCRYPT),
         'fullName' => Request::getInstance()->getData('fullName'),
@@ -63,7 +62,7 @@ class AccountApi extends Api {
       ]));
 
       PermissionProvider::create(new Permission([
-        'idAccount' => Database::getInstance()->getLastInsertedId(),
+        'idAccount' => $idAccount,
         'idRole' => RoleProvider::USER_ID
       ]));
 
@@ -107,5 +106,26 @@ class AccountApi extends Api {
         ])
       );
     });
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
+  }
+
+  public static function delete() {
+    Request::getInstance()->verifyAdminAccount();
+
+    if (!Request::getInstance()->hasParam('id')) {
+      Response::getInstance()->sendStatus(400);
+    }
+
+    $success = Database::getInstance()->doTransaction(function () {
+      $id = Request::getInstance()->getParam('id');
+
+      // TODO: Remove review of Account
+
+      PermissionProvider::remove(['idAccount' => $id]);
+      AccountProvider::remove(['id' => $id]);
+    });
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 };

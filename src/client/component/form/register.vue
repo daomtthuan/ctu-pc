@@ -129,7 +129,7 @@
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {
-          this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
+          this.$nuxt.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
             title: 'Đăng ký không thành công!',
             variant: 'danger',
             solid: true,

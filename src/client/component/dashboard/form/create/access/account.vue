@@ -38,8 +38,8 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')">
-            <b-form-radio id="radio-gender-male" name="gender" :value="1" autocomplete="on">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="0" autocomplete="on">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" name="gender" :value="true" autocomplete="on">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" name="gender" :value="false" autocomplete="on">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
@@ -105,7 +105,7 @@
       try {
         this.pending = true;
         await this.$axios.post('/admin/account', this.form);
-        this.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
+        this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
           title: 'Thêm mới thành công!',
           variant: 'success',
           solid: true,
@@ -125,7 +125,7 @@
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {
-          this.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
+          this.$nuxt.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
             title: 'Thêm mới không thành công!',
             variant: 'danger',
             solid: true,

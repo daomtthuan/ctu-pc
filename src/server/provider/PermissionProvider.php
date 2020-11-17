@@ -26,11 +26,22 @@ class PermissionProvider {
    * 
    * @param Permission $permission Added permission
    * 
-   * @return bool True if success, otherwise false
+   * @return int Id permission
    */
   public static function create(Permission $permission) {
     $data = $permission->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Permission', $data) == 1;
+  }
+
+  /**
+   * Remove permission by filter
+   * 
+   * @param array|null $filter Removing filter
+   * 
+   * @return int Number removed permission
+   */
+  public static function remove(array $filter = null) {
+    return Database::getInstance()->remove('Permission', $filter);
   }
 }

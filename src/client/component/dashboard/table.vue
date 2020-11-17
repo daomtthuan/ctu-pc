@@ -137,8 +137,9 @@
         <b-button size="sm" :to="`${$route.path}/${row.item.id}/edit`" variant="primary">
           <fa :icon="['fas', 'edit']"></fa>
         </b-button>
-        <b-button size="sm" @click="deleteRow(row.item.id)" variant="danger">
-          <fa :icon="['fas', 'trash']"></fa>
+        <b-button size="sm" @click="removeRow(row.item.id)" variant="danger" :disabled="removePending">
+          <span v-if="!removePending"><fa :icon="['fas', 'trash']"></fa></span>
+          <span v-else><b-spinner small></b-spinner></span>
         </b-button>
       </template>
 
@@ -177,7 +178,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'nuxt-property-decorator';
+  import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
     name: 'component-dashboard-table',
@@ -195,6 +196,10 @@
     @Prop({ type: Function, required: true })
     private rowClass!: (item: object) => string;
 
+    @Prop({ type: Function, required: true })
+    private removeItem!: (id: number) => Promise<void>;
+
+    private removePending: boolean = false;
     private totalRows: number = 0;
     private currentPage: number = 1;
     private perPage: number = 10;
@@ -208,11 +213,7 @@
     private sortDesc: boolean = false;
     private filter: string | null = null;
     private filterOn: string[] = [];
-    private infoModal: { id: string; title: string; content: string } = {
-      id: 'info-modal',
-      title: '',
-      content: '',
-    };
+    private infoModal: { id: string; title: string; content: string } = { id: 'info-modal', title: '', content: '' };
 
     public fetch() {
       this.totalRows = this.items.length;
@@ -256,28 +257,35 @@
       return fields.length ? fields[0].formatter : null;
     }
 
-    public deleteRow(id: string) {
-      this.$bvModal
-        .msgBoxConfirm('Bạn có chắc muốn xoá?', {
-          title: 'Xác nhận',
-          size: 'sm',
-          buttonSize: 'sm',
+    public async removeRow(id: number) {
+      let confirm = await this.$nuxt.$bvModal.msgBoxConfirm(
+        [this.$createElement('span', 'Bạn có chắc muốn xoá?'), this.$createElement('br'), this.$createElement('strong', 'Mọi dữ liệu liên quan cũng sẽ bị xoá theo và không thể khôi phục')],
+        {
+          title: 'Xác nhận thao tác',
           okVariant: 'danger',
           okTitle: 'Có, hãy xoá',
           cancelTitle: 'Không',
-          footerClass: 'p-2',
-          hideHeaderClose: false,
-          centered: true,
-        })
-        .then((confirm) => {
-          if (confirm) {
-            window.location.replace(`${this.$route.path}/${id}/delete`);
-          }
-        });
+        }
+      );
+
+      if (confirm) {
+        this.removePending = true;
+        await this.removeItem(id);
+        this.removePending = false;
+      }
     }
 
     public get options() {
       return this.fields.filter((field) => field.sortable).map((field) => ({ text: field.label, value: field.key }));
+    }
+
+    @Watch('items')
+    public onItemsChanged(newValue: object[]) {
+      if (this.filter != null && this.filter.length > 0) {
+        return;
+      }
+
+      this.totalRows = this.items.length;
     }
   }
 </script>
