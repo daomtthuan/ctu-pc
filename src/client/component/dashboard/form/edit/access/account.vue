@@ -1,29 +1,24 @@
 <template>
-  <b-form @submit.prevent="submit">
+  <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+  <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-row>
       <b-col lg="6">
-        <b-form-group label="Tài khoản:" label-for="input-username">
-          <b-form-input id="input-username" type="text" placeholder="Nhập tài khoản" autocomplete="on" v-model="$v.form.username.$model" :state="validateState('username')"></b-form-input>
-          <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group label="Mật khẩu:" label-for="input-password">
-          <b-form-input id="input-password" type="password" placeholder="Nhập mật khẩu" autocomplete="on" v-model="$v.form.password.$model" :state="validateState('password')"></b-form-input>
-          <b-form-invalid-feedback>Mật khẩu không hợp lệ</b-form-invalid-feedback>
-        </b-form-group>
-        <b-form-group label="Nhập lại mật khẩu:" label-for="input-repassword">
-          <b-form-input id="input-repassword" type="password" placeholder="Nhập lại mật khẩu" autocomplete="on" v-model="$v.form.repassword.$model" :state="validateState('repassword')"></b-form-input>
-          <b-form-invalid-feedback>Mật khẩu nhập lại không đúng</b-form-invalid-feedback>
+        <b-form-group label="Trạng thái">
+          <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
+            <b-form-radio id="radio-state-enabled" name="state" :value="true" autocomplete="on">Kích hoạt</b-form-radio>
+            <b-form-radio id="radio-state-disabled" name="state" :value="false" autocomplete="on">Vô hiệu hoá</b-form-radio>
+          </b-form-radio-group>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
           <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
-      </b-col>
-      <b-col lg="6">
         <b-form-group label="Họ và tên:" label-for="input-full-name">
           <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')"></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
+      </b-col>
+      <b-col lg="6">
         <b-form-group label="Ngày sinh:" label-for="input-birthday">
           <date-picker
             :input-attr="{ id: 'input-birthday', name: 'birthday', autocomplete: 'on' }"
@@ -46,8 +41,8 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')">
-            <b-form-radio id="radio-gender-male" name="gender" :value="1" autocomplete="on">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="0" autocomplete="on">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" name="gender" :value="true" autocomplete="on">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" name="gender" :value="false" autocomplete="on">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
@@ -64,7 +59,7 @@
 
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="pending">
-        <span v-if="!pending">Đăng ký</span>
+        <span v-if="!pending">Chỉnh sửa</span>
         <span v-else><b-spinner small></b-spinner> Xử lý...</span>
       </b-button>
     </b-form-group>
@@ -73,27 +68,52 @@
 
 <script lang="ts">
   import { createValidation, validationMixin } from '@/plugin/validation';
-  import { Component, mixins, Vue } from 'nuxt-property-decorator';
+  import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
+  interface Form {
+    email: null | string;
+    fullName: null | string;
+    birthday: null | string;
+    gender: null | boolean;
+    phone: null | string;
+    address: null | string;
+    state: null | boolean;
+  }
+
   @Component({
-    name: 'component-form-register',
+    name: 'component-dashboard-form-edit-access-account',
     components: { DatePicker },
-    validations: createValidation('username', 'password', 'repassword', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
+    validations: createValidation('username', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address', 'state'),
   })
   export default class extends mixins(validationMixin) {
-    private form = {
-      username: null,
-      password: null,
-      repassword: null,
+    @Prop({ type: String, required: true })
+    private id!: number;
+
+    private form: Form = {
       email: null,
       fullName: null,
       birthday: null,
       gender: null,
       phone: null,
       address: null,
+      state: null,
     };
     private pending: boolean = false;
+
+    public async fetch() {
+      try {
+        let accounts: Form[] = (await this.$axios.get('/admin/account', { params: { id: this.id } })).data;
+        if (accounts.length == 1) {
+          this.form = accounts[0];
+        } else {
+          this.$nuxt.error({ statusCode: 404 });
+        }
+      } catch (error) {
+        let response = <Response>error.response;
+        this.$nuxt.error({ statusCode: response.status });
+      }
+    }
 
     public disabledDate(date: Date) {
       let maxBirthday = new Date();
@@ -112,26 +132,22 @@
         return;
       }
 
-      let user: any = { ...this.form };
-      delete user.repassword;
-
       try {
         this.pending = true;
-        await this.$axios.post('/user/account', user);
-        let response: { data: { fullName: string; token: string } } = await this.$auth.loginWith('local', { data: this.form });
-        this.$router.push('/', () => {
-          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đến với CTU PC SHOP!']), {
-            title: 'Đăng ký thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
+        await this.$axios.put('/admin/account', this.form, { params: { id: this.id } });
+        this.$nuxt.$bvToast.toast('Thông tin tài khoản đã được chỉnh sửa.', {
+          title: 'Chỉnh sửa thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
+
+        this.$nextTick(() => this.$router.back());
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {
           this.$nuxt.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
-            title: 'Đăng ký không thành công!',
+            title: 'Tạo mới không thành công!',
             variant: 'danger',
             solid: true,
             toaster: 'b-toaster-bottom-right',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="mb-2">
-      <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Thêm mới</b-button>
+      <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
       <!-- <b-button size="sm" :href="`${$route.path}/nhap.php`">Nhập dữ liệu</b-button> -->
       <!-- <b-button size="sm" :href="`${$route.path}/xuat.php`" v-if="items.length > 0">Xuất dữ liệu</b-button> -->
     </div>

@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý truy cập - Tài khoản" to="/dashboard/access/account"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Quản lý truy cập - Tài khoản" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>

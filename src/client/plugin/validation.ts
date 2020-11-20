@@ -5,6 +5,8 @@ export { validationMixin } from 'vuelidate';
 let maxBirthday = new Date();
 maxBirthday.setFullYear(maxBirthday.getFullYear() - 1);
 
+let boolean = (value: any) => typeof value == 'boolean';
+
 let validations: { [name: string]: any } = {
   username: {
     required: required,
@@ -44,7 +46,7 @@ let validations: { [name: string]: any } = {
   },
   gender: {
     required: required,
-    boolean: (value: any) => typeof value == 'boolean',
+    boolean: boolean,
   },
   phone: {
     required: required,
@@ -55,6 +57,10 @@ let validations: { [name: string]: any } = {
   address: {
     required: required,
     maxLength: maxLength(500),
+  },
+  state: {
+    required: required,
+    boolean: boolean,
   },
 };
 

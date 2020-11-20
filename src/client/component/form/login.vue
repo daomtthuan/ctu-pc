@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="login">
+  <b-form @submit.prevent="submit">
     <b-form-group label="Tên đăng nhập:" label-for="input-username">
       <b-form-input id="input-username" v-model="$v.form.username.$model" :state="validateState('username')" type="text" placeholder="Nhập tên đăng nhập" autocomplete="on"></b-form-input>
       <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
@@ -41,7 +41,7 @@
       return validate!.$dirty ? !validate!.$error : null;
     }
 
-    public async login() {
+    public async submit() {
       this.$v.form.$touch();
       if (this.$v.$anyError) {
         return;
@@ -59,6 +59,7 @@
             title: 'Đăng nhập thành công!',
             variant: 'success',
             solid: true,
+            toaster: 'b-toaster-bottom-right',
           });
         });
       } catch (error) {
@@ -75,6 +76,7 @@
               title: 'Đăng nhập không thành công!',
               variant: 'danger',
               solid: true,
+              toaster: 'b-toaster-bottom-right',
             });
             break;
 
@@ -83,6 +85,7 @@
               title: 'Đăng nhập không thành công!',
               variant: 'danger',
               solid: true,
+              toaster: 'b-toaster-bottom-right',
             });
             break;
 
@@ -102,6 +105,7 @@
           title: 'Cảnh báo bảo mật!',
           variant: 'warning',
           solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
       }
     }

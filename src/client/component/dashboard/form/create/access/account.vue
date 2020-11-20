@@ -56,7 +56,7 @@
 
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="pending">
-        <span v-if="!pending">Thêm mới</span>
+        <span v-if="!pending">Tạo mới</span>
         <span v-else><b-spinner small></b-spinner> Xử lý...</span>
       </b-button>
     </b-form-group>
@@ -106,9 +106,10 @@
         this.pending = true;
         await this.$axios.post('/admin/account', this.form);
         this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
-          title: 'Thêm mới thành công!',
+          title: 'Tạo mới thành công!',
           variant: 'success',
           solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
 
         this.form = {
@@ -126,9 +127,10 @@
         let response = <Response>error.response;
         if (response.status == 406) {
           this.$nuxt.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
-            title: 'Thêm mới không thành công!',
+            title: 'Tạo mới không thành công!',
             variant: 'danger',
             solid: true,
+            toaster: 'b-toaster-bottom-right',
           });
         } else {
           this.$nuxt.error({ statusCode: response.status });

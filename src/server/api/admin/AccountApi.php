@@ -25,7 +25,7 @@ class AccountApi extends Api {
     Request::getInstance()->verifyAdminAccount();
 
     $accounts = [];
-    foreach (AccountProvider::find() as $account) {
+    foreach (AccountProvider::find(Request::getInstance()->getParam()) as $account) {
       $data = $account->jsonSerialize();
       unset($data['password']);
       $accounts[] = $data;
@@ -108,6 +108,32 @@ class AccountApi extends Api {
     });
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
+  }
+
+  public static function put() {
+    Request::getInstance()->verifyAdminAccount();
+
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('email', 'fullName', 'birthday', 'gender', 'phone', 'address', 'state')) {
+      Response::getInstance()->sendStatus(400);
+    }
+
+    $accounts = AccountProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
+    if (count($accounts) != 1) {
+      Response::getInstance()->sendStatus(406);
+    }
+
+    $accounts[0]->setEmail(Request::getInstance()->getData('email'));
+    $accounts[0]->setFullName(Request::getInstance()->getData('fullName'));
+    $accounts[0]->setBirthday(Request::getInstance()->getData('birthday'));
+    $accounts[0]->setGender(Request::getInstance()->getData('gender'));
+    $accounts[0]->setPhone(Request::getInstance()->getData('phone'));
+    $accounts[0]->setAddress(Request::getInstance()->getData('address'));
+    $accounts[0]->setState(Request::getInstance()->getData('state'));
+
+    AccountProvider::edit($accounts[0]);
+    Response::getInstance()->sendStatus(200);
   }
 
   public static function delete() {

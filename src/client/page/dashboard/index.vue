@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-breadcrumb class="bg-light">
-      <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Bảng điều khiến" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div>

@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="edit">
+  <b-form @submit.prevent="submit">
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tài khoản:" label-for="input-username">
@@ -70,7 +70,7 @@
   import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
-    name: 'component-user-form-account',
+    name: 'component-form-account',
     components: { DatePicker },
     validations: createValidation('email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
   })
@@ -100,7 +100,7 @@
       return validate!.$dirty ? !validate!.$error : null;
     }
 
-    public async edit() {
+    public async submit() {
       this.$v.form.$touch();
       if (this.$v.$anyError) {
         return;
