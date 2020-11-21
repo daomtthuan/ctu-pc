@@ -22,6 +22,57 @@ class AccountProvider {
   }
 
   /**
+   * Find Accounts own role
+   * 
+   * @param int $idRole Id of own Role
+   * @param array|null $filter Finding filter
+   * 
+   * @return Account[] Accounts
+   */
+  public static function findOwnRole(int $idRole, array $filter = null) {
+    $accountReferenceFilters = Database::getInstance()->createReferenceFilters('Account', $filter);
+    $roleReferenceFilters = [
+      Database::getInstance()->createReferenceFilter('Role', 'id', $idRole)
+    ];
+
+    $result = Database::getInstance()->findJoin('Account', [
+      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::INNER_JOIN),
+      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::INNER_JOIN),
+    ], array_merge($roleReferenceFilters, $accountReferenceFilters));
+
+    $accounts = [];
+    foreach ($result as $data) {
+      $accounts[] = new Account($data);
+    }
+    return $accounts;
+  }
+
+  /**
+   * Find Accounts not own role
+   * 
+   * @param int $idRole Id of own Role
+   * @param array|null $filter Finding filter
+   * 
+   * @return Account[] Accounts
+   */
+  public static function findNotOwnRole(int $idRole, array $filter = null) {
+    $referenceFilters = [
+      Database::getInstance()->createReferenceFilter('Role', 'id', $idRole)
+    ];
+
+    $result = Database::getInstance()->findInJoin('Account', 'id', false, [
+      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::INNER_JOIN),
+      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::INNER_JOIN),
+    ], $referenceFilters, $filter);
+
+    $accounts = [];
+    foreach ($result as $data) {
+      $accounts[] = new Account($data);
+    }
+    return $accounts;
+  }
+
+  /**
    * Create Account
    * 
    * @param Account $account Added Account
@@ -43,7 +94,6 @@ class AccountProvider {
    */
   public static function edit(Account $account) {
     $data = $account->jsonSerialize();
-
     unset($data['id']);
     return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
   }

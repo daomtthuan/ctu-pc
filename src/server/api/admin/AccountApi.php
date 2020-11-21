@@ -121,7 +121,7 @@ class AccountApi extends Api {
       'id' => Request::getInstance()->getParam('id')
     ]);
     if (count($accounts) != 1) {
-      Response::getInstance()->sendStatus(406);
+      Response::getInstance()->sendStatus(404);
     }
 
     $accounts[0]->setEmail(Request::getInstance()->getData('email'));

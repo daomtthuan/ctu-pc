@@ -1,4 +1,4 @@
-import { email, helpers, maxLength, minLength, required, sameAs } from 'vuelidate/lib/validators';
+import { email, helpers, integer, maxLength, minLength, minValue, required, sameAs } from 'vuelidate/lib/validators';
 
 export { validationMixin } from 'vuelidate';
 
@@ -61,6 +61,16 @@ let validations: { [name: string]: any } = {
   state: {
     required: required,
     boolean: boolean,
+  },
+  idRole: {
+    required: required,
+    integer: integer,
+    minValue: minValue(1),
+  },
+  idAccount: {
+    required: required,
+    integer: integer,
+    minValue: minValue(1),
   },
 };
 

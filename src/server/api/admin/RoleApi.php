@@ -3,17 +3,9 @@
 namespace Api\Admin;
 
 use Core\Api;
-use Core\Database;
 use Core\Request;
 use Core\Response;
-use Entity\Permission;
-use Entity\Account;
-use Plugin\HtmlPlugin;
-use Plugin\MailPlugin;
-use Plugin\StringPlugin;
-use Provider\PermissionProvider;
 use Provider\RoleProvider;
-use Provider\AccountProvider;
 
 /** Role api */
 class RoleApi extends Api {
@@ -23,12 +15,30 @@ class RoleApi extends Api {
 
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
+    Response::getInstance()->sendJson(RoleProvider::find(Request::getInstance()->getParam()));
+  }
 
-    $roles = [];
-    foreach (RoleProvider::find() as $role) {
-      $data = $role->jsonSerialize();
-      $roles[] = $data;
+  public static function put() {
+    Request::getInstance()->verifyAdminAccount();
+
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('state')) {
+      Response::getInstance()->sendStatus(400);
     }
-    Response::getInstance()->sendJson($roles);
+
+    if (Request::getInstance()->getParam('id') == RoleProvider::ADMIN_ID) {
+      Response::getInstance()->sendStatus(406);
+    }
+
+    $roles = RoleProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
+    if (count($roles) != 1) {
+      Response::getInstance()->sendStatus(404);
+    }
+
+    $roles[0]->setState(Request::getInstance()->getData('state'));
+
+    RoleProvider::edit($roles[0]);
+    Response::getInstance()->sendStatus(200);
   }
 };

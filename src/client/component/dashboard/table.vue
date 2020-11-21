@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="mb-2">
-      <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
-      <!-- <b-button size="sm" :href="`${$route.path}/nhap.php`">Nhập dữ liệu</b-button> -->
-      <!-- <b-button size="sm" :href="`${$route.path}/xuat.php`" v-if="items.length > 0">Xuất dữ liệu</b-button> -->
+      <b-button size="sm" :to="`${$route.path}/create`" variant="primary" v-if="allowCreate">Tạo mới</b-button>
     </div>
 
     <b-form v-if="items.length > 0">
@@ -134,10 +132,10 @@
         <b-button size="sm" @click="row.toggleDetails">
           <fa :icon="['fas', row.detailsShowing ? 'eye-slash' : 'eye']"></fa>
         </b-button>
-        <b-button size="sm" :to="`${$route.path}/${row.item.id}/edit`" variant="primary">
+        <b-button size="sm" :to="`${$route.path}/${row.item.id}/edit`" variant="primary" v-if="allowEdit">
           <fa :icon="['fas', 'edit']"></fa>
         </b-button>
-        <b-button size="sm" @click="removeRow(row.item.id)" variant="danger" :disabled="removePending">
+        <b-button size="sm" @click="removeRow(row.item.id)" variant="danger" :disabled="removePending" v-if="allowRemove">
           <span v-if="!removePending"><fa :icon="['fas', 'trash']"></fa></span>
           <span v-else><b-spinner small></b-spinner></span>
         </b-button>
@@ -193,10 +191,19 @@
     @Prop({ type: Array, required: true })
     private notes!: Table.Note[];
 
+    @Prop({ type: Boolean, default: true })
+    private allowCreate!: boolean;
+
+    @Prop({ type: Boolean, default: true })
+    private allowEdit!: boolean;
+
+    @Prop({ type: Boolean, default: true })
+    private allowRemove!: boolean;
+
     @Prop({ type: Function, required: true })
     private rowClass!: (item: object) => string;
 
-    @Prop({ type: Function, required: true })
+    @Prop({ type: Function, default: () => {} })
     private removeItem!: (id: number) => Promise<void>;
 
     private removePending: boolean = false;

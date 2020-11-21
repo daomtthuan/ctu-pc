@@ -3,11 +3,12 @@
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-row>
       <b-col lg="6">
-        <b-form-group label="Trạng thái">
+        <b-form-group label="Trạng thái:">
           <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
             <b-form-radio id="radio-state-enabled" name="state" :value="true" autocomplete="on">Kích hoạt</b-form-radio>
             <b-form-radio id="radio-state-disabled" name="state" :value="false" autocomplete="on">Vô hiệu hoá</b-form-radio>
           </b-form-radio-group>
+          <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
           <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
@@ -141,20 +142,9 @@
           solid: true,
           toaster: 'b-toaster-bottom-right',
         });
-
         this.$nextTick(() => this.$router.back());
       } catch (error) {
-        let response = <Response>error.response;
-        if (response.status == 406) {
-          this.$nuxt.$bvToast.toast('Tên đăng nhập đã được sử dụng.', {
-            title: 'Tạo mới không thành công!',
-            variant: 'danger',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
-        } else {
-          this.$nuxt.error({ statusCode: response.status });
-        }
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {
         this.pending = false;
       }

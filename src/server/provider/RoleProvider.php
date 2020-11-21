@@ -4,7 +4,6 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Role;
-use Entity\Account;
 
 class RoleProvider {
   public const ADMIN_ID = 1;
@@ -26,17 +25,17 @@ class RoleProvider {
   }
 
   /**
-   * Find roles that be owned by Account
+   * Find Roles that be owned by Account
    * 
-   * @param Account $account Owned by Account
+   * @param int $idAccount Id of owned by Account
    * @param array|null $filter Finding filter
    * 
    * @return Role[] Roles
    */
-  public static function findOwnedByAccount(Account $account, array $filter = null) {
+  public static function findOwnedByAccount(int $idAccount, array $filter = null) {
     $roleReferenceFilters = Database::getInstance()->createReferenceFilters('Role', $filter);
     $accountReferenceFilters = [
-      Database::getInstance()->createReferenceFilter('Account', 'id', $account->getId())
+      Database::getInstance()->createReferenceFilter('Account', 'id', $idAccount)
     ];
 
     $result = Database::getInstance()->findJoin('Role', [
@@ -49,5 +48,18 @@ class RoleProvider {
       $roles[] = new Role($data);
     }
     return $roles;
+  }
+
+  /**
+   * Edit Role
+   * 
+   * @param Role $role Edited Role
+   * 
+   * @return bool True if success, otherwise false
+   */
+  public static function edit(Role $role) {
+    $data = $role->jsonSerialize();
+    unset($data['id']);
+    return Database::getInstance()->edit('Role', $role->getId(), $data) == 1;
   }
 }

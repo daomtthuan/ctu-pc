@@ -227,7 +227,7 @@ class Request {
    */
   public function verifyAdminAccount() {
     $account = $this->verifyAccount();
-    $roles = RoleProvider::findOwnedByAccount($account, [
+    $roles = RoleProvider::findOwnedByAccount($account->getId(), [
       'id' => RoleProvider::ADMIN_ID,
       'state' => 1
     ]);

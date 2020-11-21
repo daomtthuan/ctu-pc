@@ -6,7 +6,7 @@
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <c-dashboard-table :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" v-else-if="!this.$fetchState.error"></c-dashboard-table>
+    <c-dashboard-table :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" v-else-if="!this.$fetchState.error" :allow-create="false" :allow-remove="false"></c-dashboard-table>
   </div>
 </template>
 

@@ -18,7 +18,7 @@ class LocalApi extends Api {
   public static function get() {
     $account = Request::getInstance()->verifyAccount();
 
-    $roles = RoleProvider::findOwnedByAccount($account, [
+    $roles = RoleProvider::findOwnedByAccount($account->getId(), [
       'state' => 1
     ]);
     if (count($roles) == 0) {
