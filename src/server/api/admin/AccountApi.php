@@ -147,6 +147,7 @@ class AccountApi extends Api {
       $id = Request::getInstance()->getParam('id');
 
       // TODO: Remove review of Account
+      // TODO: Remove event post of Account
 
       PermissionProvider::remove(['idAccount' => $id]);
       AccountProvider::remove(['id' => $id]);

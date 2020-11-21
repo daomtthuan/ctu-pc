@@ -15,10 +15,10 @@ class Review extends Entity {
    * @param array $data Data Review
    */
   public function __construct(array $data) {
+    parent::__construct($data);
     $this->star = (int)$data['star'];
     $this->idAccount = (int)$data['idAccount'];
     $this->idProduct = (int)$data['idProduct'];
-    parent::__construct($data);
   }
 
   public function jsonSerialize() {

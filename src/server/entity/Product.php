@@ -17,12 +17,12 @@ class Product extends Entity {
    * @param array $data Data Product
    */
   public function __construct(array $data) {
+    parent::__construct($data);
     $this->name = (int)$data['name'];
     $this->price = (float)$data['price'];
     $this->quantity = (int)$data['quantity'];
     $this->idCategory = (int)$data['idCategory'];
     $this->idBrand = (int)$data['idBrand'];
-    parent::__construct($data);
   }
 
   public function jsonSerialize() {

@@ -1,1 +1,1 @@
-cat Schema.sql Data.sql Data1.sql | mysql -u root
+cat Schema.sql Data.sql | mysql -u root

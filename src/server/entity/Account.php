@@ -21,6 +21,7 @@ class Account extends Entity {
    * @param array $data Data Account
    */
   public function __construct(array $data) {
+    parent::__construct($data);
     $this->username = (string)$data['username'];
     $this->password = (string)$data['password'];
     $this->fullName = (string)$data['fullName'];
@@ -29,7 +30,6 @@ class Account extends Entity {
     $this->email = (string)$data['email'];
     $this->address = (string)$data['address'];
     $this->phone = (string)$data['phone'];
-    parent::__construct($data);
   }
 
   public function jsonSerialize() {
@@ -182,14 +182,5 @@ class Account extends Entity {
    */
   public function setPhone(string $phone) {
     $this->phone = $phone;
-  }
-
-  /**
-   * Set the value of state
-   * 
-   * @param bool $phone State
-   */
-  public function setState(bool $state) {
-    $this->state = $state;
   }
 }

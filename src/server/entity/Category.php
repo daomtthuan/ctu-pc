@@ -14,9 +14,9 @@ class Category extends Entity {
    * @param array $data Data Category
    */
   public function __construct(array $data) {
+    parent::__construct($data);
     $this->name = (string)$data['name'];
     $this->idCategoryGroup = (int)$data['idCategoryGroup'];
-    parent::__construct($data);
   }
 
   public function jsonSerialize() {

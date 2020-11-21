@@ -13,8 +13,8 @@ class Role extends Entity {
    * @param array $data Data Role
    */
   public function __construct(array $data) {
-    $this->name = (string)$data['name'];
     parent::__construct($data);
+    $this->name = (string)$data['name'];
   }
 
   public function jsonSerialize() {

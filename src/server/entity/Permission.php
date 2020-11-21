@@ -14,9 +14,9 @@ class Permission extends Entity {
    * @param array $data Data Permission
    */
   public function __construct(array $data) {
+    parent::__construct($data);
     $this->idAccount = (int)$data['idAccount'];
     $this->idRole = (int)$data['idRole'];
-    parent::__construct($data);
   }
 
   public function jsonSerialize() {

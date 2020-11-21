@@ -22,7 +22,7 @@ create table Account
   email    varchar(100)  not null,                # Email Account
   address  nvarchar(500) not null,                # Address Account
   phone    varchar(15)   not null,                # Phone number Account
-  state    bit default true,                      # State Account (false: Disabled, true: Enabled)
+  state    bit           not null default true,   # State Account (false: Disabled, true: Enabled)
 
   primary key (id)                                # Id Account is primary key
 );
@@ -32,7 +32,7 @@ create table Role
 (
   id    int          not null auto_increment, # Id Role
   name  varchar(100) not null,                # Name Role
-  state bit default true,                     # State Role (0: Disabled, 1: Enabled)
+  state bit          not null default true,   # State Role (0: Disabled, 1: Enabled)
 
   primary key (id)                            # Id Role is primary key
 );
@@ -43,7 +43,7 @@ create table Permission
   id        int not null auto_increment,           # Id Permission
   idAccount int not null,                          # Id Account Permission
   idRole    int not null,                          # Id Role Permission
-  state     bit default true,                      # State Permission (0: Disabled, 1: Enabled)
+  state     bit not null default true,             # State Permission (0: Disabled, 1: Enabled)
 
   primary key (id),                                # Id Role is primary key
   foreign key (idAccount) references Account (id), # Id Account references to table Account by Id
@@ -55,7 +55,7 @@ create table Brand
 (
   id    int           not null auto_increment, # Id Brand
   name  nvarchar(100) not null,                # Name Brand
-  state bit default true,                      # State Brand (0: Disabled, 1: Enabled)
+  state bit           not null default true,   # State Brand (0: Disabled, 1: Enabled)
 
   primary key (id)                             # Id Brand is primary key
 );
@@ -65,7 +65,7 @@ create table CategoryGroup
 (
   id    int           not null auto_increment, # Id Category Group
   name  nvarchar(100) not null,                # Name Category Group
-  state bit default true,                      # State Category Group (0: Disabled, 1: Enabled)
+  state bit           not null default true,   # State Category Group (0: Disabled, 1: Enabled)
 
   primary key (id)                             # Id Category Group is primary key
 );
@@ -76,7 +76,7 @@ create table Category
   id              int           not null auto_increment,      # Id Category
   name            nvarchar(100) not null,                     # Name Category
   idCategoryGroup int           not null,                     # Id Category Group
-  state           bit default true,                           # State Category (0: Disabled, 1: Enabled)
+  state           bit           not null default true,        # State Category (0: Disabled, 1: Enabled)
 
   primary key (id),                                           # Id Category is primary key
   foreign key (idCategoryGroup) references CategoryGroup (id) # Id Category Group references to table Category Group by Id
@@ -91,7 +91,7 @@ create table Product
   quantity   int           not null,                 # Quantity Product
   idCategory int           not null,                 # Id Category Product
   idBrand    int           not null,                 # Id Brand Product
-  state      bit default true,                       # State Product (0: Disabled, 1: Enabled)
+  state      bit           not null default true,    # State Product (0: Disabled, 1: Enabled)
 
   primary key (id),                                  # Id Product is primary key
   foreign key (idCategory) references Category (id), # Id Category references to table Category by Id
@@ -105,14 +105,22 @@ create table Review
   star      tinyint not null,                      # Star Review
   idAccount int     not null,                      # Id Account Review
   idProduct int     not null,                      # Id Product Review
-  state     bit default true,                      # State Review (0: Disabled, 1: Enabled)
+  state     bit     not null default true,         # State Review (0: Disabled, 1: Enabled)
 
   primary key (id),                                # Id Product is primary key
   foreign key (idAccount) references Account (id), # Id Account references to table Account by Id
   foreign key (idProduct) references Product (id)  # Id Product references to table Product by Id
 );
 
-# Insert Role
-insert into Role(name)
-values ('Admin'),
-       ('User');
+# Create table Event
+create table Event
+(
+  id        int           not null auto_increment, # Id Event
+  title     nvarchar(100) not null,                # Title Event
+  post      date          not null,                # Posted date Event
+  idAccount int           not null,                # Id account author Event
+  state     bit           not null default true,   # State Event (0: Disabled, 1: Enabled)
+
+  primary key (id),                                # Id Product is primary key
+  foreign key (idAccount) references Account (id)  # Id Account references to table Account by Id
+);
