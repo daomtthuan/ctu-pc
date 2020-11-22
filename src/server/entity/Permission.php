@@ -38,11 +38,29 @@ class Permission extends Entity {
   }
 
   /**
+   * Set the value of idAccount
+   * 
+   * @param int Id Account
+   */
+  public function setIdAccount(int $idAccount) {
+    $this->idAccount = $idAccount;
+  }
+
+  /**
    * Get the value of idRole
    * 
    * @return int Id role
    */
   public function getIdRole() {
     return $this->idRole;
+  }
+
+  /**
+   * Set the value of idRole
+   * 
+   * @param int Id Role
+   */
+  public function setIdRole(int $idRole) {
+    $this->idRole = $idRole;
   }
 }

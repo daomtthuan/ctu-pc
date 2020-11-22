@@ -33,4 +33,13 @@ class CategoryGroup extends Entity {
   public function getName() {
     return $this->name;
   }
+
+  /**
+   * Set the value of name
+   * 
+   * @param string name
+   */
+  public function setName(string $name) {
+    $this->name = $name;
+  }
 }

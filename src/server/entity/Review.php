@@ -41,6 +41,15 @@ class Review extends Entity {
   }
 
   /**
+   * Set the value of star
+   * 
+   * @param int star
+   */
+  public function setStar(int $star) {
+    $this->star = $star;
+  }
+
+  /**
    * Get the value of idAccount
    * 
    * @return int IdAccount
@@ -50,11 +59,29 @@ class Review extends Entity {
   }
 
   /**
+   * Set the value of idAccount
+   * 
+   * @param int id account
+   */
+  public function setIdAccount(int $idAccount) {
+    $this->idAccount = $idAccount;
+  }
+
+  /**
    * Get the value of idProduct
    * 
    * @return int IdProduct
    */
   public function getIdProduct() {
     return $this->idProduct;
+  }
+
+  /**
+   * Set the value of idProduct
+   * 
+   * @param int id product
+   */
+  public function setIdProduct(int $idProduct) {
+    $this->idProduct = $idProduct;
   }
 }

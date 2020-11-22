@@ -38,11 +38,29 @@ class Category extends Entity {
   }
 
   /**
+   * Set the value of name
+   * 
+   * @param string name
+   */
+  public function setName(string $name) {
+    $this->name = $name;
+  }
+
+  /**
    * Get the value of idCategoryGroup
    * 
    * @return int Id CategoryGroup
    */
   public function getIdCategoryGroup() {
     return $this->idCategoryGroup;
+  }
+
+  /**
+   * Set the value of IdCategoryGroup
+   * 
+   * @param int IdCategoryGroup
+   */
+  public function setIdCategoryGroup(int $idCategoryGroup) {
+    $this->idCategoryGroup = $idCategoryGroup;
   }
 }

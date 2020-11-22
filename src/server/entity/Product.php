@@ -47,12 +47,30 @@ class Product extends Entity {
   }
 
   /**
+   * Set the value of name
+   * 
+   * @param string Name
+   */
+  public function setIdRole(string $name) {
+    $this->name = $name;
+  }
+
+  /**
    * Get the value of price
    * 
    * @return float Price
    */
   public function getPrice() {
     return $this->price;
+  }
+
+  /**
+   * Set the value of price
+   * 
+   * @param float price
+   */
+  public function setPrice(float $price) {
+    $this->price = $price;
   }
 
   /**
@@ -65,6 +83,15 @@ class Product extends Entity {
   }
 
   /**
+   * Set the value of quantity
+   * 
+   * @param int quantity
+   */
+  public function setQuantity(int $quantity) {
+    $this->quantity = $quantity;
+  }
+
+  /**
    * Get the value of idCategory
    * 
    * @return int Idcategory
@@ -74,11 +101,29 @@ class Product extends Entity {
   }
 
   /**
+   * Set the value of idCategory
+   * 
+   * @param int id Category
+   */
+  public function setIdCategory(int $idCategory) {
+    $this->idCategory = $idCategory;
+  }
+
+  /**
    * Get the value of idBrand
    * 
    * @return int IdBrand
    */
   public function getIdBrand() {
     return $this->idBrand;
+  }
+
+  /**
+   * Set the value of idBrand
+   * 
+   * @param int id Brand
+   */
+  public function setIdBrand(int $idBrand) {
+    $this->idBrand = $idBrand;
   }
 }
