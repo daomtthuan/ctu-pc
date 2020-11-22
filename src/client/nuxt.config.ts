@@ -18,6 +18,9 @@ let config: NuxtConfig = {
   },
   components: [{ path: '@/component', prefix: 'c' }],
   head: {
+    htmlAttrs: {
+      lang: 'vi-VN',
+    },
     meta: [
       { charset: 'utf-8' },
       { httpEquiv: 'X-UA-Compatible', content: 'IE=edge' },

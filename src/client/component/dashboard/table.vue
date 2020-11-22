@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h5 class="text-primary">{{ title }}</h5>
+    <hr />
+
     <div class="mb-2">
       <b-button size="sm" :to="`${$route.path}/create`" variant="primary" v-if="allowCreate">Tạo mới</b-button>
     </div>
@@ -10,31 +13,17 @@
           <b-form-group label="Sắp xếp" label-size="sm" label-for="sortBySelect">
             <b-row no-gutters>
               <b-col xl="8" class="pr-xl-1 mb-2 mb-xl-0">
-                <b-input-group size="sm">
-                  <template v-slot:prepend>
-                    <b-input-group-text class="group-icon">
-                      <fa :icon="['fas', 'sort-amount-down-alt']"></fa>
-                    </b-input-group-text>
+                <b-form-select v-model="sortBy" id="sortBySelect" size="sm" :options="options">
+                  <template v-slot:first>
+                    <option value="">-- Không sắp xếp --</option>
                   </template>
-                  <b-form-select v-model="sortBy" id="sortBySelect" size="sm" :options="options" class="w-75">
-                    <template v-slot:first>
-                      <option value="">-- Không sắp xếp --</option>
-                    </template>
-                  </b-form-select>
-                </b-input-group>
+                </b-form-select>
               </b-col>
               <b-col xl="4">
-                <b-input-group size="sm">
-                  <template v-slot:prepend>
-                    <b-input-group-text class="group-icon">
-                      <fa :icon="['fas', 'random']"></fa>
-                    </b-input-group-text>
-                  </template>
-                  <b-form-select v-model="sortDesc" size="sm" :disabled="!sortBy">
-                    <option :value="false">Tăng dần</option>
-                    <option :value="true">Giảm dần</option>
-                  </b-form-select>
-                </b-input-group>
+                <b-form-select v-model="sortDesc" size="sm" :disabled="!sortBy">
+                  <option :value="false">Tăng dần</option>
+                  <option :value="true">Giảm dần</option>
+                </b-form-select>
               </b-col>
             </b-row>
           </b-form-group>
@@ -43,30 +32,10 @@
           <b-form-group label="Phân trang" label-size="sm" label-for="perPageSelect">
             <b-row no-gutters>
               <b-col xl="4" class="pr-xl-1 mb-2 mb-xl-0">
-                <b-input-group size="sm">
-                  <template v-slot:prepend>
-                    <b-input-group-text class="group-icon">
-                      <fa :icon="['fas', 'list-ol']"></fa>
-                    </b-input-group-text>
-                  </template>
-                  <b-form-select v-model="perPage" id="perPageSelect" size="sm" :options="perPageOptions"></b-form-select>
-                </b-input-group>
+                <b-form-select v-model="perPage" id="perPageSelect" size="sm" :options="perPageOptions"></b-form-select>
               </b-col>
               <b-col xl="8">
-                <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill" size="sm" class="my-0">
-                  <template v-slot:first-text>
-                    <fa :icon="['fas', 'angle-double-left']"></fa>
-                  </template>
-                  <template v-slot:prev-text>
-                    <fa :icon="['fas', 'angle-left']"></fa>
-                  </template>
-                  <template v-slot:next-text>
-                    <fa :icon="['fas', 'angle-right']"></fa>
-                  </template>
-                  <template v-slot:last-text>
-                    <fa :icon="['fas', 'angle-double-right']"></fa>
-                  </template>
-                </b-pagination>
+                <b-form-input size="sm" readonly :value="`Từ ${currentPage * perPage - perPage + 1} đến ${currentPage * perPage > totalRows ? totalRows : currentPage * perPage} trong ${totalRows} dòng`"></b-form-input>
               </b-col>
             </b-row>
           </b-form-group>
@@ -74,19 +43,7 @@
       </b-row>
 
       <b-form-group label="Tìm kiếm" label-size="sm" label-for="filterInput">
-        <b-input-group size="sm">
-          <template v-slot:prepend>
-            <b-input-group-text class="group-icon">
-              <fa :icon="['fas', 'search']"></fa>
-            </b-input-group-text>
-          </template>
-          <b-form-input v-model="filter" id="filterInput"></b-form-input>
-          <b-input-group-append>
-            <b-button :disabled="!filter" @click="filter = null" class="group-icon">
-              <fa :icon="['fas', 'times']"></fa>
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
+        <b-form-input type="search" v-model="filter" id="filterInput" size="sm" placeholder="Nhập dữ liệu cần tìm"></b-form-input>
       </b-form-group>
     </b-form>
 
@@ -100,8 +57,6 @@
         </div>
       </div>
     </div>
-
-    <p class="mb-3 small">Đang hiển thị từ {{ currentPage * perPage - perPage + 1 }} đến {{ currentPage * perPage > totalRows ? totalRows : currentPage * perPage }} trong tổng số {{ totalRows }} dòng.</p>
 
     <b-table
       bordered
@@ -182,14 +137,23 @@
     name: 'component-dashboard-table',
   })
   export default class extends Vue {
+    @Prop({ type: String, required: true })
+    private title!: string;
+
     @Prop({ type: Array, required: true })
     private items!: object[];
 
     @Prop({ type: Array, required: true })
     private fields!: Table.Field[];
 
-    @Prop({ type: Array, required: true })
-    private notes!: Table.Note[];
+    @Prop({ type: Array })
+    private notes?: Table.Note[];
+
+    @Prop({ type: Function })
+    private rowClass?: (item: object) => string;
+
+    @Prop({ type: Function })
+    private removeItem?: (id: number) => Promise<void>;
 
     @Prop({ type: Boolean, default: true })
     private allowCreate!: boolean;
@@ -199,12 +163,6 @@
 
     @Prop({ type: Boolean, default: true })
     private allowRemove!: boolean;
-
-    @Prop({ type: Function, required: true })
-    private rowClass!: (item: object) => string;
-
-    @Prop({ type: Function, default: () => {} })
-    private removeItem!: (id: number) => Promise<void>;
 
     private removePending: boolean = false;
     private totalRows: number = 0;
@@ -227,9 +185,12 @@
     }
 
     public createRowClass(item: object, type: string) {
-      if (item && type == 'row') {
-        return this.rowClass(item);
+      if (this.rowClass) {
+        if (item && type == 'row') {
+          return this.rowClass(item);
+        }
       }
+      return null;
     }
 
     public info(item: object, index: number, button: HTMLButtonElement) {
@@ -265,20 +226,22 @@
     }
 
     public async removeRow(id: number) {
-      let confirm = await this.$nuxt.$bvModal.msgBoxConfirm(
-        [this.$createElement('span', 'Bạn có chắc muốn xoá?'), this.$createElement('br'), this.$createElement('strong', 'Mọi dữ liệu liên quan cũng sẽ bị xoá theo và không thể khôi phục')],
-        {
-          title: 'Xác nhận thao tác',
-          okVariant: 'danger',
-          okTitle: 'Có, hãy xoá',
-          cancelTitle: 'Không',
-        }
-      );
+      if (this.removeItem) {
+        let confirm = await this.$nuxt.$bvModal.msgBoxConfirm(
+          [this.$createElement('span', 'Bạn có chắc muốn xoá?'), this.$createElement('br'), this.$createElement('strong', 'Mọi dữ liệu liên quan cũng sẽ bị xoá theo và không thể khôi phục')],
+          {
+            title: 'Xác nhận thao tác',
+            okVariant: 'danger',
+            okTitle: 'Có, hãy xoá',
+            cancelTitle: 'Không',
+          }
+        );
 
-      if (confirm) {
-        this.removePending = true;
-        await this.removeItem(id);
-        this.removePending = false;
+        if (confirm) {
+          this.removePending = true;
+          await this.removeItem(id);
+          this.removePending = false;
+        }
       }
     }
 

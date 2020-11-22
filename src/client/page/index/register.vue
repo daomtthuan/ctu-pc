@@ -29,7 +29,7 @@
   export default class extends Vue {
     public fetch() {
       if (this.$auth.loggedIn) {
-        this.$router.replace('/user');
+        this.$router.replace('/account');
       }
     }
   }

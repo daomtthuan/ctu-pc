@@ -5,7 +5,7 @@
       <b-form-select v-model="$v.form.idRole.$model" :options="roleOptions" :disabled="idAccountPending" :state="validateState('idRole')"></b-form-select>
       <b-form-invalid-feedback>Quyền truy cập không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group label="Quyền truy cập:">
+    <b-form-group label="Tài khoản:">
       <div v-if="idAccountPending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
       <div v-else>
         <b-form-select v-model="$v.form.idAccount.$model" :options="accountOptions" :state="validateState('idAccount')"></b-form-select>
@@ -71,6 +71,12 @@
         this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
         this.form.idAccount = null;
         this.$nextTick(() => this.$v.$reset());
+        this.$nuxt.$bvToast.toast('Đã tạo mới phân quyền cho tài khoản.', {
+          title: 'Tạo mới thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
+        });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

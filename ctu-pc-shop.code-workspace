@@ -39,10 +39,10 @@
       "editor.defaultFormatter": "svipas.prettier-plus"
     },
     "[typescript]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[vue]": {
-      "editor.defaultFormatter": "svipas.prettier-plus"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[xml]": {
       "editor.defaultFormatter": "svipas.prettier-plus"

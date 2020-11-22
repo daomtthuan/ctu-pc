@@ -123,6 +123,12 @@
         };
 
         this.$nextTick(() => this.$v.$reset());
+        this.$nuxt.$bvToast.toast('Đã tạo mới tài khoản.', {
+          title: 'Tạo mới thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
+        });
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {

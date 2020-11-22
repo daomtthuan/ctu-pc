@@ -59,6 +59,7 @@ class LocalApi extends Api {
 
     $token = Session::start();
     Session::set('account', $accounts[0]->getId());
+    Session::set('username', $accounts[0]->getUsername());
 
     Response::getInstance()->sendJson([
       'token' => $token,

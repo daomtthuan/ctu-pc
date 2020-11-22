@@ -27,12 +27,25 @@ class Response {
   /**
    * Send JSON Data
    * 
-   * @param mixed $data Sending Data
+   * @param mixed $data Sending data implements JsonSerializable
    */
   public function sendJson($data) {
     Http::setContentType('json');
     Http::setStatus(200);
     Http::setData(json_encode($data));
+
+    Service::getInstance()->stop();
+  }
+
+  /**
+   * Send JSON string
+   * 
+   * @param string $data Json string
+   */
+  public function sendJsonString(string $data) {
+    Http::setContentType('json');
+    Http::setStatus(200);
+    Http::setData($data);
 
     Service::getInstance()->stop();
   }

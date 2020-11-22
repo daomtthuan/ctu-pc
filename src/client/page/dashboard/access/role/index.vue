@@ -6,7 +6,7 @@
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <c-dashboard-table :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" v-else-if="!this.$fetchState.error" :allow-create="false" :allow-remove="false"></c-dashboard-table>
+    <c-dashboard-table title="Danh sách quyền truy cập" :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" v-else-if="!this.$fetchState.error" :allow-create="false" :allow-remove="false"></c-dashboard-table>
   </div>
 </template>
 
@@ -32,7 +32,7 @@
       try {
         this.items = (await this.$axios.get('admin/role')).data;
         this.fields = [
-          { key: 'id', label: 'Id', sortable: true, class: 'align-middle text-md-right fit' },
+          { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
           { key: 'name', label: 'Quyền', sortable: true, class: 'align-middle' },
           { key: 'state', label: 'Trạng thái', sortable: true, class: 'd-none', formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá') },
           { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },

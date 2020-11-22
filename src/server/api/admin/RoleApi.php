@@ -7,7 +7,7 @@ use Core\Request;
 use Core\Response;
 use Provider\RoleProvider;
 
-/** Role api */
+/** Admin role api */
 class RoleApi extends Api {
   public static function mapUrl() {
     return '/api/admin/role';

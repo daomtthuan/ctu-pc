@@ -17,6 +17,7 @@ class Logger {
       'time' => date('H:i:s'),
       'mac' => Request::getInstance()->getAddress('mac'),
       'account' => null,
+      'username' => null,
       'url' => Request::getInstance()->getUrl(),
       'method' => Request::getInstance()->getMethod(),
       'status' => 200
@@ -49,7 +50,7 @@ class Logger {
   public function writeServiceLog() {
     if ($_ENV['LOG'] == 'true' && $this->serviceLog['method'] != 'get') {
       $path = __ROOT__ . $_ENV['SERVICE_LOG_DIR'] . '\\' . date('Y-m-d') . '.log';
-      file_put_contents($path, json_encode($this->serviceLog) . "\n", FILE_APPEND);
+      file_put_contents($path, json_encode($this->serviceLog) . ",\n", FILE_APPEND);
     }
   }
 }

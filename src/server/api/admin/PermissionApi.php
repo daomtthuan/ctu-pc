@@ -9,7 +9,7 @@ use Entity\Permission;
 use Provider\AccountProvider;
 use Provider\PermissionProvider;
 
-/** Permission api */
+/** Admin permission api */
 class PermissionApi extends Api {
   public static function mapUrl() {
     return '/api/admin/permission';
@@ -48,5 +48,20 @@ class PermissionApi extends Api {
       'idAccount' => Request::getInstance()->getData('idAccount'),
       'idRole' => Request::getInstance()->getData('idRole')
     ]));
+  }
+
+  public static function delete() {
+    Request::getInstance()->verifyAdminAccount();
+
+    if (!Request::getInstance()->hasParam('idAccount', 'idRole')) {
+      Response::getInstance()->sendStatus(400);
+    }
+
+    PermissionProvider::remove([
+      'idAccount' => Request::getInstance()->getParam('idAccount'),
+      'idRole' => Request::getInstance()->getParam('idRole')
+    ]);
+
+    Response::getInstance()->sendStatus(200);
   }
 };
