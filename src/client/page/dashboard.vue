@@ -15,7 +15,7 @@
           <nuxt-child></nuxt-child>
         </div>
       </b-container>
-      <c-footer class="mt-auto"></c-footer>
+      <c-footer class="mt-auto" :events="events"></c-footer>
     </div>
   </main>
 </template>
@@ -35,10 +35,17 @@
     private largeDevice: boolean = window.innerWidth > 1200;
     private visibleNavbar: boolean = this.largeDevice;
     private widthSidebar: string = '320px';
+    private events: Entity.Event[] = [];
 
-    public fetch() {
+    public async fetch() {
       if (!this.$auth.hasScope('Admin')) {
         this.$nuxt.error({ statusCode: 404 });
+      }
+
+      try {
+        this.events = (await this.$axios.get('/event', { params: { start: 0, limit: 5 } })).data;
+      } catch (error) {
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }
     }
 

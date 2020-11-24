@@ -5,6 +5,7 @@ namespace Provider;
 use Core\Database;
 use Entity\Permission;
 
+/** Permission provider */
 class PermissionProvider {
   /**
    * Find permission by filter

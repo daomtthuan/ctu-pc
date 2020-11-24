@@ -3,15 +3,36 @@
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tài khoản:" label-for="input-username">
-          <b-form-input id="input-username" type="text" placeholder="Nhập tài khoản" autocomplete="on" v-model="$v.form.username.$model" :state="validateState('username')"></b-form-input>
+          <b-form-input
+            id="input-username"
+            type="text"
+            placeholder="Nhập tài khoản"
+            autocomplete="on"
+            v-model="$v.form.username.$model"
+            :state="validateState('username')"
+          ></b-form-input>
           <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
+          <b-form-input
+            id="input-email"
+            type="email"
+            placeholder="Nhập email"
+            autocomplete="on"
+            v-model="$v.form.email.$model"
+            :state="validateState('email')"
+          ></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Họ và tên:" label-for="input-full-name">
-          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')"></b-form-input>
+          <b-form-input
+            id="input-full-name"
+            type="text"
+            placeholder="Nhập họ tên"
+            autocomplete="on"
+            v-model="$v.form.fullName.$model"
+            :state="validateState('fullName')"
+          ></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
@@ -44,13 +65,30 @@
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Số điện thoại:">
-          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')"></b-form-input>
+          <b-form-input
+            id="input-phone"
+            type="text"
+            name="phone"
+            placeholder="Nhập số điện thoại"
+            autocomplete="on"
+            v-model="$v.form.phone.$model"
+            :state="validateState('phone')"
+          ></b-form-input>
           <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
     </b-row>
     <b-form-group label="Địa chỉ:">
-      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')"></b-form-textarea>
+      <b-form-textarea
+        id="input-address"
+        name="address"
+        placeholder="Nhập địa chỉ"
+        rows="3"
+        max-rows="6"
+        autocomplete="on"
+        v-model="$v.form.address.$model"
+        :state="validateState('address')"
+      ></b-form-textarea>
       <b-form-invalid-feedback>Địa chỉ không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -74,7 +112,7 @@
     validations: createValidation('username', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
   })
   export default class extends mixins(validationMixin) {
-    private form = {
+    private form: App.Form.Create.Access.Account = {
       username: null,
       email: null,
       fullName: null,

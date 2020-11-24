@@ -3,25 +3,60 @@
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tài khoản:" label-for="input-username">
-          <b-form-input id="input-username" type="text" placeholder="Nhập tài khoản" autocomplete="on" v-model="$v.form.username.$model" :state="validateState('username')"></b-form-input>
+          <b-form-input
+            id="input-username"
+            type="text"
+            placeholder="Nhập tài khoản"
+            autocomplete="on"
+            v-model="$v.form.username.$model"
+            :state="validateState('username')"
+          ></b-form-input>
           <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Mật khẩu:" label-for="input-password">
-          <b-form-input id="input-password" type="password" placeholder="Nhập mật khẩu" autocomplete="on" v-model="$v.form.password.$model" :state="validateState('password')"></b-form-input>
+          <b-form-input
+            id="input-password"
+            type="password"
+            placeholder="Nhập mật khẩu"
+            autocomplete="on"
+            v-model="$v.form.password.$model"
+            :state="validateState('password')"
+          ></b-form-input>
           <b-form-invalid-feedback>Mật khẩu không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Nhập lại mật khẩu:" label-for="input-repassword">
-          <b-form-input id="input-repassword" type="password" placeholder="Nhập lại mật khẩu" autocomplete="on" v-model="$v.form.repassword.$model" :state="validateState('repassword')"></b-form-input>
+          <b-form-input
+            id="input-repassword"
+            type="password"
+            placeholder="Nhập lại mật khẩu"
+            autocomplete="on"
+            v-model="$v.form.repassword.$model"
+            :state="validateState('repassword')"
+          ></b-form-input>
           <b-form-invalid-feedback>Mật khẩu nhập lại không đúng</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
+          <b-form-input
+            id="input-email"
+            type="email"
+            placeholder="Nhập email"
+            autocomplete="on"
+            v-model="$v.form.email.$model"
+            :state="validateState('email')"
+          ></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
       <b-col lg="6">
         <b-form-group label="Họ và tên:" label-for="input-full-name">
-          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')"></b-form-input>
+          <b-form-input
+            id="input-full-name"
+            type="text"
+            placeholder="Nhập họ tên"
+            autocomplete="on"
+            v-model="$v.form.fullName.$model"
+            :state="validateState('fullName')"
+          ></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Ngày sinh:" label-for="input-birthday">
@@ -52,13 +87,30 @@
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Số điện thoại:">
-          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')"></b-form-input>
+          <b-form-input
+            id="input-phone"
+            type="text"
+            name="phone"
+            placeholder="Nhập số điện thoại"
+            autocomplete="on"
+            v-model="$v.form.phone.$model"
+            :state="validateState('phone')"
+          ></b-form-input>
           <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
     </b-row>
     <b-form-group label="Địa chỉ:">
-      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')"></b-form-textarea>
+      <b-form-textarea
+        id="input-address"
+        name="address"
+        placeholder="Nhập địa chỉ"
+        rows="3"
+        max-rows="6"
+        autocomplete="on"
+        v-model="$v.form.address.$model"
+        :state="validateState('address')"
+      ></b-form-textarea>
       <b-form-invalid-feedback>Địa chỉ không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -72,8 +124,9 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, validationMixin } from '@/plugin/validation';
+  import { AxiosResponse } from 'axios';
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
+  import { createValidation, validationMixin } from '@/plugin/validation';
   import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
@@ -82,7 +135,7 @@
     validations: createValidation('username', 'password', 'repassword', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address'),
   })
   export default class extends mixins(validationMixin) {
-    private form = {
+    private form: App.Form.Register = {
       username: null,
       password: null,
       repassword: null,
@@ -118,9 +171,9 @@
       try {
         this.pending = true;
         await this.$axios.post('/user/account', user);
-        let response: { data: { fullName: string; token: string } } = await this.$auth.loginWith('local', { data: this.form });
+        let response: App.Response.Login = (<AxiosResponse>await this.$auth.loginWith('local', { data: this.form })).data;
         this.$router.push('/', () => {
-          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đến với CTU PC SHOP!']), {
+          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.fullName), ' đến với CTU PC SHOP!']), {
             title: 'Đăng ký thành công!',
             variant: 'success',
             solid: true,

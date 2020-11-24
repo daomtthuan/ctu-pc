@@ -8,7 +8,6 @@
     <b-navbar-nav class="d-none d-lg-flex mr-2">
       <b-nav-item-dropdown text="Sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
         <div class="text-center py-3 border" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
-
         <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else-if="!$fetchState.error">
           <b-card-header header-tag="header" class="p-1" role="tab">
             <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="primary" class="text-left">
@@ -25,7 +24,7 @@
           </b-collapse>
         </b-card>
       </b-nav-item-dropdown>
-      <b-nav-item>Sự kiện</b-nav-item>
+      <b-nav-item to="/event">Sự kiện</b-nav-item>
       <b-nav-item-dropdown text="Chính sách - Hướng dẫn" no-caret>
         <b-dropdown-item to="/guide-policy/payment">Hướng dẫn thanh toán</b-dropdown-item>
         <b-dropdown-item to="/guide-policy/installment">Hướng dẫn trả góp</b-dropdown-item>
@@ -144,7 +143,7 @@
           </b-card>
         </b-collapse>
 
-        <b-button block variant="primary" class="text-left my-2">
+        <b-button block variant="primary" class="text-left my-2" to="/event">
           Sự kiện
         </b-button>
 

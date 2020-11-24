@@ -32,15 +32,9 @@
     validations: createValidation('idRole', 'idAccount'),
   })
   export default class extends mixins(validationMixin) {
-    private form: {
-      idRole: null | number;
-      idAccount: null | number;
-    } = {
-      idRole: null,
-      idAccount: null,
-    };
-    private roleOptions: { value: number | null; text: string; disabled?: boolean }[] = [{ value: null, text: '-- Chọn quyền truy cập --', disabled: true }];
-    private accountOptions: { value: number | null; text: string; disabled?: boolean }[] = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
+    private form: App.Form.Create.Access.Permission = { idRole: null, idAccount: null };
+    private roleOptions: App.Control.SeleteOption[] = [{ value: null, text: '-- Chọn quyền truy cập --', disabled: true }];
+    private accountOptions: App.Control.SeleteOption[] = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
     private idAccountPending: boolean = false;
     private submitPending: boolean = false;
 

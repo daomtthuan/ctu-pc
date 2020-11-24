@@ -6,7 +6,16 @@
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <c-dashboard-table title="Danh sách tài khoản" :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" :remove-item="remove" v-else-if="!this.$fetchState.error"></c-dashboard-table>
+    <c-dashboard-table
+      title="Danh sách tài khoản"
+      :items="items"
+      :fields="fields"
+      :notes="notes"
+      :row-class="rowClass"
+      class="mt-1"
+      :remove-item="remove"
+      v-else-if="!this.$fetchState.error"
+    ></c-dashboard-table>
   </div>
 </template>
 
@@ -21,8 +30,8 @@
   })
   export default class extends Vue {
     private items: Entity.Account[] = [];
-    private fields: Table.Field[] = [];
-    private notes: Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
+    private fields: App.Component.Table.Field[] = [];
+    private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
 
     public rowClass(item: Entity.Account) {
       return item.state ? null : 'text-secondary bg-light font-weight-light';
@@ -36,11 +45,27 @@
           { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
           { key: 'fullName', label: 'Họ và tên', sortable: true, class: 'align-middle' },
           { key: 'birthday', label: 'Ngày sinh', sortable: true, class: 'align-middle text-md-right fit' },
-          { key: 'gender', label: 'Giới tính', sortable: true, class: 'align-middle fit', formatter: (value) => (value == 1 ? 'Nam' : 'Nữ'), sortByFormatted: true, filterByFormatted: true },
+          {
+            key: 'gender',
+            label: 'Giới tính',
+            sortable: true,
+            class: 'align-middle fit',
+            formatter: (value) => (value == 1 ? 'Nam' : 'Nữ'),
+            sortByFormatted: true,
+            filterByFormatted: true,
+          },
           { key: 'email', label: 'Email', sortable: true, class: 'align-middle' },
           { key: 'address', label: 'Địa chỉ', sortable: true, class: 'align-middle' },
           { key: 'phone', label: 'Điện thoại', sortable: true, class: 'align-middle' },
-          { key: 'state', label: 'Trạng thái', sortable: true, class: 'd-none', formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'), sortByFormatted: true, filterByFormatted: true },
+          {
+            key: 'state',
+            label: 'Trạng thái',
+            sortable: true,
+            class: 'd-none',
+            formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'),
+            sortByFormatted: true,
+            filterByFormatted: true,
+          },
           { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
         ];
       } catch (error) {

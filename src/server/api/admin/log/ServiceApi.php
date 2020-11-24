@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Log;
+namespace Api\Admin\Log;
 
 use Core\Api;
 use Core\Request;
@@ -10,7 +10,7 @@ use DateTime;
 /** Service log api */
 class ServiceApi extends Api {
   public static function mapUrl() {
-    return '/api/log/service';
+    return '/api/admin/log/service';
   }
 
   public static function get() {
@@ -29,6 +29,11 @@ class ServiceApi extends Api {
       Response::getInstance()->sendJson([]);
     }
 
-    Response::getInstance()->sendJsonString('[' . substr(file_get_contents($logPath), 0, -2) . ']');
+    $logs = [];
+    foreach (json_decode('[' . substr(file_get_contents($logPath), 0, -2) . ']', true) as $log) {
+      unset($log['requestData'], $log['responseData']);
+      $logs[] = $log;
+    }
+    Response::getInstance()->sendJson($logs);
   }
 };

@@ -3,9 +3,9 @@
     <c-navbar></c-navbar>
     <div class="d-flex flex-column pt-5 vh-min-100">
       <div class="py-5">
-        <nuxt-child></nuxt-child>
+        <nuxt-child :events="events"></nuxt-child>
       </div>
-      <c-footer class="mt-auto" :fluid="false"></c-footer>
+      <c-footer class="mt-auto" :fluid="false" :events="events"></c-footer>
     </div>
   </main>
 </template>
@@ -19,5 +19,15 @@
       title: 'Trang chủ',
     },
   })
-  export default class extends Vue {}
+  export default class extends Vue {
+    private events: Entity.Event[] = [];
+
+    public async fetch() {
+      try {
+        this.events = (await this.$axios.get('/event', { params: { start: 0, limit: 5 } })).data;
+      } catch (error) {
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
+      }
+    }
+  }
 </script>

@@ -17,9 +17,11 @@ class Logger {
       'time' => date('H:i:s'),
       'mac' => Request::getInstance()->getAddress('mac'),
       'account' => null,
-      'username' => null,
       'url' => Request::getInstance()->getUrl(),
+      'params' => Request::getInstance()->hasParam() ? Request::getInstance()->getParam() : null,
+      'requestData' => Request::getInstance()->hasData() ? Request::getInstance()->getData() : null,
       'method' => Request::getInstance()->getMethod(),
+      'responseData' => null,
       'status' => 200
     ];
   }

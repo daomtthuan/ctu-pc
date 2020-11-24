@@ -7,10 +7,12 @@ use PDOException;
 
 /** Database */
 class Database {
-  public const INNER_JOIN = 'inner join';
-  public const LEFT_OUTER_JOIN = 'left outer join';
-  public const RIGHT_OUTER_JOIN = 'right outer join';
-  public const CROSS_JOIN = 'cross join';
+  public const JOIN_INNER = 'inner join';
+  public const JOIN_LEFT_OUTER = 'left outer join';
+  public const JOIN_RIGHT_OUTER = 'right outer join';
+  public const JOIN_CROSS = 'cross join';
+  public const ORDER_ASC = 'asc';
+  public const ORDER_DESC = 'desc';
 
   private static Database $instance;
   private PDO $connection;
@@ -49,10 +51,53 @@ class Database {
    * 
    * @param string $entity Entity name
    * @param array $filter Finding filter
+   * @param int $start Index starting entity
+   * @param int $limit Limit number of entities for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
+   * 
+   * @return int Number of entities
+   */
+  public function count(string $entity, array $filter = null, $start = null, int $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
+    $query = "select count(*) as count from $entity";
+    if (isset($filter)) {
+      $query .= ' where ';
+      foreach (array_keys($filter) as $key) {
+        $query .= "$key = :$key and ";
+      }
+      $query = substr($query, 0, -5);
+    }
+
+    if (isset($orderByKeys)) {
+      $query .= " order by ";
+      foreach ($orderByKeys as $key) {
+        $query .= "$key, ";
+      }
+      $query = substr($query, 0, -2) . " $typeOrder";
+    }
+
+    if (isset($start, $limit)) {
+      $query .= " limit $start, $limit";
+    }
+
+    $statement = $this->connection->prepare($query);
+    $statement->execute($filter);
+    return (int)$statement->fetchAll(PDO::FETCH_ASSOC)[0]['count'];
+  }
+
+  /**
+   * Find entities
+   * 
+   * @param string $entity Entity name
+   * @param array $filter Finding filter
+   * @param int $start Index starting entity
+   * @param int $limit Limit number of entities for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
    * 
    * @return array Entities
    */
-  public function find(string $entity, array $filter = null) {
+  public function find(string $entity, array $filter = null, $start = null, int $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
     $query = "select * from $entity";
     if (isset($filter)) {
       $query .= ' where ';
@@ -61,6 +106,19 @@ class Database {
       }
       $query = substr($query, 0, -5);
     }
+
+    if (isset($orderByKeys)) {
+      $query .= " order by ";
+      foreach ($orderByKeys as $key) {
+        $query .= "$key, ";
+      }
+      $query = substr($query, 0, -2) . " $typeOrder";
+    }
+
+    if (isset($start, $limit)) {
+      $query .= " limit $start, $limit";
+    }
+
     $statement = $this->connection->prepare($query);
     $statement->execute($filter);
     return $statement->fetchAll(PDO::FETCH_ASSOC);

@@ -22,5 +22,4 @@ spl_autoload_register(function ($className) {
 });
 
 // Start Web Service
-$service = Service::getInstance();
-$service->start();
+Service::getInstance()->start();

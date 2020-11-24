@@ -5,16 +5,17 @@ namespace Provider;
 use Core\Database;
 use Entity\Role;
 
+/** Role provider */
 class RoleProvider {
   public const ADMIN_ID = 1;
   public const USER_ID = 2;
 
   /**
-   * Find by filter
+   * Find roles by filter
    * 
    * @param array|null $filter Finding filter
    * 
-   * @return Role[] Permissions
+   * @return Role[] Roles
    */
   public static function find(array $filter = null) {
     $roles = [];
@@ -25,7 +26,7 @@ class RoleProvider {
   }
 
   /**
-   * Find Roles that be owned by Account
+   * Find roles that be owned by Account
    * 
    * @param int $idAccount Id of owned by Account
    * @param array|null $filter Finding filter
@@ -39,8 +40,8 @@ class RoleProvider {
     ];
 
     $result = Database::getInstance()->findJoin('Role', [
-      Database::getInstance()->createReference('Permission', 'Permission', 'idRole', 'Role', 'id', Database::INNER_JOIN),
-      Database::getInstance()->createReference('Account', 'Account', 'id', 'Permission', 'idAccount', Database::INNER_JOIN),
+      Database::getInstance()->createReference('Permission', 'Permission', 'idRole', 'Role', 'id', Database::JOIN_INNER),
+      Database::getInstance()->createReference('Account', 'Account', 'id', 'Permission', 'idAccount', Database::JOIN_INNER),
     ], array_merge($accountReferenceFilters, $roleReferenceFilters));
 
     $roles = [];

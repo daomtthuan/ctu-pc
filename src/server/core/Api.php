@@ -14,12 +14,6 @@ abstract class Api {
    */
   public abstract static function mapUrl();
 
-  /**
-   * Options method
-   * 
-   * @param Request $request Request
-   * @param Response $response Response
-   */
   public static function options() {
     Response::getInstance()->sendStatus(200);
   }

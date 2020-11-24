@@ -22,10 +22,6 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
-  interface Form {
-    state: null | boolean;
-  }
-
   @Component({
     name: 'component-dashboard-form-edit-access-role',
     components: { DatePicker },
@@ -35,12 +31,12 @@
     @Prop({ type: String, required: true })
     private id!: number;
 
-    private form: Form = { state: null };
+    private form: App.Form.Edit.Access.Role = { state: null };
     private pending: boolean = false;
 
     public async fetch() {
       try {
-        let roles: Form[] = (await this.$axios.get('/admin/role', { params: { id: this.id } })).data;
+        let roles: App.Form.Edit.Access.Role[] = (await this.$axios.get('/admin/role', { params: { id: this.id } })).data;
         if (roles.length == 1) {
           this.form = roles[0];
         } else {

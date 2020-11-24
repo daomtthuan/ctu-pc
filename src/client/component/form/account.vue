@@ -6,17 +6,42 @@
           <b-form-input id="input-username" type="text" v-model="form.username" disabled></b-form-input>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')" :disabled="!editing"></b-form-input>
+          <b-form-input
+            id="input-email"
+            type="email"
+            placeholder="Nhập email"
+            autocomplete="on"
+            v-model="$v.form.email.$model"
+            :state="validateState('email')"
+            :disabled="!editing"
+          ></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Số điện thoại:">
-          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')" :disabled="!editing"></b-form-input>
+          <b-form-input
+            id="input-phone"
+            type="text"
+            name="phone"
+            placeholder="Nhập số điện thoại"
+            autocomplete="on"
+            v-model="$v.form.phone.$model"
+            :state="validateState('phone')"
+            :disabled="!editing"
+          ></b-form-input>
           <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
       <b-col lg="6">
         <b-form-group label="Họ và tên:" label-for="input-full-name">
-          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')" :disabled="!editing"></b-form-input>
+          <b-form-input
+            id="input-full-name"
+            type="text"
+            placeholder="Nhập họ tên"
+            autocomplete="on"
+            v-model="$v.form.fullName.$model"
+            :state="validateState('fullName')"
+            :disabled="!editing"
+          ></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Ngày sinh:" label-for="input-birthday">
@@ -50,7 +75,17 @@
       </b-col>
     </b-row>
     <b-form-group label="Địa chỉ:">
-      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')" :disabled="!editing"></b-form-textarea>
+      <b-form-textarea
+        id="input-address"
+        name="address"
+        placeholder="Nhập địa chỉ"
+        rows="3"
+        max-rows="6"
+        autocomplete="on"
+        v-model="$v.form.address.$model"
+        :state="validateState('address')"
+        :disabled="!editing"
+      ></b-form-textarea>
       <b-form-invalid-feedback>Địa chỉ không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -79,15 +114,7 @@
     private pending: boolean = false;
 
     @Prop({ type: Object, required: true })
-    private form!: {
-      username: null | string;
-      email: null | string;
-      fullName: null | string;
-      birthday: null | string;
-      gender: null | boolean;
-      phone: null | string;
-      address: null | string;
-    };
+    private form!: App.Form.Account;
 
     public disabledDate(date: Date) {
       let maxBirthday = new Date();

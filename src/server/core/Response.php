@@ -34,18 +34,10 @@ class Response {
     Http::setStatus(200);
     Http::setData(json_encode($data));
 
-    Service::getInstance()->stop();
-  }
-
-  /**
-   * Send JSON string
-   * 
-   * @param string $data Json string
-   */
-  public function sendJsonString(string $data) {
-    Http::setContentType('json');
-    Http::setStatus(200);
-    Http::setData($data);
+    Logger::getInstance()->setServiceLog('responseData', [
+      'type' => Http::CONTENT_TYPES['json'],
+      'data' => $data
+    ]);
 
     Service::getInstance()->stop();
   }
@@ -60,6 +52,11 @@ class Response {
     Http::setStatus(200);
     Http::setData($data);
 
+    Logger::getInstance()->setServiceLog('responseData', [
+      'type' => Http::CONTENT_TYPES['text'],
+      'data' => $data
+    ]);
+
     Service::getInstance()->stop();
   }
 
@@ -70,6 +67,7 @@ class Response {
    */
   public function sendStatus(int $code) {
     Http::setStatus($code);
+
     Logger::getInstance()->setServiceLog('status', $code);
 
     Service::getInstance()->stop();

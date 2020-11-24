@@ -20,7 +20,6 @@ class Session {
     session_id($token);
     session_start();
     Logger::getInstance()->setServiceLog('account', Session::get('account'));
-    Logger::getInstance()->setServiceLog('username', Session::get('username'));
     return $token;
   }
 

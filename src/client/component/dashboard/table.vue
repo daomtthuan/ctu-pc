@@ -35,7 +35,15 @@
                 <b-form-select v-model="perPage" id="perPageSelect" size="sm" :options="perPageOptions"></b-form-select>
               </b-col>
               <b-col xl="8">
-                <b-form-input size="sm" readonly :value="`Từ ${currentPage * perPage - perPage + 1} đến ${currentPage * perPage > totalRows ? totalRows : currentPage * perPage} trong ${totalRows} dòng`"></b-form-input>
+                <b-form-input
+                  size="sm"
+                  readonly
+                  :value="
+                    `Từ ${currentPage * perPage - perPage + 1} đến ${
+                      currentPage * perPage > totalRows ? totalRows : currentPage * perPage
+                    } trong ${totalRows} dòng`
+                  "
+                ></b-form-input>
               </b-col>
             </b-row>
           </b-form-group>
@@ -109,7 +117,7 @@
       </template>
     </b-table>
 
-    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill" size="sm" v-if="items.length > 0">
+    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="center" v-if="items.length > 0">
       <template v-slot:first-text>
         <fa :icon="['fas', 'angle-double-left']"></fa>
       </template>
@@ -144,10 +152,10 @@
     private items!: object[];
 
     @Prop({ type: Array, required: true })
-    private fields!: Table.Field[];
+    private fields!: App.Component.Table.Field[];
 
     @Prop({ type: Array })
-    private notes?: Table.Note[];
+    private notes?: App.Component.Table.Note[];
 
     @Prop({ type: Function })
     private rowClass?: (item: object) => string;
@@ -228,7 +236,11 @@
     public async removeRow(id: number) {
       if (this.removeItem) {
         let confirm = await this.$nuxt.$bvModal.msgBoxConfirm(
-          [this.$createElement('span', 'Bạn có chắc muốn xoá?'), this.$createElement('br'), this.$createElement('strong', 'Mọi dữ liệu liên quan cũng sẽ bị xoá theo và không thể khôi phục')],
+          [
+            this.$createElement('span', 'Bạn có chắc muốn xoá?'),
+            this.$createElement('br'),
+            this.$createElement('strong', 'Mọi dữ liệu liên quan cũng sẽ bị xoá theo và không thể khôi phục'),
+          ],
           {
             title: 'Xác nhận thao tác',
             okVariant: 'danger',

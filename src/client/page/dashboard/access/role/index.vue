@@ -6,7 +6,17 @@
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <c-dashboard-table title="Danh sách quyền truy cập" :items="items" :fields="fields" :notes="notes" :row-class="rowClass" class="mt-1" v-else-if="!this.$fetchState.error" :allow-create="false" :allow-remove="false"></c-dashboard-table>
+    <c-dashboard-table
+      title="Danh sách quyền truy cập"
+      :items="items"
+      :fields="fields"
+      :notes="notes"
+      :row-class="rowClass"
+      class="mt-1"
+      v-else-if="!this.$fetchState.error"
+      :allow-create="false"
+      :allow-remove="false"
+    ></c-dashboard-table>
   </div>
 </template>
 
@@ -21,8 +31,8 @@
   })
   export default class extends Vue {
     private items: Entity.Role[] = [];
-    private fields: Table.Field[] = [];
-    private notes: Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
+    private fields: App.Component.Table.Field[] = [];
+    private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
 
     public rowClass(item: Entity.Role) {
       return item.state ? null : 'text-secondary bg-light font-weight-light';

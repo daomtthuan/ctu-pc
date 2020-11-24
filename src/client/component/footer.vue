@@ -9,22 +9,6 @@
       <hr />
       <b-row>
         <b-col lg="4" md="6">
-          <h5>Địa chỉ</h5>
-          <dl>
-            <dt>Chi nhánh 1:</dt>
-            <dd>xx, xxxx, xxx xxxx, xxxx, xxxx</dd>
-            <dt>Chi nhánh 2:</dt>
-            <dd>xx, xxxx, xxx xxxx, xxxx, xxxx</dd>
-          </dl>
-          <h5>Liên hệ</h5>
-          <dl>
-            <dt>Hotline</dt>
-            <dd>xxxx xxx xxxx, nhánh số xx</dd>
-            <dt>Bảo hành</dt>
-            <dd>xxxx xxx xxxx, nhánh số xx</dd>
-          </dl>
-        </b-col>
-        <b-col lg="4" md="6">
           <h5>Chính sách - Hướng dẫn</h5>
           <ul>
             <li><b-link to="/guide-policy/payment">Hướng dẫn thanh toán</b-link></li>
@@ -34,9 +18,37 @@
           </ul>
           <h5>Sự kiện</h5>
           <ul>
-            <div v-for="i in 5" :key="i">
-              <li>{{ i }}</li>
+            <div v-for="event in events" :key="event.id">
+              <li>
+                <div class="text-truncate">
+                  <nuxt-link :to="`/event/details/${event.id}`">{{ event.title }}</nuxt-link>
+                </div>
+              </li>
             </div>
+          </ul>
+        </b-col>
+        <b-col lg="4" md="6">
+          <h5>Địa chỉ</h5>
+          <ul>
+            <li>
+              <b>Chi nhánh 1:</b><br />
+              xx, xxxx, xxx xxxx, xxxx, xxxx
+            </li>
+            <li>
+              <b>Chi nhánh 2:</b><br />
+              xx, xxxx, xxx xxxx, xxxx, xxxx
+            </li>
+          </ul>
+          <h5>Liên hệ</h5>
+          <ul>
+            <li>
+              <b>Hotline:</b><br />
+              xxxx xxx xxxx, nhánh số xx
+            </li>
+            <li>
+              <b>Bảo hành:</b><br />
+              xxxx xxx xxxx, nhánh số xx
+            </li>
           </ul>
         </b-col>
         <b-col lg="4">
@@ -56,7 +68,8 @@
       <p class="text-center">
         <em>
           Sản phẩm này chỉ phục vụ cho hoạt động học tập và nghiên cứu, không phục vụ cho mục đích thương mại<br />
-          Bản quyền mã nguồn mở, <b-link href="https://github.com/daomtthuan/ctu-pc-shop/blob/master/LICENSE">MIT License, Copyright (c) 2020 Daomtthuan</b-link>
+          Bản quyền mã nguồn mở,
+          <b-link href="https://github.com/daomtthuan/ctu-pc-shop/blob/master/LICENSE">MIT License, Copyright (c) 2020 Daomtthuan</b-link>
         </em>
       </p>
     </b-container>
@@ -72,5 +85,8 @@
   export default class extends Vue {
     @Prop({ type: Boolean, default: true })
     private fluid!: boolean;
+
+    @Prop({ type: Array, required: true })
+    private events!: Entity.Event[];
   }
 </script>

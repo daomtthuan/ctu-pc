@@ -1,5 +1,11 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 986.39 934.92" :style="{ width: size + 'px', height: 'auto' }" class="logo">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 986.39 934.92"
+    :style="{ width: size + 'px', height: 'auto' }"
+    class="logo"
+  >
     <defs>
       <linearGradient id="linear-gradient" x1="59.36" y1="-20.2" x2="868.83" y2="350.4" gradientUnits="userSpaceOnUse">
         <stop offset="0" stop-color="#69a6bd" />

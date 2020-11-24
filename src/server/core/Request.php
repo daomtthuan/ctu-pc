@@ -101,6 +101,10 @@ class Request {
    * @return bool true if has cookie. Otherwise, false.
    */
   public function hasCookie(string ...$keys) {
+    if (!isset($this->cookies)) {
+      return false;
+    }
+
     if (count($keys) == 0) {
       return count($this->cookies) > 0;
     } else {
@@ -143,6 +147,10 @@ class Request {
    * @return bool true if has data. Otherwise, false.
    */
   public function hasData(string ...$keys) {
+    if (!isset($this->data)) {
+      return false;
+    }
+
     if (count($keys) == 0) {
       return count($this->data) > 0;
     } else {
@@ -178,6 +186,10 @@ class Request {
    * @return bool true if has paramater. Otherwise, false.
    */
   public function hasParam(string ...$keys) {
+    if (!isset($this->params)) {
+      return false;
+    }
+
     if (count($keys) == 0) {
       return count($this->params) > 0;
     } else {
@@ -205,8 +217,10 @@ class Request {
       Response::getInstance()->sendStatus(401);
     }
 
+    /** @var Account */
+    $accountSession = Session::get('account');
     $accounts = AccountProvider::find([
-      'id' => Session::get('account')
+      'id' => $accountSession->getId()
     ]);
 
     if (count($accounts) != 1) {

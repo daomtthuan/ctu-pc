@@ -11,11 +11,25 @@
           <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input id="input-email" type="email" placeholder="Nhập email" autocomplete="on" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
+          <b-form-input
+            id="input-email"
+            type="email"
+            placeholder="Nhập email"
+            autocomplete="on"
+            v-model="$v.form.email.$model"
+            :state="validateState('email')"
+          ></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Họ và tên:" label-for="input-full-name">
-          <b-form-input id="input-full-name" type="text" placeholder="Nhập họ tên" autocomplete="on" v-model="$v.form.fullName.$model" :state="validateState('fullName')"></b-form-input>
+          <b-form-input
+            id="input-full-name"
+            type="text"
+            placeholder="Nhập họ tên"
+            autocomplete="on"
+            v-model="$v.form.fullName.$model"
+            :state="validateState('fullName')"
+          ></b-form-input>
           <b-form-invalid-feedback>Họ và tên không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
@@ -48,13 +62,30 @@
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
         <b-form-group label="Số điện thoại:">
-          <b-form-input id="input-phone" type="text" name="phone" placeholder="Nhập số điện thoại" autocomplete="on" v-model="$v.form.phone.$model" :state="validateState('phone')"></b-form-input>
+          <b-form-input
+            id="input-phone"
+            type="text"
+            name="phone"
+            placeholder="Nhập số điện thoại"
+            autocomplete="on"
+            v-model="$v.form.phone.$model"
+            :state="validateState('phone')"
+          ></b-form-input>
           <b-form-invalid-feedback>Số điện thoại không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
     </b-row>
     <b-form-group label="Địa chỉ:">
-      <b-form-textarea id="input-address" name="address" placeholder="Nhập địa chỉ" rows="3" max-rows="6" autocomplete="on" v-model="$v.form.address.$model" :state="validateState('address')"></b-form-textarea>
+      <b-form-textarea
+        id="input-address"
+        name="address"
+        placeholder="Nhập địa chỉ"
+        rows="3"
+        max-rows="6"
+        autocomplete="on"
+        v-model="$v.form.address.$model"
+        :state="validateState('address')"
+      ></b-form-textarea>
       <b-form-invalid-feedback>Địa chỉ không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -72,16 +103,6 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
-  interface Form {
-    email: null | string;
-    fullName: null | string;
-    birthday: null | string;
-    gender: null | boolean;
-    phone: null | string;
-    address: null | string;
-    state: null | boolean;
-  }
-
   @Component({
     name: 'component-dashboard-form-edit-access-account',
     components: { DatePicker },
@@ -91,7 +112,7 @@
     @Prop({ type: String, required: true })
     private id!: number;
 
-    private form: Form = {
+    private form: App.Form.Edit.Access.Account = {
       email: null,
       fullName: null,
       birthday: null,
@@ -104,7 +125,7 @@
 
     public async fetch() {
       try {
-        let accounts: Form[] = (await this.$axios.get('/admin/account', { params: { id: this.id } })).data;
+        let accounts: App.Form.Edit.Access.Account[] = (await this.$axios.get('/admin/account', { params: { id: this.id } })).data;
         if (accounts.length == 1) {
           this.form = accounts[0];
         } else {

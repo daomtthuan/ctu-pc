@@ -1,0 +1,122 @@
+<template>
+  <b-container>
+    <h2 class="text-primary">Sự kiện</h2>
+    <hr />
+    <h4>Mới nhất</h4>
+    <c-event-carousel></c-event-carousel>
+    <hr />
+    <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+    <div v-else-if="!$fetchState.error">
+      <p v-if="total == 0">
+        Hiện tại không có sự kiện nào.
+      </p>
+      <div class="text-center" v-else-if="pending"><b-spinner small></b-spinner> Đang tải...</div>
+      <div v-else>
+        <b-row v-for="row in rows" :key="row">
+          <b-col v-for="column in 4" :key="column" class="mb-3" xl="3" lg="6" md="6">
+            <b-card body-class="p-0" class="h-100" v-if="4 * row - 4 + column - 1 < events.length">
+              <nuxt-link
+                class="w-100 d-block"
+                :style="{
+                  height: '200px',
+                  backgroundImage: `url(${server}/asset/image/event/${events[4 * row - 4 + column - 1].id}.jpg)`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }"
+                :to="`/event/details/${events[4 * row - 4 + column - 1].id}`"
+              ></nuxt-link>
+              <b-card-body>
+                <h6>{{ events[4 * row - 4 + column - 1].title }}</h6>
+                {{ events[4 * row - 4 + column - 1].post }}
+              </b-card-body>
+              <template #footer>
+                <b-button size="sm" variant="primary" :to="`/event/details/${events[4 * row - 4 + column - 1].id}`">Xem thêm</b-button>
+              </template>
+            </b-card>
+          </b-col>
+        </b-row>
+        <b-pagination-nav v-model="currentPage" :link-gen="linkPage" :number-of-pages="numberPages" use-router align="center">
+          <template v-slot:first-text>
+            <fa :icon="['fas', 'angle-double-left']"></fa>
+          </template>
+          <template v-slot:prev-text>
+            <fa :icon="['fas', 'angle-left']"></fa>
+          </template>
+          <template v-slot:next-text>
+            <fa :icon="['fas', 'angle-right']"></fa>
+          </template>
+          <template v-slot:last-text>
+            <fa :icon="['fas', 'angle-double-right']"></fa>
+          </template>
+        </b-pagination-nav>
+      </div>
+    </div>
+  </b-container>
+</template>
+
+<script lang="ts">
+  import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator';
+
+  @Component({
+    name: 'page-event',
+    head: {
+      title: 'Sự kiện',
+    },
+  })
+  export default class extends Vue {
+    private server: string = process.env.SERVER!;
+    private currentPage: number = 0;
+    private total: number = 0;
+    private perPage: number = 12;
+    private numberPages: number = 1;
+    private events: Entity.Event[] = [];
+    private pending: boolean = false;
+    private rows: number = 0;
+
+    public async fetch() {
+      let tempCurrentPage = parseInt(this.$route.params.page ? this.$route.params.page : '1');
+      if (isNaN(tempCurrentPage) || tempCurrentPage < 1) {
+        this.$nuxt.error({ statusCode: 404 });
+        return;
+      }
+
+      try {
+        this.total = (<App.Response.Event.Count>(await this.$axios.get('/event', { params: { count: true } })).data).count;
+        this.numberPages = Math.ceil(this.total / this.perPage);
+        if (tempCurrentPage > this.numberPages) {
+          this.$nuxt.error({ statusCode: 404 });
+          return;
+        }
+
+        this.currentPage = tempCurrentPage;
+      } catch (error) {
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
+      }
+    }
+
+    public linkPage(page: number) {
+      return page === 1 ? '/event' : `/event/${page}`;
+    }
+
+    @Watch('currentPage')
+    public async onCurrentPageChange(newValue: number) {
+      try {
+        this.pending = true;
+        this.events = (
+          await this.$axios.get('/event', {
+            params: {
+              start: this.perPage * this.currentPage - this.perPage,
+              limit: this.perPage,
+            },
+          })
+        ).data;
+        this.rows = Math.ceil(this.events.length / 4);
+      } catch (error) {
+        this.$nuxt.error({ statusCode: (<Response>error.response).status });
+      } finally {
+        this.pending = false;
+      }
+    }
+  }
+</script>

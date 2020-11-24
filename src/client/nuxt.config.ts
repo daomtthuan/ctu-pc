@@ -2,11 +2,6 @@ import { NuxtConfig } from '@nuxt/types';
 import Dotenv from 'dotenv';
 import FileSystem from 'fs';
 
-interface ComponentsDirectoryConfig {
-  path: string;
-  prefix: string;
-}
-
 Dotenv.config();
 
 let config: NuxtConfig = {
@@ -109,20 +104,18 @@ let config: NuxtConfig = {
   },
 };
 
-function addComponentsDirectoryConfig(parentPath: string, parentPrefix: string) {
+(function addComponentsDirectoryConfig(parentPath: string, parentPrefix: string) {
   for (let childPath of FileSystem.readdirSync(parentPath)) {
     let path = parentPath + '/' + childPath;
     if (FileSystem.lstatSync(path).isDirectory()) {
       let prefix = `${parentPrefix}-${childPath}`;
-      (<ComponentsDirectoryConfig[]>config.components).push({
+      (<Config.ComponentsDirectory[]>config.components).push({
         path: `@/${path}`,
         prefix: prefix,
       });
       addComponentsDirectoryConfig(path, prefix);
     }
   }
-}
-
-addComponentsDirectoryConfig('component', 'c');
+})('component', 'c');
 
 export default config;

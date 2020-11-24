@@ -1,11 +1,25 @@
 <template>
   <b-form @submit.prevent="submit">
     <b-form-group label="Tên đăng nhập:" label-for="input-username">
-      <b-form-input id="input-username" v-model="$v.form.username.$model" :state="validateState('username')" type="text" placeholder="Nhập tên đăng nhập" autocomplete="on"></b-form-input>
+      <b-form-input
+        id="input-username"
+        v-model="$v.form.username.$model"
+        :state="validateState('username')"
+        type="text"
+        placeholder="Nhập tên đăng nhập"
+        autocomplete="on"
+      ></b-form-input>
       <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <b-form-group label="Mật khẩu:" label-for="input-password">
-      <b-form-input id="input-password" v-model="$v.form.password.$model" :state="validateState('password')" type="password" placeholder="Nhập mật khẩu" autocomplete="on"></b-form-input>
+      <b-form-input
+        id="input-password"
+        v-model="$v.form.password.$model"
+        :state="validateState('password')"
+        type="password"
+        placeholder="Nhập mật khẩu"
+        autocomplete="on"
+      ></b-form-input>
       <b-form-invalid-feedback>Mật khẩu không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <b-form-group>
@@ -21,18 +35,16 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, validationMixin } from '@/plugin/validation';
+  import { AxiosResponse } from 'axios';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
+  import { createValidation, validationMixin } from '@/plugin/validation';
 
   @Component({
     name: 'component-form-login',
     validations: createValidation('username', 'password'),
   })
   export default class extends mixins(validationMixin) {
-    private form = {
-      username: null,
-      password: null,
-    };
+    private form: App.Form.Login = { username: null, password: null };
     private remember: boolean = false;
     private pending: boolean = false;
 
@@ -49,13 +61,13 @@
 
       try {
         this.pending = true;
-        let response: { data: { fullName: string; token: string } } = await this.$auth.loginWith('local', { data: this.form });
+        let response: App.Response.Login = (<AxiosResponse>await this.$auth.loginWith('local', { data: this.form })).data;
         if (this.remember) {
           localStorage.setItem('token', this.$auth.getToken('local'));
         }
 
         this.$router.push(this.$auth.$state.redirect ?? '/', () => {
-          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.data.fullName), ' đã trở lại!']), {
+          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.fullName), ' đã trở lại!']), {
             title: 'Đăng nhập thành công!',
             variant: 'success',
             solid: true,

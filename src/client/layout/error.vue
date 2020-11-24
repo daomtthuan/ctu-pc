@@ -14,17 +14,12 @@
 <script lang="ts">
   import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
-  interface ErrorPage {
-    statusCode: number;
-    message: string;
-  }
-
   @Component({
     name: 'error',
   })
   export default class extends Vue {
     @Prop({ type: Object, required: true })
-    private error!: ErrorPage;
+    private error!: App.Nuxt.ErrorPage;
     private errorMessage: { [statusCode: number]: string } = {
       400: 'Yêu cầu không hợp lệ',
       401: 'Yêu cầu cần xác thực',

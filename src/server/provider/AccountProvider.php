@@ -5,6 +5,7 @@ namespace Provider;
 use Core\Database;
 use Entity\Account;
 
+/** Account provider */
 class AccountProvider {
   /**
    * Find Account by filter
@@ -36,8 +37,8 @@ class AccountProvider {
     ];
 
     $result = Database::getInstance()->findJoin('Account', [
-      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::INNER_JOIN),
-      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::INNER_JOIN),
+      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::JOIN_INNER),
+      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::JOIN_INNER),
     ], array_merge($roleReferenceFilters, $accountReferenceFilters));
 
     $accounts = [];
@@ -61,8 +62,8 @@ class AccountProvider {
     ];
 
     $result = Database::getInstance()->findInJoin('Account', 'id', false, [
-      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::INNER_JOIN),
-      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::INNER_JOIN),
+      Database::getInstance()->createReference('Permission', 'Permission', 'idAccount', 'Account', 'id', Database::JOIN_INNER),
+      Database::getInstance()->createReference('Role', 'Role', 'id', 'Permission', 'idRole', Database::JOIN_INNER),
     ], $referenceFilters, $filter);
 
     $accounts = [];

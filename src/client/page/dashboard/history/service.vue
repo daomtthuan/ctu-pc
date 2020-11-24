@@ -26,7 +26,16 @@
         </date-picker>
       </b-form-group>
       <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-      <c-dashboard-table :title="`Lịch sử dịch vụ ngày ${formatDate}`" :items="items" :fields="fields" class="mt-1" :allow-create="false" :allow-edit="false" :allow-remove="false" v-else></c-dashboard-table>
+      <c-dashboard-table
+        :title="`Lịch sử dịch vụ ngày ${formatDate}`"
+        :items="items"
+        :fields="fields"
+        class="mt-1"
+        :allow-create="false"
+        :allow-edit="false"
+        :allow-remove="false"
+        v-else
+      ></c-dashboard-table>
     </div>
   </div>
 </template>
@@ -44,7 +53,7 @@
   })
   export default class extends Vue {
     private items: Entity.Account[] = [];
-    private fields: Table.Field[] = [];
+    private fields: App.Component.Table.Field[] = [];
     private date: string | null = null;
     private formatDate: string | null = null;
     private pending: boolean = false;
@@ -60,13 +69,21 @@
         this.pending = true;
         let tempDate = new Date(this.date!);
         this.formatDate = `${tempDate.getDate()}-${tempDate.getMonth() + 1}-${tempDate.getFullYear()}`;
-        this.items = (await this.$axios.get('log/service', { params: { date: this.date } })).data;
+        this.items = (await this.$axios.get('admin/log/service', { params: { date: this.date } })).data;
         this.fields = [
           { key: 'time', label: 'Thời gian', sortable: true, class: 'align-middle text-md-right fit' },
           { key: 'mac', label: 'Địa chỉ vật lý', sortable: true, class: 'align-middle fit' },
-          { key: 'account', label: 'Id tài khoản', sortable: true, class: 'd-none' },
-          { key: 'username', label: 'Tên đăng nhập tài khoản', sortable: true, class: 'align-middle fit' },
+          {
+            key: 'account',
+            label: 'Tài khoản',
+            sortable: true,
+            class: 'align-middle fit',
+            formatter: (value: Entity.Account) => value.username,
+            sortByFormatted: true,
+            filterByFormatted: true,
+          },
           { key: 'url', label: 'Đường dẫn', sortable: true, class: 'align-middle' },
+          { key: 'params', label: 'Tham số', sortable: true, class: 'align-middle' },
           { key: 'method', label: 'Phương thức', sortable: true, class: 'align-middle fit' },
           { key: 'status', label: 'Trạng thái', sortable: true, class: 'align-middle fit' },
           { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },

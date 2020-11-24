@@ -3,6 +3,7 @@
 namespace Api\Auth;
 
 use Core\Api;
+use Core\Logger;
 use Core\Request;
 use Core\Response;
 use Core\Session;
@@ -58,8 +59,8 @@ class LocalApi extends Api {
     }
 
     $token = Session::start();
-    Session::set('account', $accounts[0]->getId());
-    Session::set('username', $accounts[0]->getUsername());
+    Session::set('account', $accounts[0]);
+    Logger::getInstance()->setServiceLog('account', $accounts[0]);
 
     Response::getInstance()->sendJson([
       'token' => $token,

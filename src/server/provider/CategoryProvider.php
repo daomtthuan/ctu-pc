@@ -5,6 +5,7 @@ namespace Provider;
 use Core\Database;
 use Entity\Category;
 
+/** Category provider */
 class CategoryProvider {
   /**
    * Find category by filter
