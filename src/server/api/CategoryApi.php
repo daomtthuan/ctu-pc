@@ -18,11 +18,9 @@ class CategoryApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $categories = CategoryProvider::find([
+    Response::getInstance()->sendJson(CategoryProvider::find([
       'idCategoryGroup' => Request::getInstance()->getParam('idCategoryGroup'),
       'state' => 1
-    ]);
-
-    Response::getInstance()->sendJson($categories);
+    ]));
   }
 };

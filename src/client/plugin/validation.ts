@@ -72,6 +72,18 @@ let validations: { [name: string]: any } = {
     integer: integer,
     minValue: minValue(1),
   },
+  title: {
+    required: required,
+    minLength: minLength(1),
+    maxLength: maxLength(100),
+  },
+  content: {
+    required: required,
+    minLength: minLength(1),
+  },
+  image: {
+    required: required,
+  },
 };
 
 export function createValidation(...names: string[]) {
@@ -80,4 +92,9 @@ export function createValidation(...names: string[]) {
     form[name] = validations[name];
   }
   return { form };
+}
+
+export function getValidateState(vue: Vue, name: string) {
+  let validate = vue.$v.form[name];
+  return validate!.$dirty ? !validate!.$error : null;
 }

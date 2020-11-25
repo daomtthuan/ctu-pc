@@ -117,7 +117,7 @@ create table Event
 (
   id        int           not null auto_increment, # Id Event
   title     nvarchar(100) not null,                # Title Event
-  post      date          not null,                # Posted date Event
+  post      date          not null default now(),  # Posted date Event
   idAccount int           not null,                # Id account author Event
   state     bit           not null default true,   # State Event (0: Disabled, 1: Enabled)
 

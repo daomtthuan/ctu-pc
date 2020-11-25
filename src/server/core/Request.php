@@ -15,6 +15,8 @@ class Request {
   private array $params;
   private string $method;
   private array $data;
+  private array $form;
+  private array $files;
 
   /** Create new instance of Request */
   private function __construct() {
@@ -42,6 +44,12 @@ class Request {
         $this->data = json_decode(file_get_contents('php://input'), true);
       }
     }
+
+    // Get data form
+    $this->form = $_POST;
+
+    // Get upload files
+    $this->files = $_FILES;
   }
 
   /** 
@@ -125,7 +133,7 @@ class Request {
   }
 
   /**
-   * Get Data request
+   * Get data request
    * 
    * @param string|null $key Data Key
    * 
@@ -164,7 +172,46 @@ class Request {
   }
 
   /**
-   * Get Param request
+   * Get data form request
+   * 
+   * @param string|null $key Data Key
+   * 
+   * @return mixed Data form if $key is null. Otherwise, value of form data has that key
+   */
+  public function getForm(string $key = null) {
+    if (!isset($key)) {
+      return $this->form;
+    } else {
+      return $this->form[$key];
+    }
+  }
+
+  /**
+   * Check request has data form or not
+   * 
+   * @param string[] $keys Data Keys
+   * 
+   * @return bool true if has data form. Otherwise, false.
+   */
+  public function hasForm(string ...$keys) {
+    if (!isset($this->form)) {
+      return false;
+    }
+
+    if (count($keys) == 0) {
+      return count($this->form) > 0;
+    } else {
+      foreach ($keys as $key) {
+        if (!isset($this->form[$key])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
+   * Get params request
    * 
    * @param string|null $key Param Key
    * 
@@ -195,6 +242,45 @@ class Request {
     } else {
       foreach ($keys as $key) {
         if (!isset($this->params[$key])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
+   * Get files request
+   * 
+   * @param string|null $key Data Key
+   * 
+   * @return mixed Files if $key is null. Otherwise, value of file has that key
+   */
+  public function getFile(string $key = null) {
+    if (!isset($key)) {
+      return $this->files;
+    } else {
+      return $this->files[$key];
+    }
+  }
+
+  /**
+   * Check request has file or not
+   * 
+   * @param string[] $keys Data Keys
+   * 
+   * @return bool true if has file. Otherwise, false.
+   */
+  public function hasFile(string ...$keys) {
+    if (!isset($this->files)) {
+      return false;
+    }
+
+    if (count($keys) == 0) {
+      return count($this->files) > 0;
+    } else {
+      foreach ($keys as $key) {
+        if (!isset($this->files[$key])) {
           return false;
         }
       }

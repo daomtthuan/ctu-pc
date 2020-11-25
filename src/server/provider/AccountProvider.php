@@ -76,14 +76,14 @@ class AccountProvider {
   /**
    * Create Account
    * 
-   * @param Account $account Added Account
+   * @param Account $account Created Account
    * 
    * @return int Id account
    */
   public static function create(Account $account) {
     $data = $account->jsonSerialize();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->create('Account', $data) == 1;
+    return Database::getInstance()->create('Account', $data);
   }
 
   /**
@@ -96,7 +96,7 @@ class AccountProvider {
   public static function edit(Account $account) {
     $data = $account->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
+    return Database::getInstance()->edit('Account', $account->getId(), $data);
   }
 
   /**

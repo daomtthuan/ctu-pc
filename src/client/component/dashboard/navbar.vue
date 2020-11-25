@@ -91,7 +91,7 @@
         </b-collapse>
 
         <b-button v-b-toggle.shop block variant="primary" class="text-left my-2">
-          Quản lý bán hàng
+          Quản lý cửa hàng
         </b-button>
         <b-collapse id="shop" class="my-2">
           <b-card no-body>
@@ -101,6 +101,7 @@
               <nuxt-link to="/dashboard/shop/category" class="dropdown-item">Danh mục</nuxt-link>
               <nuxt-link to="/dashboard/shop/product" class="dropdown-item">Sản phẩm</nuxt-link>
               <nuxt-link to="/dashboard/shop/review" class="dropdown-item">Đánh giá</nuxt-link>
+              <nuxt-link to="/dashboard/shop/event" class="dropdown-item">Sự kiện</nuxt-link>
             </b-card-body>
           </b-card>
         </b-collapse>

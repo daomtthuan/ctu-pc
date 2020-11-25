@@ -42,11 +42,9 @@
 
 <script lang="ts">
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
-  import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
     name: 'page-dashboard-history-service',
-    components: { DatePicker },
     head: {
       title: 'Bảng điều khiển - Quản lý lịch sử - Dịch vụ',
     },

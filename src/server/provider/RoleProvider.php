@@ -61,6 +61,6 @@ class RoleProvider {
   public static function edit(Role $role) {
     $data = $role->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Role', $role->getId(), $data) == 1;
+    return Database::getInstance()->edit('Role', $role->getId(), $data);
   }
 }

@@ -1,16 +1,3 @@
-.btn {
-  box-shadow: none !important;
-}
-
-input,
-select {
-  box-shadow: none !important;
-}
-
-.vh-min-100 {
-  min-height: 100vh;
-}
-
 .dropdown-header {
   cursor: default;
 }
@@ -31,4 +18,8 @@ select {
     height: 100%;
     width: 100%;
   }
+}
+
+.vh-min-100 {
+  min-height: 100vh;
 }

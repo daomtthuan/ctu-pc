@@ -4,6 +4,7 @@ declare namespace Entity {
     title: string;
     post: string;
     idAccount: number;
+    author?: Entity.Account;
     imageUrl: string;
     postUrl: string;
     state: boolean;

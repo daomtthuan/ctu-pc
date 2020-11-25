@@ -45,8 +45,10 @@ class PermissionApi extends Api {
     }
 
     PermissionProvider::create(new Permission([
+      'id' => null,
       'idAccount' => Request::getInstance()->getData('idAccount'),
-      'idRole' => Request::getInstance()->getData('idRole')
+      'idRole' => Request::getInstance()->getData('idRole'),
+      'state' => null
     ]));
   }
 

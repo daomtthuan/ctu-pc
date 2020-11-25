@@ -33,12 +33,10 @@ class EventApi extends Api {
     }
 
     if (Request::getInstance()->hasParam('id')) {
-      $events = EventProvider::find([
+      Response::getInstance()->sendJson(EventProvider::find([
         'id' => Request::getInstance()->getParam('id'),
         'state' => 1
-      ]);
-
-      Response::getInstance()->sendJson($events);
+      ]));
     }
 
     Response::getInstance()->sendStatus(400);

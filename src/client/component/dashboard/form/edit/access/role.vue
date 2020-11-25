@@ -18,13 +18,11 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
-  import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
     name: 'component-dashboard-form-edit-access-role',
-    components: { DatePicker },
     validations: createValidation('state'),
   })
   export default class extends mixins(validationMixin) {
@@ -49,8 +47,7 @@
     }
 
     public validateState(name: string) {
-      let validate = this.$v.form[name];
-      return validate!.$dirty ? !validate!.$error : null;
+      return getValidateState(this, name);
     }
 
     public async submit() {

@@ -40,4 +40,17 @@ class EventProvider {
     }
     return $events;
   }
+
+  /**
+   * Create Event
+   * 
+   * @param Event $event Created Event
+   * 
+   * @return int Id event
+   */
+  public static function create(Event $event) {
+    $data = $event->jsonSerialize();
+    unset($data['id'], $data['post'], $data['imageUrl'], $data['postUrl'], $data['state']);
+    return Database::getInstance()->create('Event', $data);
+  }
 }

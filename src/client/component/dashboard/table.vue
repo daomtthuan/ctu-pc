@@ -133,7 +133,7 @@
     </b-pagination>
 
     <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal" size="xl">
-      <pre class="mb-0">{{ infoModal.content }}</pre>
+      <b-textarea id="input-infoModal-conten" class="text-monospace" readonly rows="15" v-model="infoModal.content"></b-textarea>
     </b-modal>
   </div>
 </template>
@@ -208,7 +208,7 @@
           delete (<any>json)[key];
         }
       }
-      this.infoModal.title = 'Dữ liệu JSON';
+      this.infoModal.title = 'Dữ liệu từ máy chủ';
       this.infoModal.content = JSON.stringify(json, null, 2);
       this.$root.$emit('bv::show::modal', this.infoModal.id, button);
     }

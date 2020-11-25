@@ -34,14 +34,14 @@
     private post: string | null = null;
 
     public async fetch() {
-      let temptId: number = parseInt(this.$route.params.id);
-      if (isNaN(temptId)) {
+      let tempId: number = parseInt(this.$route.params.id);
+      if (isNaN(tempId)) {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }
 
       try {
-        let events: Entity.Event[] = (await this.$axios.get('/api/event', { params: { id: temptId } })).data;
+        let events: Entity.Event[] = (await this.$axios.get('/api/event', { params: { id: tempId } })).data;
         if (events.length != 1) {
           this.$nuxt.error({ statusCode: 404 });
           return;

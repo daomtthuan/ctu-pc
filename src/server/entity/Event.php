@@ -3,6 +3,7 @@
 namespace Entity;
 
 use Core\Entity;
+use Provider\AccountProvider;
 
 class Event extends Entity {
   private string $title;
@@ -31,6 +32,15 @@ class Event extends Entity {
       'postUrl' => $this->getPostUrl(),
       'state' => $this->getState()
     ];
+  }
+
+  /**
+   * Get author account
+   * 
+   * @return Account Author account
+   */
+  public function getAuthorAccount() {
+    return AccountProvider::find(['id' => $this->idAccount])[0];
   }
 
   /**

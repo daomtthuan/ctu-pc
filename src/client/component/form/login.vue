@@ -37,7 +37,7 @@
 <script lang="ts">
   import { AxiosResponse } from 'axios';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
-  import { createValidation, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
 
   @Component({
     name: 'component-form-login',
@@ -49,8 +49,7 @@
     private pending: boolean = false;
 
     public validateState(name: string) {
-      let validate = this.$v.form[name];
-      return validate!.$dirty ? !validate!.$error : null;
+      return getValidateState(this, name);
     }
 
     public async submit() {

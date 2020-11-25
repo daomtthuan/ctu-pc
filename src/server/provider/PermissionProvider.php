@@ -25,14 +25,14 @@ class PermissionProvider {
   /**
    * Create permission
    * 
-   * @param Permission $permission Added permission
+   * @param Permission $permission Created permission
    * 
    * @return int Id permission
    */
   public static function create(Permission $permission) {
     $data = $permission->jsonSerialize();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->create('Permission', $data) == 1;
+    return Database::getInstance()->create('Permission', $data);
   }
 
   /**

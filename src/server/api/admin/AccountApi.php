@@ -51,6 +51,7 @@ class AccountApi extends Api {
       $randomPassword = StringPlugin::generateRandomString(10);
 
       $idAccount = AccountProvider::create(new Account([
+        'id' => null,
         'username' => Request::getInstance()->getData('username'),
         'password' => password_hash($randomPassword, PASSWORD_BCRYPT),
         'fullName' => Request::getInstance()->getData('fullName'),
@@ -59,11 +60,14 @@ class AccountApi extends Api {
         'email' => Request::getInstance()->getData('email'),
         'address' => Request::getInstance()->getData('address'),
         'phone' => Request::getInstance()->getData('phone'),
+        'state' => null
       ]));
 
       PermissionProvider::create(new Permission([
+        'id' => null,
         'idAccount' => $idAccount,
-        'idRole' => RoleProvider::USER_ID
+        'idRole' => RoleProvider::USER_ID,
+        'state' => null
       ]));
 
       $h1 = fn ($name) => HtmlPlugin::getInstance()->createElement($name);
