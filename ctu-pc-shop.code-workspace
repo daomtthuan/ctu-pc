@@ -12,5 +12,69 @@
       "name": "database",
       "path": "./src/database"
     }
-  ]
+  ],
+  "settings": {
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.tabSize": 2,
+    "editor.fontLigatures": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "prettier.singleQuote": true,
+    "prettier.vueIndentScriptAndStyle": true,
+    "markdown.links.openLocation": "beside",
+    "html.format.endWithNewline": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "explorer.compactFolders": false,
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "prettier.printWidth": 160,
+    "editor.wordWrapColumn": 160,
+    "editor.wordWrap": "wordWrapColumn",
+    "html.format.wrapLineLength": 160,
+    "editor.renameOnType": true,
+    "vetur.format.styleInitialIndent": true,
+    "vetur.format.scriptInitialIndent": true,
+    "git.confirmSync": false,
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "editor.selectionHighlight": false,
+    "intelephense.format.braces": "k&r",
+    "intelephense.files.exclude": [
+      "**/.git/**",
+      "**/.svn/**",
+      "**/.hg/**",
+      "**/CVS/**",
+      "**/.DS_Store/**",
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/.history/**"
+    ],
+    "extensions.ignoreRecommendations": false,
+    "C_Cpp.clang_format_fallbackStyle": "Chromium",
+    "C_Cpp.formatting": "vcFormat",
+    "git.decorations.enabled": false,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": true,
+    "terminal.integrated.cursorStyle": "line",
+    "vetur.validation.templateProps": true,
+    "liveServer.settings.port": 80,
+    "workbench.iconTheme": "bearded-icons",
+    "editor.suggest.shareSuggestSelections": true,   
+    "editor.matchBrackets": "never",
+    "bracket-pair-colorizer-2.showBracketsInGutter": true,
+    "bracket-pair-colorizer-2.showBracketsInRuler": true,
+    "editor.wrappingIndent": "deepIndent",
+    "[vue]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[php]": {
+      "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+    }
+  }
 }
