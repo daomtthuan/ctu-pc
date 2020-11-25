@@ -46,7 +46,7 @@
 
     public async fetch() {
       try {
-        this.form = (await this.$axios.get('/user/account')).data;
+        this.form = (await this.$axios.get('/api/user/account')).data;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }

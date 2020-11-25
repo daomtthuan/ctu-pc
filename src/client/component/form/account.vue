@@ -138,7 +138,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.put('/user/account', user);
+        await this.$axios.put('/api/user/account', user);
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

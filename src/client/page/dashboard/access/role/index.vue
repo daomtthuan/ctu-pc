@@ -40,7 +40,7 @@
 
     public async fetch() {
       try {
-        this.items = (await this.$axios.get('admin/role')).data;
+        this.items = (await this.$axios.get('/api/admin/role')).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
           { key: 'name', label: 'Quyền', sortable: true, class: 'align-middle' },

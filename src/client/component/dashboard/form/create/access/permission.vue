@@ -40,7 +40,7 @@
 
     public async fetch() {
       try {
-        for (let role of <Entity.Role[]>(await this.$axios.get('admin/role')).data) {
+        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
           this.roleOptions.push({ value: role.id, text: role.name });
         }
       } catch (error) {
@@ -61,7 +61,7 @@
 
       try {
         this.submitPending = true;
-        await this.$axios.post('/admin/permission', this.form);
+        await this.$axios.post('/api/admin/permission', this.form);
         this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
         this.form.idAccount = null;
         this.$nextTick(() => this.$v.$reset());
@@ -84,7 +84,7 @@
       if (newValue != null) {
         try {
           this.idAccountPending = true;
-          for (let account of <Entity.Account[]>(await this.$axios.get('admin/permission', { params: { idRole: newValue, notIn: true } })).data) {
+          for (let account of <Entity.Account[]>(await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: true } })).data) {
             this.accountOptions.push({ value: account.id, text: `Tên đăng nhập: ${account.username} - Họ và tên: ${account.fullName}` });
           }
           this.form.idAccount = this.accountOptions[0].value;

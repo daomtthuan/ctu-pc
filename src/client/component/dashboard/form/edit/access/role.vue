@@ -36,7 +36,7 @@
 
     public async fetch() {
       try {
-        let roles: App.Form.Edit.Access.Role[] = (await this.$axios.get('/admin/role', { params: { id: this.id } })).data;
+        let roles: App.Form.Edit.Access.Role[] = (await this.$axios.get('/api/admin/role', { params: { id: this.id } })).data;
         if (roles.length == 1) {
           this.form = roles[0];
         } else {
@@ -61,7 +61,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.put('/admin/role', this.form, { params: { id: this.id } });
+        await this.$axios.put('/api/admin/role', this.form, { params: { id: this.id } });
         this.$nuxt.$bvToast.toast('Thông tin quyền truy cập đã được chỉnh sửa.', {
           title: 'Chỉnh sửa thành công!',
           variant: 'success',

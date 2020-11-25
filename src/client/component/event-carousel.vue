@@ -15,7 +15,7 @@
           class="w-100 d-block"
           :style="{
             height: 'calc(100vh / 3)',
-            backgroundImage: `url(${server}/asset/image/event/${event.id}.jpg)`,
+            backgroundImage: `url(${event.imageUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -44,10 +44,9 @@
   })
   export default class extends Vue {
     private events: Entity.Event[] = [];
-    private server: string = process.env.SERVER!;
 
     public async fetch() {
-      this.events = (await this.$axios.get('/event', { params: { start: 0, limit: 5 } })).data;
+      this.events = (await this.$axios.get('/api/event', { params: { start: 0, limit: 5 } })).data;
     }
   }
 </script>

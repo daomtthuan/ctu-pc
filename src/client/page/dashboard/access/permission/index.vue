@@ -50,7 +50,7 @@
 
     public async fetch() {
       try {
-        for (let role of <Entity.Role[]>(await this.$axios.get('admin/role')).data) {
+        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
           this.options.push({ value: role.id, text: role.name });
         }
         this.selected = this.options[0].value;
@@ -64,7 +64,7 @@
       try {
         this.pending = true;
         this.nameRole = this.options.filter((role) => role.value == newValue)[0].text;
-        this.items = (await this.$axios.get('admin/permission', { params: { idRole: newValue } })).data;
+        this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue } })).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
           { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
@@ -102,7 +102,7 @@
 
     public async remove(id: number) {
       try {
-        await this.$axios.delete('admin/permission', { params: { idAccount: id, idRole: this.selected } });
+        await this.$axios.delete('/api/admin/permission', { params: { idAccount: id, idRole: this.selected } });
         this.items = this.items.filter((item) => item.id != id);
         this.$nuxt.$bvToast.toast('Đã xoá phân quyền của tài khoản.', {
           title: 'Xoá thành công!',

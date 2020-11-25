@@ -69,7 +69,7 @@
         this.pending = true;
         let tempDate = new Date(this.date!);
         this.formatDate = `${tempDate.getDate()}-${tempDate.getMonth() + 1}-${tempDate.getFullYear()}`;
-        this.items = (await this.$axios.get('admin/log/service', { params: { date: this.date } })).data;
+        this.items = (await this.$axios.get('/api/admin/log/service', { params: { date: this.date } })).data;
         this.fields = [
           { key: 'time', label: 'Thời gian', sortable: true, class: 'align-middle text-md-right fit' },
           { key: 'mac', label: 'Địa chỉ vật lý', sortable: true, class: 'align-middle fit' },

@@ -11,11 +11,9 @@
           <h4>{{ event.title }}</h4>
           <h6 class="mb-3 text-muted">Được đăng vào lúc {{ event.post }}</h6>
           <p>
-            <b-img class="w-100 border" :src="`${server}/asset/image/event/${event.id}.jpg`"></b-img>
+            <b-img class="w-100 border" :src="`${event.imageUrl}`"></b-img>
           </p>
-          <div>
-            Content
-          </div>
+          <div v-html="post"></div>
         </div>
       </b-card-body>
     </b-card>
@@ -32,8 +30,8 @@
     },
   })
   export default class extends Vue {
-    private server: string = process.env.SERVER!;
     private event: Entity.Event | null = null;
+    private post: string | null = null;
 
     public async fetch() {
       let temptId: number = parseInt(this.$route.params.id);
@@ -43,13 +41,14 @@
       }
 
       try {
-        let events: Entity.Event[] = (await this.$axios.get('/event', { params: { id: temptId } })).data;
+        let events: Entity.Event[] = (await this.$axios.get('/api/event', { params: { id: temptId } })).data;
         if (events.length != 1) {
           this.$nuxt.error({ statusCode: 404 });
           return;
         }
 
         this.event = events[0];
+        this.post = (await this.$axios.get(this.event.postUrl)).data;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }

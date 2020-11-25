@@ -43,7 +43,7 @@
       }
 
       try {
-        this.events = (await this.$axios.get('/event', { params: { start: 0, limit: 5 } })).data;
+        this.events = (await this.$axios.get('/api/event', { params: { start: 0, limit: 5 } })).data;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }

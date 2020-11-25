@@ -19,7 +19,7 @@
                 class="w-100 d-block"
                 :style="{
                   height: '200px',
-                  backgroundImage: `url(${server}/asset/image/event/${events[4 * row - 4 + column - 1].id}.jpg)`,
+                  backgroundImage: `url(${events[4 * row - 4 + column - 1].imageUrl})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
@@ -65,7 +65,6 @@
     },
   })
   export default class extends Vue {
-    private server: string = process.env.SERVER!;
     private currentPage: number = 0;
     private total: number = 0;
     private perPage: number = 12;
@@ -82,7 +81,7 @@
       }
 
       try {
-        this.total = (<App.Response.Event.Count>(await this.$axios.get('/event', { params: { count: true } })).data).count;
+        this.total = (<App.Response.Event.Count>(await this.$axios.get('/api/event', { params: { count: true } })).data).count;
         this.numberPages = Math.ceil(this.total / this.perPage);
         if (tempCurrentPage > this.numberPages) {
           this.$nuxt.error({ statusCode: 404 });
@@ -104,7 +103,7 @@
       try {
         this.pending = true;
         this.events = (
-          await this.$axios.get('/event', {
+          await this.$axios.get('/api/event', {
             params: {
               start: this.perPage * this.currentPage - this.perPage,
               limit: this.perPage,

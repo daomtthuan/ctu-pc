@@ -142,7 +142,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.post('/admin/account', this.form);
+        await this.$axios.post('/api/admin/account', this.form);
         this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
           title: 'Tạo mới thành công!',
           variant: 'success',

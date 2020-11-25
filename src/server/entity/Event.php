@@ -3,7 +3,6 @@
 namespace Entity;
 
 use Core\Entity;
-use DateTime;
 
 class Event extends Entity {
   private string $title;
@@ -28,6 +27,8 @@ class Event extends Entity {
       'title' => $this->getTitle(),
       'post' => $this->getPost(),
       'idAccount' => $this->getIdAccount(),
+      'imageUrl' => $this->getImageUrl(),
+      'postUrl' => $this->getPostUrl(),
       'state' => $this->getState()
     ];
   }
@@ -84,5 +85,23 @@ class Event extends Entity {
    */
   public function setIdAccount(int $idAccount) {
     $this->idAccount = $idAccount;
+  }
+
+  /**
+   * Get image url
+   * 
+   * @return string Image url
+   */
+  public function getImageUrl() {
+    return '/asset/image/event/' . $this->id . '.jpg';
+  }
+
+  /**
+   * Get post url
+   * 
+   * @return string Post url
+   */
+  public function getPostUrl() {
+    return '/asset/post/event/' . $this->id . '.html';
   }
 }

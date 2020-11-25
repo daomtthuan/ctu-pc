@@ -39,7 +39,7 @@
 
     public async fetch() {
       try {
-        this.items = (await this.$axios.get('admin/account')).data;
+        this.items = (await this.$axios.get('/api/admin/account')).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
           { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
@@ -75,7 +75,7 @@
 
     public async remove(id: number) {
       try {
-        await this.$axios.delete('admin/account', { params: { id } });
+        await this.$axios.delete('/api/admin/account', { params: { id } });
         this.items = this.items.filter((item) => item.id != id);
         this.$nuxt.$bvToast.toast('Đã xoá tài khoản.', {
           title: 'Xoá thành công!',

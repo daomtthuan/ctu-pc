@@ -179,12 +179,12 @@
 
     public async fetch() {
       try {
-        this.categoryGroups = (await this.$axios.get('/category-group')).data;
+        this.categoryGroups = (await this.$axios.get('/api/category-group')).data;
         this.categories = {};
 
         await Promise.all(
           this.categoryGroups.map(async (categoryGroup) => {
-            this.categories[categoryGroup.id] = <Entity.Category[]>(await this.$axios.get('/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
+            this.categories[categoryGroup.id] = <Entity.Category[]>(await this.$axios.get('/api/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
           })
         );
       } catch (error) {

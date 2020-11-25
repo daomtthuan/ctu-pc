@@ -125,7 +125,7 @@
 
     public async fetch() {
       try {
-        let accounts: App.Form.Edit.Access.Account[] = (await this.$axios.get('/admin/account', { params: { id: this.id } })).data;
+        let accounts: App.Form.Edit.Access.Account[] = (await this.$axios.get('/api/admin/account', { params: { id: this.id } })).data;
         if (accounts.length == 1) {
           this.form = accounts[0];
         } else {
@@ -156,7 +156,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.put('/admin/account', this.form, { params: { id: this.id } });
+        await this.$axios.put('/api/admin/account', this.form, { params: { id: this.id } });
         this.$nuxt.$bvToast.toast('Thông tin tài khoản đã được chỉnh sửa.', {
           title: 'Chỉnh sửa thành công!',
           variant: 'success',

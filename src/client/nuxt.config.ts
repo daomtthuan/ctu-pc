@@ -70,8 +70,11 @@ let config: NuxtConfig = {
     component: 'fa',
     imports: [{ set: '@fortawesome/free-solid-svg-icons', icons: ['fas'] }],
   },
-  proxy: { '/api': process.env.SERVER },
-  axios: { prefix: '/api', proxy: true },
+  proxy: {
+    '/api': process.env.SERVER,
+    '/asset': process.env.SERVER,
+  },
+  axios: { proxy: true },
   auth: {
     redirect: {
       logout: '/login',
@@ -83,9 +86,9 @@ let config: NuxtConfig = {
     strategies: {
       local: {
         endpoints: {
-          user: { url: '/auth/local', method: 'get', propertyName: 'account' },
-          login: { url: '/auth/local', method: 'post', propertyName: 'token' },
-          logout: { url: '/auth/local', method: 'delete' },
+          user: { url: '/api/auth/local', method: 'get', propertyName: 'account' },
+          login: { url: '/api/auth/local', method: 'post', propertyName: 'token' },
+          logout: { url: '/api/auth/local', method: 'delete' },
         },
         tokenType: '',
       },
@@ -109,7 +112,7 @@ let config: NuxtConfig = {
     let path = parentPath + '/' + childPath;
     if (FileSystem.lstatSync(path).isDirectory()) {
       let prefix = `${parentPrefix}-${childPath}`;
-      (<Config.ComponentsDirectory[]>config.components).push({
+      (<App.Config.ComponentsDirectory[]>config.components).push({
         path: `@/${path}`,
         prefix: prefix,
       });
