@@ -74,9 +74,9 @@
 
     public async remove(id: number) {
       try {
-        await this.$axios.delete('/api/admin/account', { params: { id } });
+        await this.$axios.delete('/api/admin/event', { params: { id } });
         this.items = this.items.filter((item) => item.id != id);
-        this.$nuxt.$bvToast.toast('Đã xoá tài khoản.', {
+        this.$nuxt.$bvToast.toast('Đã xoá sự kiện.', {
           title: 'Xoá thành công!',
           variant: 'success',
           solid: true,

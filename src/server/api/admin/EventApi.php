@@ -56,7 +56,7 @@ class EventApi extends Api {
   public static function put() {
     Request::getInstance()->verifyAdminAccount();
 
-    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('title', 'content')) {
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('title', 'content', 'state')) {
       Response::getInstance()->sendStatus(400);
     }
 
@@ -69,6 +69,7 @@ class EventApi extends Api {
       /** @var Event */
       $event = $events[0];
       $event->setTitle(Request::getInstance()->getData('title'));
+      $event->setState(Request::getInstance()->getData('state') == 'true' ? true : false);
       EventProvider::edit($event);
 
       if (Request::getInstance()->hasFile('image')) {

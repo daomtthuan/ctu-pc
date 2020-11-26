@@ -1,6 +1,13 @@
 <template>
   <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
+    <b-form-group label="Trạng thái:">
+      <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
+        <b-form-radio id="radio-state-enabled" name="state" :value="true" autocomplete="on">Kích hoạt</b-form-radio>
+        <b-form-radio id="radio-state-disabled" name="state" :value="false" autocomplete="on">Vô hiệu hoá</b-form-radio>
+      </b-form-radio-group>
+      <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
+    </b-form-group>
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tiêu đề:" label-for="input-title">
@@ -51,7 +58,7 @@
 
   @Component({
     name: 'component-dashboard-form-edit-shop-event',
-    validations: createValidation('title', 'content'),
+    validations: createValidation('title', 'content', 'state'),
   })
   export default class extends mixins(validationMixin) {
     @Prop({ type: String, required: true })
@@ -61,6 +68,7 @@
       title: null,
       image: null,
       content: null,
+      state: null,
     };
     private pending: boolean = false;
 
@@ -70,6 +78,7 @@
         if (events.length == 1) {
           this.form.title = events[0].title;
           this.form.content = (await this.$axios.get(events[0].postUrl)).data;
+          this.form.state = events[0].state;
         } else {
           this.$nuxt.error({ statusCode: 404 });
         }
@@ -94,6 +103,7 @@
         let formData = new FormData();
         formData.append('title', this.form.title!);
         formData.append('content', this.form.content!);
+        formData.append('state', String(this.form.state!));
         if (Boolean(this.form.image)) {
           formData.append('image', this.form.image!);
         }
