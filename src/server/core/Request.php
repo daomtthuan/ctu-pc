@@ -15,7 +15,6 @@ class Request {
   private array $params;
   private string $method;
   private array $data;
-  private array $form;
   private array $files;
 
   /** Create new instance of Request */
@@ -42,14 +41,69 @@ class Request {
     if (isset($_SERVER['CONTENT_TYPE'])) {
       if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'application/json') !== false) {
         $this->data = json_decode(file_get_contents('php://input'), true);
+      } else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/form-data') !== false) {
+        // Get input data
+        $rawData = file_get_contents('php://input');
+        $boundary = substr($rawData, 0, strpos($rawData, "\r\n"));
+
+        // Analyze input data -> each part
+        $this->data = [];
+        foreach (array_slice(explode($boundary, $rawData), 1) as $part) {
+          if ($part == "--\r\n") break;
+
+          $part = ltrim($part, "\r\n");
+
+          // Analyze part -> headers, body
+          list($rawHeaders, $body) = explode("\r\n\r\n", $part, 2);
+
+          $headers = [];
+          foreach (explode("\r\n", $rawHeaders) as $header) {
+            // Analyze header -> headers, body
+            list($name, $value) = explode(':', $header);
+            $headers[strtolower($name)] = ltrim($value, ' ');
+          }
+
+          // Analyze data -> File or data
+          if (isset($headers['content-disposition'])) {
+            preg_match(
+              '/^(.+); *name="([^"]+)"(; *filename="([^"]+)")?/',
+              $headers['content-disposition'],
+              $matches
+            );
+            $name = $matches[2];
+
+            if (isset($matches[4])) { // If file
+              // if files was added, skip
+              if (isset($_FILES[$name])) {
+                continue;
+              }
+
+              $filename = $matches[4];
+              $filename_parts = pathinfo($filename);
+              $tmp_name = tempnam(ini_get('upload_tmp_dir'), $filename_parts['filename']);
+
+              // Add file to uploaded files
+              $_FILES[$name] = [
+                'error' => 0,
+                'name' => $filename,
+                'tmp_name' => $tmp_name,
+                'size' => strlen($body),
+                'type' => $value
+              ];
+              file_put_contents($tmp_name, $body);
+            } else { // if data
+              $this->data[$name] = substr($body, 0, strlen($body) - 2);
+            }
+          }
+        }
+      } else {
+        // Get data form
+        $this->data = $_POST;
       }
     }
 
-    // Get data form
-    $this->form = $_POST;
-
     // Get upload files
-    $this->files = $_FILES;
+    $this->file = $_FILES;
   }
 
   /** 
@@ -164,45 +218,6 @@ class Request {
     } else {
       foreach ($keys as $key) {
         if (!isset($this->data[$key])) {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
-
-  /**
-   * Get data form request
-   * 
-   * @param string|null $key Data Key
-   * 
-   * @return mixed Data form if $key is null. Otherwise, value of form data has that key
-   */
-  public function getForm(string $key = null) {
-    if (!isset($key)) {
-      return $this->form;
-    } else {
-      return $this->form[$key];
-    }
-  }
-
-  /**
-   * Check request has data form or not
-   * 
-   * @param string[] $keys Data Keys
-   * 
-   * @return bool true if has data form. Otherwise, false.
-   */
-  public function hasForm(string ...$keys) {
-    if (!isset($this->form)) {
-      return false;
-    }
-
-    if (count($keys) == 0) {
-      return count($this->form) > 0;
-    } else {
-      foreach ($keys as $key) {
-        if (!isset($this->form[$key])) {
           return false;
         }
       }

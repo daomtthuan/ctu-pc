@@ -99,7 +99,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
@@ -125,9 +125,18 @@
 
     public async fetch() {
       try {
-        let accounts: App.Form.Edit.Access.Account[] = (await this.$axios.get('/api/admin/account', { params: { id: this.id } })).data;
+        let accounts: Entity.Account[] = (await this.$axios.get('/api/admin/account', { params: { id: this.id } })).data;
         if (accounts.length == 1) {
           this.form = accounts[0];
+          this.form = {
+            email: accounts[0].email,
+            fullName: accounts[0].fullName,
+            birthday: accounts[0].birthday,
+            gender: accounts[0].gender,
+            phone: accounts[0].phone,
+            address: accounts[0].address,
+            state: accounts[0].state,
+          };
         } else {
           this.$nuxt.error({ statusCode: 404 });
         }
@@ -144,8 +153,7 @@
     }
 
     public validateState(name: string) {
-      let validate = this.$v.form[name];
-      return validate!.$dirty ? !validate!.$error : null;
+      return getValidateState(this, name);
     }
 
     public async submit() {

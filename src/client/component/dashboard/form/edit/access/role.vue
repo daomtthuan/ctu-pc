@@ -34,9 +34,9 @@
 
     public async fetch() {
       try {
-        let roles: App.Form.Edit.Access.Role[] = (await this.$axios.get('/api/admin/role', { params: { id: this.id } })).data;
+        let roles: Entity.Role[] = (await this.$axios.get('/api/admin/role', { params: { id: this.id } })).data;
         if (roles.length == 1) {
-          this.form = roles[0];
+          this.form = { state: roles[0].state };
         } else {
           this.$nuxt.error({ statusCode: 404 });
         }

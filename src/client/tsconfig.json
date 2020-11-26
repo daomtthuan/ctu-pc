@@ -15,16 +15,7 @@
       "@/*": ["./*"]
     },
     "typeRoots": ["./@types"],
-    "types": [
-      "@types/node",
-      "@nuxt/types",
-      "vue-class-component/hooks",
-      "@types/nuxtjs__auth",
-      "bootstrap-vue",
-      "@nuxtjs/axios",
-      "@types/vuelidate",
-      "@types/vue2-editor"
-    ]
+    "types": ["@types/node", "@nuxt/types", "vue-class-component/hooks", "@types/nuxtjs__auth", "bootstrap-vue", "@nuxtjs/axios", "@types/vuelidate"]
   },
   "exclude": ["node_modules"]
 }

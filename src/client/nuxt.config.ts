@@ -43,6 +43,7 @@ let config: NuxtConfig = {
     color: '#3B8070',
     background: 'white',
   },
+  plugins: [{ src: '@/plugin/editor', ssr: false }],
   modules: ['@nuxtjs/pwa', 'bootstrap-vue/nuxt', 'nuxt-fontawesome', '@nuxtjs/axios', '@nuxtjs/auth'],
   pwa: {
     meta: {
@@ -93,7 +94,6 @@ let config: NuxtConfig = {
         tokenType: '',
       },
     },
-    plugins: [],
   },
   watch: ['@/.env', '@types'],
   target: 'static',

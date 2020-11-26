@@ -1,5 +1,6 @@
 <template>
-  <b-form @submit.prevent="submit">
+  <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+  <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-row>
       <b-col lg="6">
         <b-form-group label="Tiêu đề:" label-for="input-title">
@@ -18,14 +19,12 @@
         <b-form-group label="Hình ảnh:" label-for="file-image">
           <b-form-file
             id="file-image"
-            v-model="$v.form.image.$model"
-            :state="validateState('image')"
+            v-model="form.image"
             placeholder="Chọn hoặc kéo thả ảnh vào đây..."
             drop-placeholder="Thả ảnh vào đây..."
             browse-text="Chọn"
             accept=".jpg"
           ></b-form-file>
-          <b-form-invalid-feedback>Hình ảnh không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
     </b-row>
@@ -38,7 +37,7 @@
 
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="pending">
-        <span v-if="!pending">Tạo mới</span>
+        <span v-if="!pending">Chỉnh sửa</span>
         <span v-else><b-spinner small></b-spinner> Xử lý...</span>
       </b-button>
     </b-form-group>
@@ -46,21 +45,39 @@
 </template>
 
 <script lang="ts">
-  import { Component, mixins, Vue } from 'nuxt-property-decorator';
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
   import { focusEditor, resetEditor } from '@/plugin/editor/helper';
 
   @Component({
-    name: 'component-dashboard-form-create-shop-event',
-    validations: createValidation('title', 'image', 'content'),
+    name: 'component-dashboard-form-edit-shop-event',
+    validations: createValidation('title', 'content'),
   })
   export default class extends mixins(validationMixin) {
-    private form: App.Form.Create.Shop.Event = {
+    @Prop({ type: String, required: true })
+    private id!: number;
+
+    private form: App.Form.Edit.Shop.Event = {
       title: null,
       image: null,
       content: null,
     };
     private pending: boolean = false;
+
+    public async fetch() {
+      try {
+        let events: Entity.Event[] = (await this.$axios.get('/api/admin/event', { params: { id: this.id } })).data;
+        if (events.length == 1) {
+          this.form.title = events[0].title;
+          this.form.content = (await this.$axios.get(events[0].postUrl)).data;
+        } else {
+          this.$nuxt.error({ statusCode: 404 });
+        }
+      } catch (error) {
+        let response = <Response>error.response;
+        this.$nuxt.error({ statusCode: response.status });
+      }
+    }
 
     public validateState(name: string) {
       return getValidateState(this, name);
@@ -76,28 +93,22 @@
         this.pending = true;
         let formData = new FormData();
         formData.append('title', this.form.title!);
-        formData.append('image', this.form.image!);
         formData.append('content', this.form.content!);
-        await this.$axios.post('/api/admin/event', formData, {
+        if (Boolean(this.form.image)) {
+          formData.append('image', this.form.image!);
+        }
+
+        await this.$axios.put('/api/admin/event', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
+          params: { id: this.id },
         });
-
-        this.form = {
-          title: null,
-          image: null,
-          content: null,
-        };
-
-        this.$nextTick(() => {
-          this.$v.$reset();
-          resetEditor('input-content');
-        });
-        this.$nuxt.$bvToast.toast('Đã tạo mới sự kiện.', {
-          title: 'Tạo mới thành công!',
+        this.$nuxt.$bvToast.toast('Thông tin sự kiện đã được chỉnh sửa.', {
+          title: 'Chỉnh sửa thành công!',
           variant: 'success',
           solid: true,
           toaster: 'b-toaster-bottom-right',
         });
+        this.$nextTick(() => this.$router.back());
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

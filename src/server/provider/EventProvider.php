@@ -53,4 +53,17 @@ class EventProvider {
     unset($data['id'], $data['post'], $data['imageUrl'], $data['postUrl'], $data['state']);
     return Database::getInstance()->create('Event', $data);
   }
+
+  /**
+   * Edit Event
+   * 
+   * @param Event $event Edited Event
+   * 
+   * @return bool True if success, otherwise false
+   */
+  public static function edit(Event $event) {
+    $data = $event->jsonSerialize();
+    unset($data['id'], $data['post'], $data['idAccount'], $data['imageUrl'], $data['postUrl']);
+    return Database::getInstance()->edit('Event', $event->getId(), $data);
+  }
 }
