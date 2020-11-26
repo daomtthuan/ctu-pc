@@ -42,7 +42,7 @@ class EventProvider {
   }
 
   /**
-   * Create Event
+   * Create event
    * 
    * @param Event $event Created Event
    * 
@@ -55,7 +55,7 @@ class EventProvider {
   }
 
   /**
-   * Edit Event
+   * Edit event
    * 
    * @param Event $event Edited Event
    * 
@@ -65,5 +65,16 @@ class EventProvider {
     $data = $event->jsonSerialize();
     unset($data['id'], $data['post'], $data['idAccount'], $data['imageUrl'], $data['postUrl']);
     return Database::getInstance()->edit('Event', $event->getId(), $data);
+  }
+
+  /**
+   * Remove event by filter
+   * 
+   * @param array|null $filter Removing filter
+   * 
+   * @return int Number removed event
+   */
+  public static function remove(array $filter = null) {
+    return Database::getInstance()->remove('Event', $filter);
   }
 }

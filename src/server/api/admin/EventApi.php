@@ -72,11 +72,28 @@ class EventApi extends Api {
       EventProvider::edit($event);
 
       if (Request::getInstance()->hasFile('image')) {
-        File::moveUploaded(Request::getInstance()->getFile('image'), $_ENV['ASSET_DIR'] . '\\image\\event\\' . $event->getId() . '.jpg');
+        $imageUrl = $_ENV['ASSET_DIR'] . '\\image\\event\\' . $event->getId() . '.jpg';
+        File::moveUploaded(Request::getInstance()->getFile('image'), $imageUrl);
       }
 
       File::write($_ENV['ASSET_DIR'] . '\\post\\event\\' . $event->getId() . '.html', Request::getInstance()->getData('content'));
     }, $events);
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
+  }
+
+  public static function delete() {
+    Request::getInstance()->verifyAdminAccount();
+
+    if (!Request::getInstance()->hasParam('id')) {
+      Response::getInstance()->sendStatus(400);
+    }
+
+    $success = Database::getInstance()->doTransaction(function ($id) {
+      File::delete($_ENV['ASSET_DIR'] . "\\image\\event\\$id.jpg");
+      File::delete($_ENV['ASSET_DIR'] . "\\post\\event\\$id.html");
+      EventProvider::remove(['id' => $id]);
+    }, Request::getInstance()->getParam('id'));
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

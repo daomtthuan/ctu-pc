@@ -42,68 +42,69 @@ class Request {
       if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'application/json') !== false) {
         $this->data = json_decode(file_get_contents('php://input'), true);
       } else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/form-data') !== false) {
-        // Get input data
-        $rawData = file_get_contents('php://input');
-        $boundary = substr($rawData, 0, strpos($rawData, "\r\n"));
+        if ($this->method == 'post') {
+          $this->data = $_POST;
+        } else {
+          // Get input data
+          $rawData = file_get_contents('php://input');
+          $boundary = substr($rawData, 0, strpos($rawData, "\r\n"));
 
-        // Analyze input data -> each part
-        $this->data = [];
-        foreach (array_slice(explode($boundary, $rawData), 1) as $part) {
-          if ($part == "--\r\n") break;
+          // Analyze input data -> each part
+          $this->data = [];
+          foreach (array_slice(explode($boundary, $rawData), 1) as $part) {
+            if ($part == "--\r\n") break;
 
-          $part = ltrim($part, "\r\n");
+            $part = ltrim($part, "\r\n");
 
-          // Analyze part -> headers, body
-          list($rawHeaders, $body) = explode("\r\n\r\n", $part, 2);
+            // Analyze part -> headers, body
+            list($rawHeaders, $body) = explode("\r\n\r\n", $part, 2);
 
-          $headers = [];
-          foreach (explode("\r\n", $rawHeaders) as $header) {
-            // Analyze header -> headers, body
-            list($name, $value) = explode(':', $header);
-            $headers[strtolower($name)] = ltrim($value, ' ');
-          }
+            $headers = [];
+            foreach (explode("\r\n", $rawHeaders) as $header) {
+              // Analyze header -> headers, body
+              list($name, $value) = explode(':', $header);
+              $headers[strtolower($name)] = ltrim($value, ' ');
+            }
 
-          // Analyze data -> File or data
-          if (isset($headers['content-disposition'])) {
-            preg_match(
-              '/^(.+); *name="([^"]+)"(; *filename="([^"]+)")?/',
-              $headers['content-disposition'],
-              $matches
-            );
-            $name = $matches[2];
+            // Analyze data -> File or data
+            if (isset($headers['content-disposition'])) {
+              preg_match(
+                '/^(.+); *name="([^"]+)"(; *filename="([^"]+)")?/',
+                $headers['content-disposition'],
+                $matches
+              );
+              $name = $matches[2];
 
-            if (isset($matches[4])) { // If file
-              // if files was added, skip
-              if (isset($_FILES[$name])) {
-                continue;
+              if (isset($matches[4])) { // If file
+                // if files was added, skip
+                if (isset($_FILES[$name])) {
+                  continue;
+                }
+
+                $filename = $matches[4];
+                $filename_parts = pathinfo($filename);
+                $tmp_name = tempnam(ini_get('upload_tmp_dir'), $filename_parts['filename']);
+
+                // Add file to uploaded files
+                $_FILES[$name] = [
+                  'error' => 0,
+                  'name' => $filename,
+                  'tmp_name' => $tmp_name,
+                  'size' => strlen($body),
+                  'type' => $value
+                ];
+                file_put_contents($tmp_name, $body);
+              } else { // if data
+                $this->data[$name] = substr($body, 0, strlen($body) - 2);
               }
-
-              $filename = $matches[4];
-              $filename_parts = pathinfo($filename);
-              $tmp_name = tempnam(ini_get('upload_tmp_dir'), $filename_parts['filename']);
-
-              // Add file to uploaded files
-              $_FILES[$name] = [
-                'error' => 0,
-                'name' => $filename,
-                'tmp_name' => $tmp_name,
-                'size' => strlen($body),
-                'type' => $value
-              ];
-              file_put_contents($tmp_name, $body);
-            } else { // if data
-              $this->data[$name] = substr($body, 0, strlen($body) - 2);
             }
           }
         }
-      } else {
-        // Get data form
-        $this->data = $_POST;
       }
     }
 
     // Get upload files
-    $this->file = $_FILES;
+    $this->files = $_FILES;
   }
 
   /** 
