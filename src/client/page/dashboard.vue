@@ -10,10 +10,8 @@
       }"
       class="d-flex flex-column vh-min-100"
     >
-      <b-container fluid class="pt-2">
-        <div class="pt-1">
-          <nuxt-child></nuxt-child>
-        </div>
+      <b-container fluid class="py-3 mb-3">
+        <nuxt-child></nuxt-child>
       </b-container>
       <c-footer class="mt-auto" :events="events"></c-footer>
     </div>

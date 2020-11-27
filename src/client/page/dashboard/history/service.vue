@@ -19,6 +19,7 @@
           v-model="date"
           class="w-100"
           prefix-class="date-picker"
+          :disabled-date="(date) => date > new Date()"
         >
           <template #icon-calendar>
             <i></i>
@@ -42,9 +43,11 @@
 
 <script lang="ts">
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
+  import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
     name: 'page-dashboard-history-service',
+    components: { DatePicker },
     head: {
       title: 'Bảng điều khiển - Quản lý lịch sử - Dịch vụ',
     },
@@ -76,7 +79,7 @@
             label: 'Tài khoản',
             sortable: true,
             class: 'align-middle fit',
-            formatter: (value: Entity.Account) => value.username,
+            formatter: (value: Entity.Account) => (value ? value.username : null),
             sortByFormatted: true,
             filterByFormatted: true,
           },
@@ -94,3 +97,7 @@
     }
   }
 </script>
+
+<style lang="scss">
+  @import '@/asset/style/datepicker';
+</style>

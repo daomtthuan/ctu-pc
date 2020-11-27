@@ -30,9 +30,12 @@ class ServiceApi extends Api {
     }
 
     $logs = [];
-    foreach (json_decode('[' . substr(file_get_contents($logPath), 0, -2) . ']', true) as $log) {
-      unset($log['requestData'], $log['responseData']);
-      $logs[] = $log;
+    $rawLogs = json_decode('[' . substr(file_get_contents($logPath), 0, -2) . ']', true);
+    if (isset($rawLogs)) {
+      foreach ($rawLogs as $log) {
+        unset($log['requestData'], $log['responseData']);
+        $logs[] = $log;
+      }
     }
     Response::getInstance()->sendJson($logs);
   }
