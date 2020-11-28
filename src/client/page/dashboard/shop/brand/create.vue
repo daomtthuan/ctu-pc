@@ -6,7 +6,7 @@
       <b-breadcrumb-item text="Tạo mới" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
-    <c-dashboard-form-create-shop-event></c-dashboard-form-create-shop-event>
+    <c-dashboard-form-create-shop-brand></c-dashboard-form-create-shop-brand>
   </div>
 </template>
 
@@ -14,14 +14,10 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-shop-event-create',
+    name: 'page-dashboard-shop-brand-create',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Sự kiện - Tạo mới',
+      title: 'Bảng điều khiển - Quản lý cửa hàng - Thương hiệu - Tạo mới',
     },
   })
-  export default class extends Vue {
-    public fetch() {
-      Vue.use(require('vue2-editor'));
-    }
-  }
+  export default class extends Vue {}
 </script>

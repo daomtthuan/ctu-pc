@@ -79,10 +79,19 @@ let validations: { [name: string]: any } = {
   },
   content: {
     required: required,
-    minLength: minLength(1),
+    minLength: (value: any) => {
+      let wrapper = document.createElement('div');
+      wrapper.innerHTML = value;
+      return (wrapper.textContent || wrapper.innerText || '').length > 0;
+    },
   },
   image: {
     required: required,
+  },
+  name: {
+    required: required,
+    minLength: minLength(1),
+    maxLength: maxLength(100),
   },
 };
 

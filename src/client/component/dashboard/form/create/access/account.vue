@@ -142,12 +142,6 @@
       try {
         this.pending = true;
         await this.$axios.post('/api/admin/account', this.form);
-        this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
-          title: 'Tạo mới thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
-        });
 
         this.form = {
           username: null,
@@ -160,7 +154,7 @@
         };
 
         this.$nextTick(() => this.$v.$reset());
-        this.$nuxt.$bvToast.toast('Đã tạo mới tài khoản.', {
+        this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
           title: 'Tạo mới thành công!',
           variant: 'success',
           solid: true,

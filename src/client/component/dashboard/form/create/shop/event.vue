@@ -32,7 +32,7 @@
 
     <b-form-group>
       <label class="d-block" @click="focusContent">Nội dung:</label>
-      <vue-editor id="input-content" v-model="$v.form.content.$model" :class="contentClass" />
+      <vue-editor id="input-content" v-model="$v.form.content.$model" :class="contentClass" placeholder="Nhập nội dung" />
       <b-form-invalid-feedback>Nội dung không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -48,7 +48,7 @@
 <script lang="ts">
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
-  import { focusEditor, resetEditor } from '@/plugin/editor/helper';
+  import { focusEditor, resetEditor } from '@/plugin/editor';
 
   @Component({
     name: 'component-dashboard-form-create-shop-event',

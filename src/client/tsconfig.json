@@ -14,8 +14,17 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./@types"],
-    "types": ["@types/node", "@nuxt/types", "vue-class-component/hooks", "@types/nuxtjs__auth", "bootstrap-vue", "@nuxtjs/axios", "@types/vuelidate"]
+    "typeRoots": ["./type"],
+    "types": [
+      "@types/node",
+      "@nuxt/types",
+      "vue-class-component/hooks",
+      "@types/nuxtjs__auth",
+      "bootstrap-vue",
+      "@nuxtjs/axios",
+      "@types/vuelidate",
+      "@types/vue2-editor"
+    ]
   },
   "exclude": ["node_modules"]
 }

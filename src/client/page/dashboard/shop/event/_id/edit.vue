@@ -19,5 +19,9 @@
       title: 'Bảng điều khiển - Quản lý cửa hàng - Sự kiện - Chỉnh sửa',
     },
   })
-  export default class extends Vue {}
+  export default class extends Vue {
+    public fetch() {
+      Vue.use(require('vue2-editor'));
+    }
+  }
 </script>
