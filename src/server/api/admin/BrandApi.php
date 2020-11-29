@@ -33,23 +33,13 @@ class BrandApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $brands = BrandProvider::find([
-      'name' => Request::getInstance()->getData('name')
-    ]);
-    if (count($brands) != 0) {
-      Response::getInstance()->sendStatus(406);
-    }
+    BrandProvider::create(new Brand([
+      'id' => null,
+      'username' => Request::getInstance()->getData('name'),
+      'state' => null
+    ]));
 
-    $success = Database::getInstance()->doTransaction(function () {
-
-      $idBrand = BrandProvider::create(new Brand([
-        'id' => null,
-        'username' => Request::getInstance()->getData('name'),
-        'state' => null
-      ]));
-    });
-
-    Response::getInstance()->sendStatus($success ? 200 : 500);
+    Response::getInstance()->sendStatus(200);
   }
 
   public static function put() {

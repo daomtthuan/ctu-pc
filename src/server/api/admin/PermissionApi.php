@@ -59,11 +59,11 @@ class PermissionApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    PermissionProvider::remove([
-      'idAccount' => Request::getInstance()->getParam('idAccount'),
-      'idRole' => Request::getInstance()->getParam('idRole')
-    ]);
+    $success = PermissionProvider::remove(
+      Request::getInstance()->getParam('idAccount'),
+      Request::getInstance()->getParam('idRole')
+    );
 
-    Response::getInstance()->sendStatus(200);
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 };

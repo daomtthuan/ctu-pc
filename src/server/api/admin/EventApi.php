@@ -3,8 +3,6 @@
 namespace Api\Admin;
 
 use Core\Api;
-use Core\Database;
-use Core\File;
 use Core\Request;
 use Core\Response;
 use Entity\Event;
@@ -36,19 +34,17 @@ class EventApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = Database::getInstance()->doTransaction(function ($idAccount) {
-      $idEvent = EventProvider::create(new Event([
+    $success = EventProvider::create(
+      new Event([
         'id' => null,
         'title' => Request::getInstance()->getData('title'),
         'post' => null,
-        'idAccount' => $idAccount,
+        'idAccount' => $account->getId(),
         'state' => null
-      ]));
-
-      File::moveUploaded(Request::getInstance()->getFile('image'), $_ENV['ASSET_DIR'] . "\\image\\event\\$idEvent.jpg");
-
-      File::write($_ENV['ASSET_DIR'] . "\\post\\event\\$idEvent.html", Request::getInstance()->getData('content'));
-    }, $account->getId());
+      ]),
+      Request::getInstance()->getFile('image'),
+      Request::getInstance()->getData('content')
+    );
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }
@@ -62,23 +58,17 @@ class EventApi extends Api {
 
     $events = EventProvider::find(['id' => Request::getInstance()->getParam('id')]);
     if (count($events) != 1) {
-      Response::getInstance()->sendStatus(406);
+      Response::getInstance()->sendStatus(404);
     }
 
-    $success = Database::getInstance()->doTransaction(function ($events) {
-      /** @var Event */
-      $event = $events[0];
-      $event->setTitle(Request::getInstance()->getData('title'));
-      $event->setState(Request::getInstance()->getData('state') == 'true' ? true : false);
-      EventProvider::edit($event);
+    $events[0]->setTitle(Request::getInstance()->getData('title'));
+    $events[0]->setState(Request::getInstance()->getData('state') == 'true' ? true : false);
 
-      if (Request::getInstance()->hasFile('image')) {
-        $imageUrl = $_ENV['ASSET_DIR'] . '\\image\\event\\' . $event->getId() . '.jpg';
-        File::moveUploaded(Request::getInstance()->getFile('image'), $imageUrl);
-      }
-
-      File::write($_ENV['ASSET_DIR'] . '\\post\\event\\' . $event->getId() . '.html', Request::getInstance()->getData('content'));
-    }, $events);
+    $success = EventProvider::edit(
+      $events[0],
+      Request::getInstance()->hasFile('image') ? Request::getInstance()->getFile('image') : null,
+      Request::getInstance()->getData('content')
+    );
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }
@@ -90,11 +80,7 @@ class EventApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = Database::getInstance()->doTransaction(function ($id) {
-      File::delete($_ENV['ASSET_DIR'] . "\\image\\event\\$id.jpg");
-      File::delete($_ENV['ASSET_DIR'] . "\\post\\event\\$id.html");
-      EventProvider::remove(['id' => $id]);
-    }, Request::getInstance()->getParam('id'));
+    $success = EventProvider::remove(Request::getInstance()->getParam('id'));
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

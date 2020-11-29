@@ -38,11 +38,15 @@ class PermissionProvider {
   /**
    * Remove permission by filter
    * 
-   * @param array|null $filter Removing filter
+   * @param int $idAccount Id Account
+   * @param int $idRole Id role
    * 
-   * @return int Number removed permission
+   * @return bool True if success, otherwise false
    */
-  public static function remove(array $filter = null) {
-    return Database::getInstance()->remove('Permission', $filter);
+  public static function remove(int $idAccount, int $idRole = null) {
+    return Database::getInstance()->remove('Permission', [
+      'idAccount' => $idAccount,
+      'idRole' => $idRole
+    ]) == 1;
   }
 }

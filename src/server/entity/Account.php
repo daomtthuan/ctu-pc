@@ -3,7 +3,6 @@
 namespace Entity;
 
 use Core\Entity;
-use DateTime;
 
 class Account extends Entity {
   private string $username;
@@ -95,7 +94,7 @@ class Account extends Entity {
   /**
    * Get the value of birthday
    * 
-   * @return DateTime Birthday
+   * @return string Birthday
    */
   public function getBirthday() {
     return $this->birthday;

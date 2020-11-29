@@ -47,7 +47,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.post('/api/admin/account', this.form);
+        await this.$axios.post('/api/admin/brand', this.form);
         this.form = {
           name: null,
         };

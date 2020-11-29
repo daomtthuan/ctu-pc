@@ -5,12 +5,15 @@
       <b-form-select v-model="$v.form.idRole.$model" :options="roleOptions" :disabled="idAccountPending" :state="validateState('idRole')"></b-form-select>
       <b-form-invalid-feedback>Quyền truy cập không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group label="Tài khoản:">
-      <div v-if="idAccountPending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-      <div v-else>
-        <b-form-select v-model="$v.form.idAccount.$model" :options="accountOptions" :state="validateState('idAccount')"></b-form-select>
-        <b-form-invalid-feedback>Tài khoản không hợp lệ</b-form-invalid-feedback>
-      </div>
+    <div v-if="idAccountPending" class="text-center mb-3"><b-spinner small></b-spinner> Đang tải...</div>
+    <b-form-group label="Tài khoản:" v-else-if="form.idRole != null">
+      <b-form-select
+        v-model="$v.form.idAccount.$model"
+        :options="accountOptions"
+        :state="validateState('idAccount')"
+        :disabled="accountOptions.length == 1"
+      ></b-form-select>
+      <b-form-invalid-feedback>Tài khoản không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="submitPending">
@@ -31,13 +34,14 @@
   })
   export default class extends mixins(validationMixin) {
     private form: App.Form.Create.Access.Permission = { idRole: null, idAccount: null };
-    private roleOptions: App.Control.SeleteOption[] = [{ value: null, text: '-- Chọn quyền truy cập --', disabled: true }];
-    private accountOptions: App.Control.SeleteOption[] = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
+    private roleOptions: App.Control.SeleteOption[] = [];
+    private accountOptions: App.Control.SeleteOption[] = [];
     private idAccountPending: boolean = false;
     private submitPending: boolean = false;
 
     public async fetch() {
       try {
+        this.roleOptions = [{ value: null, text: '-- Chọn quyền truy cập --', disabled: true }];
         for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
           this.roleOptions.push({ value: role.id, text: role.name });
         }
@@ -77,14 +81,19 @@
 
     @Watch('form.idRole')
     public async onIdRoleChanged(newValue: number) {
-      this.accountOptions = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
       if (newValue != null) {
         try {
           this.idAccountPending = true;
-          for (let account of <Entity.Account[]>(await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: true } })).data) {
-            this.accountOptions.push({ value: account.id, text: `Tên đăng nhập: ${account.username} - Họ và tên: ${account.fullName}` });
+          let accounts: Entity.Account[] = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: true } })).data;
+          if (accounts.length > 0) {
+            this.accountOptions = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
+            this.form.idAccount = this.accountOptions[0].value;
+            for (let account of accounts) {
+              this.accountOptions.push({ value: account.id, text: `Tên đăng nhập: ${account.username} - Họ và tên: ${account.fullName}` });
+            }
+          } else {
+            this.accountOptions = [{ value: null, text: '-- Không có tài khoản nào phù hợp --', disabled: true }];
           }
-          this.form.idAccount = this.accountOptions[0].value;
         } catch (error) {
           this.$nuxt.error({ statusCode: (<Response>error.response).status });
         } finally {

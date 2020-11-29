@@ -4,6 +4,10 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Account;
+use Entity\Permission;
+use Exception;
+use Plugin\HtmlPlugin;
+use Plugin\MailPlugin;
 
 /** Account provider */
 class AccountProvider {
@@ -77,13 +81,67 @@ class AccountProvider {
    * Create Account
    * 
    * @param Account $account Created Account
+   * @param bool $sendEmail Send account to email or not
    * 
-   * @return int Id account
+   * @return bool True if success, otherwise false
    */
-  public static function create(Account $account) {
-    $data = $account->jsonSerialize();
-    unset($data['id'], $data['state']);
-    return Database::getInstance()->create('Account', $data);
+  public static function create(Account $account, bool $sendEmail = false) {
+    return Database::getInstance()->doTransaction(function ($account, $sendEmail) {
+      $data = $account->jsonSerialize();
+      $data['password'] = password_hash($account->getPassword(), PASSWORD_BCRYPT);
+      unset($data['id'], $data['state']);
+
+      $id = Database::getInstance()->create('Account', $data);
+
+      PermissionProvider::create(new Permission([
+        'id' => null,
+        'idAccount' => $id,
+        'idRole' => RoleProvider::USER_ID,
+        'state' => null
+      ]));
+
+      if ($sendEmail) {
+        $h1 = fn ($name) => HtmlPlugin::getInstance()->createElement($name);
+        $h2 = fn ($name, $content) => HtmlPlugin::getInstance()->createElement($name, $content);
+        $h3 = fn ($name, $properties) => HtmlPlugin::getInstance()->createElement($name, null, $properties);
+
+        MailPlugin::getInstance()->sendHtml(
+          $account->getEmail(),
+          $account->getFullName(),
+          'Đăng ký tài khoản CTU PC SHOP',
+          $h2('div', [
+            $h2('p', [
+              $h2('span', 'Xin chào '),
+              $h2('strong', $account->getFullName()),
+              $h2('span', ','),
+              $h1('br'),
+              $h2('span', 'Quá trình tạo tài khoản đã thành công. Chào mừng bạn đến với CTU PC SHOP!'),
+              $h1('br'),
+              $h2('span', 'Giờ đây, bạn có thể sử dụng tài khoản sau để đăng nhập:'),
+            ]),
+            $h2('form', [
+              $h2('label', 'Tên đăng nhập:', ['for' => 'username']),
+              $h1('br'),
+              $h3('input', ['id' => 'username', 'value' => $account->getUsername()]),
+              $h1('br'),
+              $h2('label', 'Mật khẩu:', ['for' => 'password']),
+              $h1('br'),
+              $h3('input', ['id' => 'password', 'value' => $account->getPassword()]),
+            ]),
+            $h2('p', 'Trân trọng'),
+            $h1('hr'),
+            $h2('p', [
+              $h2('em', [
+                $h2('strong', 'Lưu ý: '),
+                $h2('span', 'Vui lòng đổi mật khẩu ngay vào lần truy cập đầu tiên và tuyệt đối không để cho ai biêt được thông tin tài khoản.'),
+                $h1('br'),
+                $h2('span', 'Đây là email tự động, không trả lời vào email này.'),
+              ])
+            ]),
+          ])
+        );
+      }
+    }, $account, $sendEmail);
   }
 
   /**
@@ -102,11 +160,18 @@ class AccountProvider {
   /**
    * Remove account by filter
    * 
-   * @param array|null $filter Removing filter
+   * @param int $id Id account
    * 
-   * @return int Number removed account
+   * @return bool True if success, otherwise false
    */
-  public static function remove(array $filter = null) {
-    return Database::getInstance()->remove('Account', $filter);
+  public static function remove(int $id) {
+    return Database::getInstance()->doTransaction(function ($id) {
+      // TODO: Remove review of Account
+      Database::getInstance()->remove('Event', ['idAccount' => $id]);
+      Database::getInstance()->remove('Permission', ['idAccount' => $id]);
+      if (Database::getInstance()->remove('Account', ['id' => $id]) != 1) {
+        throw new Exception('Not found account');
+      }
+    }, $id);
   }
 }

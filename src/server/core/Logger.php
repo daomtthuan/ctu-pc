@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Entity\Account;
+
 /** Logger */
 class Logger {
   private static Logger $instance;
@@ -52,6 +54,15 @@ class Logger {
   public function writeServiceLog() {
     if ($_ENV['LOG'] == 'true' && $this->serviceLog['method'] != 'get') {
       $path = __ROOT__ . $_ENV['SERVICE_LOG_DIR'] . '\\' . date('Y-m-d') . '.log';
+      if (isset($this->serviceLog['account'])) {
+        /** @var Account */
+        $account = $this->serviceLog['account'];
+        $this->serviceLog['account'] = [
+          'id' => $account->getId(),
+          'username' => $account->getUsername(),
+          'fullName' => $account->getFullName(),
+        ];
+      }
       file_put_contents($path, json_encode($this->serviceLog) . ",\n", FILE_APPEND);
     }
   }

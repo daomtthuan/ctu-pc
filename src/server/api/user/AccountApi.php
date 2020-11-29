@@ -3,13 +3,9 @@
 namespace Api\User;
 
 use Core\Api;
-use Core\Database;
 use Core\Request;
 use Core\Response;
-use Entity\Permission;
 use Entity\Account;
-use Provider\PermissionProvider;
-use Provider\RoleProvider;
 use Provider\AccountProvider;
 
 /** User account api */
@@ -36,29 +32,20 @@ class AccountApi extends Api {
       Response::getInstance()->sendStatus(406);
     }
 
-    Database::getInstance()->doTransaction(function () {
-      $idAccount = AccountProvider::create(new Account([
-        'id' => null,
-        'username' => Request::getInstance()->getData('username'),
-        'password' => password_hash(Request::getInstance()->getData('password'), PASSWORD_BCRYPT),
-        'fullName' => Request::getInstance()->getData('fullName'),
-        'birthday' => Request::getInstance()->getData('birthday'),
-        'gender' => Request::getInstance()->getData('gender'),
-        'email' => Request::getInstance()->getData('email'),
-        'address' => Request::getInstance()->getData('address'),
-        'phone' => Request::getInstance()->getData('phone'),
-        'state' => null
-      ]));
+    $success =  AccountProvider::create(new Account([
+      'id' => null,
+      'username' => Request::getInstance()->getData('username'),
+      'password' => Request::getInstance()->getData('password'),
+      'fullName' => Request::getInstance()->getData('fullName'),
+      'birthday' => Request::getInstance()->getData('birthday'),
+      'gender' => Request::getInstance()->getData('gender'),
+      'email' => Request::getInstance()->getData('email'),
+      'address' => Request::getInstance()->getData('address'),
+      'phone' => Request::getInstance()->getData('phone'),
+      'state' => null
+    ]));
 
-      PermissionProvider::create(new Permission([
-        'id' => null,
-        'idAccount' => $idAccount,
-        'idRole' => RoleProvider::USER_ID,
-        'state' => null
-      ]));
-    });
-
-    Response::getInstance()->sendStatus(200);
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 
   public static function put() {
