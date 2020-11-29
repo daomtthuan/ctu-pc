@@ -39,11 +39,13 @@ class HtmlPlugin {
   public function createElement(string $name, $content = null, array $properties = null) {
     $root = $this->dom->createElement($name);
 
-    if (is_string($content)) {
-      $root->nodeValue =  $content;
-    } else {
-      foreach ($content as $element) {
-        $root->appendChild($element);
+    if (isset($content)) {
+      if (is_string($content)) {
+        $root->nodeValue =  $content;
+      } else {
+        foreach ($content as $element) {
+          $root->appendChild($element);
+        }
       }
     }
 

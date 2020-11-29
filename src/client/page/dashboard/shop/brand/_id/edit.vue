@@ -2,11 +2,11 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Sự kiện" to="/dashboard/shop/event"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Quản lý cửa hàng - Thương hiệu" to="/dashboard/shop/brand"></b-breadcrumb-item>
       <b-breadcrumb-item text="Chỉnh sửa" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
-    <c-dashboard-form-edit-shop-event :id="$nuxt.$route.params.id"></c-dashboard-form-edit-shop-event>
+    <c-dashboard-form-edit-shop-brand :id="$nuxt.$route.params.id"></c-dashboard-form-edit-shop-brand>
   </div>
 </template>
 
@@ -14,9 +14,9 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-shop-event-edit',
+    name: 'page-dashboard-shop-brand-edit',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Sự kiện - Chỉnh sửa',
+      title: 'Bảng điều khiển - Quản lý cửa hàng - Thương hiệu - Chỉnh sửa',
     },
   })
   export default class extends Vue {}

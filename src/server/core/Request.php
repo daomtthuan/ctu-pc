@@ -95,7 +95,7 @@ class Request {
                 ];
                 file_put_contents($tmp_name, $body);
               } else { // if data
-                $this->data[$name] = substr($body, 0, strlen($body) - 2);
+                $this->data[$name] = json_decode(substr($body, 0, strlen($body) - 2), true)['data'];
               }
             }
           }

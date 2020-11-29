@@ -101,9 +101,10 @@
       try {
         this.pending = true;
         let formData = new FormData();
-        formData.append('title', this.form.title!);
-        formData.append('content', this.form.content!);
-        formData.append('state', String(this.form.state!));
+        formData.append('title', JSON.stringify({ data: this.form.title }));
+        formData.append('image', this.form.image!);
+        formData.append('content', JSON.stringify({ data: this.form.content }));
+        formData.append('state', JSON.stringify({ data: this.form.state }));
         if (Boolean(this.form.image)) {
           formData.append('image', this.form.image!);
         }

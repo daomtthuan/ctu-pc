@@ -4,6 +4,7 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Brand;
+use Exception;
 
 /** Brand provider */
 class BrandProvider {
@@ -26,17 +27,17 @@ class BrandProvider {
    * Create Brand
    * 
    * @param Brand $brand Created Brand
-   * 
-   * @return int Id brand
+   *
+   * @return bool True if success, otherwise false
    */
   public static function create(Brand $Brand) {
     $data = $Brand->jsonSerialize();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->create('Brand', $data);
+    return Database::getInstance()->create('Brand', $data) > 0;
   }
 
   /**
-   * Edit Brand
+   * Edit brand
    * 
    * @param Brand $Brand Edited Brand
    * 
@@ -45,17 +46,30 @@ class BrandProvider {
   public static function edit(Brand $Brand) {
     $data = $Brand->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Brand', $Brand->getId(), $data);
+    return Database::getInstance()->edit('Brand', $Brand->getId(), $data) == 1;
   }
 
   /**
-   * Remove Brand by filter
+   * Remove brand
    * 
-   * @param array|null $filter Removing filter
+   * @param int $id Id brand
    * 
-   * @return int Number removed Brand
+   * @return bool True if success, otherwise false
    */
-  public static function remove(array $filter = null) {
-    return Database::getInstance()->remove('Brand', $filter);
+  public static function remove(int $id) {
+    return Database::getInstance()->doTransaction(function ($id) {
+      $referenceFilters = [
+        Database::getInstance()->createReferenceFilter('Brand', 'id', $id)
+      ];
+      Database::getInstance()->removeInJoin('Review', 'idProduct', true, [
+        Database::getInstance()->createReference('Product', 'Product', 'id', 'Review', 'idProduct', Database::JOIN_INNER),
+        Database::getInstance()->createReference('Brand', 'Brand', 'id', 'Product', 'idBrand', Database::JOIN_INNER),
+      ], $referenceFilters);
+
+      Database::getInstance()->remove('Product', ['idBrand' => $id]);
+      if (Database::getInstance()->remove('Brand', ['id' => $id]) != 1) {
+        throw new Exception("Not found brand");
+      }
+    }, $id);
   }
 }

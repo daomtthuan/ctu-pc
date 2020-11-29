@@ -154,7 +154,7 @@ class AccountProvider {
   public static function edit(Account $account) {
     $data = $account->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Account', $account->getId(), $data);
+    return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
   }
 
   /**
@@ -166,7 +166,7 @@ class AccountProvider {
    */
   public static function remove(int $id) {
     return Database::getInstance()->doTransaction(function ($id) {
-      // TODO: Remove review of Account
+      Database::getInstance()->remove('Review', ['idAccount' => $id]);
       Database::getInstance()->remove('Event', ['idAccount' => $id]);
       Database::getInstance()->remove('Permission', ['idAccount' => $id]);
       if (Database::getInstance()->remove('Account', ['id' => $id]) != 1) {

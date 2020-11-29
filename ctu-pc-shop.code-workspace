@@ -61,7 +61,6 @@
     "terminal.integrated.cursorStyle": "line",
     "vetur.validation.templateProps": true,
     "liveServer.settings.port": 80,
-    "workbench.iconTheme": "bearded-icons",
     "editor.suggest.shareSuggestSelections": true,
     "editor.matchBrackets": "never",
     "bracket-pair-colorizer-2.showBracketsInGutter": true,

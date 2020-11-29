@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Sự kiện" to="/dashboard/shop/event"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Quản lý cửa hàng - Thương hiệu" to="/dashboard/shop/brand"></b-breadcrumb-item>
       <b-breadcrumb-item text="Tạo mới" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />

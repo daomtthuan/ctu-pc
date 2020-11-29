@@ -71,6 +71,7 @@ class LocalApi extends Api {
   public static function delete() {
     Request::getInstance()->verifyAccount();
     Session::stop();
+
     Response::getInstance()->sendStatus(200);
   }
 };

@@ -6,7 +6,6 @@ use Core\Api;
 use Core\Request;
 use Core\Response;
 use Provider\BrandProvider;
-use Core\Database;
 use Entity\Brand;
 
 /** Admin brand api */
@@ -33,19 +32,19 @@ class BrandApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    BrandProvider::create(new Brand([
+    $success = BrandProvider::create(new Brand([
       'id' => null,
-      'username' => Request::getInstance()->getData('name'),
+      'name' => Request::getInstance()->getData('name'),
       'state' => null
     ]));
 
-    Response::getInstance()->sendStatus(200);
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 
   public static function put() {
     Request::getInstance()->verifyAdminAccount();
 
-    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('name')) {
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('name', 'state')) {
       Response::getInstance()->sendStatus(400);
     }
 
@@ -56,7 +55,8 @@ class BrandApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $brands[0]->setname(Request::getInstance()->getData('name'));
+    $brands[0]->setName(Request::getInstance()->getData('name'));
+    $brands[0]->setState(Request::getInstance()->getData('state'));
 
     BrandProvider::edit($brands[0]);
     Response::getInstance()->sendStatus(200);
@@ -69,12 +69,14 @@ class BrandApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = Database::getInstance()->doTransaction(function () {
-      $id = Request::getInstance()->getParam('id');
+    $brands = BrandProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
+    if (count($brands) != 1) {
+      Response::getInstance()->sendStatus(404);
+    }
 
-      // TODO: Remove product of brand
-
-    });
+    $success = BrandProvider::remove($brands[0]->getId());
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

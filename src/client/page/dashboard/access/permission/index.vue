@@ -37,14 +37,14 @@
   })
   export default class extends Vue {
     private nameRole: string | null = null;
-    private items: Entity.Permission[] = [];
+    private items: Entity.Account[] = [];
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private selected: number | null = null;
     private options: { value: number | null; text: string }[] = [];
     private pending: boolean = false;
 
-    public rowClass(item: Entity.Permission) {
+    public rowClass(item: Entity.Account) {
       return item.state ? null : 'text-secondary bg-light font-weight-light';
     }
 

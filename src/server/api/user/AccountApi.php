@@ -61,7 +61,8 @@ class AccountApi extends Api {
     $account->setPhone(Request::getInstance()->getData('phone'));
     $account->setAddress(Request::getInstance()->getData('address'));
 
-    AccountProvider::edit($account);
-    Response::getInstance()->sendStatus(200);
+    $success = AccountProvider::edit($account);
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 };

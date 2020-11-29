@@ -27,26 +27,22 @@ class PermissionProvider {
    * 
    * @param Permission $permission Created permission
    * 
-   * @return int Id permission
+   * @return bool True if success, otherwise false
    */
   public static function create(Permission $permission) {
     $data = $permission->jsonSerialize();
     unset($data['id'], $data['state']);
-    return Database::getInstance()->create('Permission', $data);
+    return Database::getInstance()->create('Permission', $data) > 0;
   }
 
   /**
    * Remove permission by filter
    * 
-   * @param int $idAccount Id Account
-   * @param int $idRole Id role
+   * @param int $id Id permission
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $idAccount, int $idRole = null) {
-    return Database::getInstance()->remove('Permission', [
-      'idAccount' => $idAccount,
-      'idRole' => $idRole
-    ]) == 1;
+  public static function remove(int $id) {
+    return Database::getInstance()->remove('Permission', ['id' => $id]) == 1;
   }
 }

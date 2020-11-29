@@ -56,13 +56,15 @@ class EventApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $events = EventProvider::find(['id' => Request::getInstance()->getParam('id')]);
+    $events = EventProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
     if (count($events) != 1) {
       Response::getInstance()->sendStatus(404);
     }
 
     $events[0]->setTitle(Request::getInstance()->getData('title'));
-    $events[0]->setState(Request::getInstance()->getData('state') == 'true' ? true : false);
+    $events[0]->setState(Request::getInstance()->getData('state'));
 
     $success = EventProvider::edit(
       $events[0],
@@ -80,7 +82,14 @@ class EventApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = EventProvider::remove(Request::getInstance()->getParam('id'));
+    $events = EventProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
+    if (count($events) != 1) {
+      Response::getInstance()->sendStatus(404);
+    }
+
+    $success = EventProvider::remove($events[0]->getId());
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

@@ -79,8 +79,9 @@ class AccountApi extends Api {
     $accounts[0]->setAddress(Request::getInstance()->getData('address'));
     $accounts[0]->setState(Request::getInstance()->getData('state'));
 
-    AccountProvider::edit($accounts[0]);
-    Response::getInstance()->sendStatus(200);
+    $success = AccountProvider::edit($accounts[0]);
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 
   public static function delete() {
@@ -90,7 +91,14 @@ class AccountApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = AccountProvider::remove(Request::getInstance()->getParam('id'));
+    $accounts = AccountProvider::find([
+      'id' => Request::getInstance()->getParam('id')
+    ]);
+    if (count($accounts) != 1) {
+      Response::getInstance()->sendStatus(404);
+    }
+
+    $success = AccountProvider::remove($accounts[0]->getId());
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

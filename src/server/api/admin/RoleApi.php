@@ -38,7 +38,8 @@ class RoleApi extends Api {
 
     $roles[0]->setState(Request::getInstance()->getData('state'));
 
-    RoleProvider::edit($roles[0]);
-    Response::getInstance()->sendStatus(200);
+    $succes = RoleProvider::edit($roles[0]);
+
+    Response::getInstance()->sendStatus($succes ? 200 : 500);
   }
 };

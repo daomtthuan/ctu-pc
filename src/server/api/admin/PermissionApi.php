@@ -44,12 +44,14 @@ class PermissionApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    PermissionProvider::create(new Permission([
+    $success = PermissionProvider::create(new Permission([
       'id' => null,
       'idAccount' => Request::getInstance()->getData('idAccount'),
       'idRole' => Request::getInstance()->getData('idRole'),
       'state' => null
     ]));
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 
   public static function delete() {
@@ -59,10 +61,15 @@ class PermissionApi extends Api {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = PermissionProvider::remove(
-      Request::getInstance()->getParam('idAccount'),
-      Request::getInstance()->getParam('idRole')
-    );
+    $permissions = PermissionProvider::find([
+      'idAccount' => Request::getInstance()->getParam('idAccount'),
+      'idRole' => Request::getInstance()->getParam('idRole')
+    ]);
+    if (count($permissions) != 1) {
+      Response::getInstance()->sendStatus(404);
+    }
+
+    $success = PermissionProvider::remove($permissions[0]->getId());
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

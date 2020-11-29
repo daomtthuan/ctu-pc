@@ -75,9 +75,9 @@
       try {
         this.pending = true;
         let formData = new FormData();
-        formData.append('title', this.form.title!);
+        formData.append('title', JSON.stringify({ data: this.form.title }));
         formData.append('image', this.form.image!);
-        formData.append('content', this.form.content!);
+        formData.append('content', JSON.stringify({ data: this.form.content }));
         await this.$axios.post('/api/admin/event', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
