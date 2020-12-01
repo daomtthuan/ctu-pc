@@ -51,7 +51,7 @@ class Product extends Entity {
    * 
    * @param string Name
    */
-  public function setIdRole(string $name) {
+  public function setName(string $name) {
     $this->name = $name;
   }
 
