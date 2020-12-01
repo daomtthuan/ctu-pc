@@ -2,24 +2,23 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý truy cập - Phân quyền" to="/dashboard/access/permission"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Quản lý cửa hàng - Danh mục" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
     <div v-else-if="!this.$fetchState.error">
-      <b-form-group label="Quyền truy cập:" label-size="sm">
+      <b-form-group label="Nhóm danh mục:" label-size="sm">
         <b-form-select v-model="selected" :options="options" :disabled="pending" size="sm"></b-form-select>
       </b-form-group>
       <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
       <c-dashboard-table
-        :title="`Danh sách tài khoản có quyền truy cập ${nameRole}`"
+        :title="`Danh sách danh mục thuộc nhóm ${nameCategoryGroup}`"
         :items="items"
         :fields="fields"
         :notes="notes"
         :row-class="rowClass"
         class="mt-1"
         :remove-item="remove"
-        :allow-edit="false"
         v-else
       ></c-dashboard-table>
     </div>
@@ -30,14 +29,14 @@
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-access-permission',
+    name: 'page-dashboard-shop-category',
     head: {
-      title: 'Bảng điều khiển - Quản lý truy cập - Phân quyền',
+      title: 'Bảng điều khiển - Quản lý cửa hàng - Danh mục',
     },
   })
   export default class extends Vue {
-    private nameRole: string | null = null;
-    private items: Entity.Account[] = [];
+    private nameCategoryGroup: string | null = null;
+    private items: Entity.Category[] = [];
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private selected: number | null = null;
@@ -50,7 +49,7 @@
 
     public async fetch() {
       try {
-        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
+        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/category-group')).data) {
           this.options.push({ value: role.id, text: role.name });
         }
         this.selected = this.options[0].value;
@@ -63,25 +62,11 @@
     public async onSelectedChanged(newValue: number) {
       try {
         this.pending = true;
-        this.nameRole = this.options.filter((role) => role.value == newValue)[0].text;
-        this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue } })).data;
+        this.nameCategoryGroup = this.options.filter((categoryGroup) => categoryGroup.value == newValue)[0].text;
+        this.items = (await this.$axios.get('/api/admin/category', { params: { idCategoryGroup: newValue } })).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
-          { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
-          { key: 'fullName', label: 'Họ và tên', sortable: true, class: 'align-middle' },
-          { key: 'birthday', label: 'Ngày sinh', sortable: true, class: 'align-middle text-md-right fit' },
-          {
-            key: 'gender',
-            label: 'Giới tính',
-            sortable: true,
-            class: 'align-middle fit',
-            formatter: (value) => (value == 1 ? 'Nam' : 'Nữ'),
-            sortByFormatted: true,
-            filterByFormatted: true,
-          },
-          { key: 'email', label: 'Email', sortable: true, class: 'align-middle' },
-          { key: 'address', label: 'Địa chỉ', sortable: true, class: 'align-middle' },
-          { key: 'phone', label: 'Điện thoại', sortable: true, class: 'align-middle' },
+          { key: 'name', label: 'Tên', sortable: true, class: 'align-middle' },
           {
             key: 'state',
             label: 'Trạng thái',
@@ -102,9 +87,9 @@
 
     public async remove(id: number) {
       try {
-        await this.$axios.delete('/api/admin/permission', { params: { idAccount: id, idRole: this.selected } });
+        await this.$axios.delete('/api/admin/category', { params: { id } });
         this.items = this.items.filter((item) => item.id != id);
-        this.$nuxt.$bvToast.toast('Đã xoá phân quyền của tài khoản.', {
+        this.$nuxt.$bvToast.toast('Đã xoá danh mục.', {
           title: 'Xoá thành công!',
           variant: 'success',
           solid: true,

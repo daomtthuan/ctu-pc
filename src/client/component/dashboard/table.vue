@@ -15,7 +15,7 @@
               <b-col xl="8" class="pr-xl-1 mb-2 mb-xl-0">
                 <b-form-select v-model="sortBy" id="sortBySelect" size="sm" :options="options">
                   <template v-slot:first>
-                    <option value="">-- Không sắp xếp --</option>
+                    <option value="">Không sắp xếp</option>
                   </template>
                 </b-form-select>
               </b-col>

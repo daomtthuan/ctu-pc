@@ -1,33 +1,31 @@
-# Settings
-set names utf8mb4 collate utf8mb4_unicode_ci;
-set character set utf8mb4;
-set session collation_connection = utf8mb4_unicode_ci;
-set time_zone = '+7:00';
+-- Settings
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+SET CHARACTER SET utf8mb4;
+SET SESSION collation_connection = utf8mb4_unicode_ci;
+SET time_zone = '+7:00';
 
-use CtuPcShop;
+USE CtuPcShop;
 
 # Insert Role
-insert into Role(name)
-values ('Admin'),
+INSERT INTO Role(name)
+VALUES ('Admin'),
        ('User');
 
 # Insert User
-insert into Account(username, password, fullName, birthday, gender, email, address, phone)
-values ('admin', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Tô Chi Thảo', '1993-03-08', 0, 'daomtthuan.admin@gmail.com', N'9 Phố Giáp Thái Chung, Xã 8, Huyện Quang Tuyên Quang', '0292870758');
-insert into Account(username, password, fullName, birthday, gender, email, address, phone)
-values ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Nguyễn Trác Vy', '1976-11-21', 0, 'daomtthuan.user@gmail.com', N'597 Phố Chiêu, Thôn Trà Ngọc, Quận Kiên Thừa Thiên Huế', '01886697561'),
+INSERT INTO Account(username, password, fullName, birthday, gender, email, address, phone)
+VALUES ('admin', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Tô Chi Thảo', '1993-03-08', 0, 'daomtthuan.admin@gmail.com', N'9 Phố Giáp Thái Chung, Xã 8, Huyện Quang Tuyên Quang', '0292870758');
+INSERT INTO Account(username, password, fullName, birthday, gender, email, address, phone)
+VALUES ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Nguyễn Trác Vy', '1976-11-21', 0, 'daomtthuan.user@gmail.com', N'597 Phố Chiêu, Thôn Trà Ngọc, Quận Kiên Thừa Thiên Huế', '01886697561'),
        ('user2', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Hà Nghiêm Nương', '1981-02-20', 0, 'daomtthuan.user@gmail.com', N'190 Phố Bồ Toại Trân, Xã Thể, Quận Điền Chiểu Thủy Cần Thơ', '03205219336'),
        ('user3', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Lâm Đường Thạch', '1984-07-07', 1, 'daomtthuan.user@gmail.com', N'901 Phố Cái Duệ Võ, Ấp Cát Vương, Quận Trình Thái Bình', '0586781301'),
        ('user4', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Văn Phước Nữ', '1997-05-26', 0, 'daomtthuan.user@gmail.com', N'0516 Phố Đồng Khôi Chung, Thôn Nghị Xuyến, Quận Tuệ Tường Hà Nội', '02183697771'),
        ('user5', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Bành Ẩn', '1994-05-26', 1, 'daomtthuan.user@gmail.com', N'4668 Phố Liễu, Phường Thiên Thiên, Quận Đôn Ngọc Miên Hồ Chí Minh', '02300532958');
 
-update Account set state = false where id = 4;
-
 # Insert Permission
-insert into Permission(idAccount, idRole)
-values (1, 1);
-insert into Permission(idAccount, idRole)
-values (1, 2),
+INSERT INTO Permission(idAccount, idRole)
+VALUES (1, 1);
+INSERT INTO Permission(idAccount, idRole)
+VALUES (1, 2),
        (2, 2),
        (3, 2),
        (4, 2),
@@ -35,8 +33,8 @@ values (1, 2),
        (6, 2);
 
 # Insert data Category Group
-insert into CategoryGroup(name)
-values (N'Linh kiện'),
+INSERT INTO CategoryGroup(name)
+VALUES (N'Linh kiện'),
        (N'Thiết bị'),
        (N'Bàn ghế'),
        (N'Máy chơi Game'),
@@ -44,8 +42,8 @@ values (N'Linh kiện'),
        (N'Phụ kiện');
 
 # Insert data Category
-insert into Category(name, idCategoryGroup)
-values (N'Vi xử lý', 1),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Vi xử lý', 1),
        (N'Bo mạch chủ', 1),
        (N'Card đồ hoạ', 1),
        (N'Bộ nhớ', 1),
@@ -56,25 +54,25 @@ values (N'Vi xử lý', 1),
        (N'Card âm thanh', 1),
        (N'Bộ lưu điện', 1),
        (N'ITX', 1);
-insert into Category(name, idCategoryGroup)
-values (N'Màn hình', 2),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Màn hình', 2),
        (N'Bàn phím', 2),
        (N'Chuột', 2),
        (N'Tai nghe', 2),
        (N'Thiết bị mạng', 2);
-insert into Category(name, idCategoryGroup)
-values (N'Bàn', 3),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Bàn', 3),
        (N'Ghế', 3);
-insert into Category(name, idCategoryGroup)
-values (N'Máy chơi game', 4),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Máy chơi game', 4),
        (N'Đĩa game', 4),
        (N'Phụ kiện PS4', 4),
        (N'Gaming Accs', 4);
-insert into Category(name, idCategoryGroup)
-values (N'Máy tính đồng bộ', 5),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Máy tính đồng bộ', 5),
        (N'Máy tính xách tay', 5);
-insert into Category(name, idCategoryGroup)
-values (N'Balo', 6),
+INSERT INTO Category(name, idCategoryGroup)
+VALUES (N'Balo', 6),
        (N'Mic thu thanh', 6),
        (N'Chiếu sáng LED', 6),
        (N'Thiết bị ghi hình', 6),
@@ -82,8 +80,8 @@ values (N'Balo', 6),
        (N'Đồ chơi stream', 6);
 
 # Insert Brand
-insert into Brand(name)
-values ('Intel'),
+INSERT INTO Brand(name)
+VALUES ('Intel'),
 		('ARES'),
         ('ASUS'),
         ('Microsoft'),
@@ -97,8 +95,8 @@ values ('Intel'),
         ('CORSAIR');
 
 #Insert Product
-insert into Product(name, price, quantity, idCategory, idBrand)
-values 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
+INSERT INTO Product(name, price, quantity, idCategory, idBrand)
+VALUES 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
 		(N'ASUS ROG MAXIMUS XII EXTREME Mainboard – Z490 Chipset',17900,100,2,3),
 		(N'ASUS TUF Gaming Geforce RTX 3090 24G Graphics Card',42800,100,3,3),
         (N'CORSAIR VENGEANCE RGB PRO Memory Kit – Black, 32GB',4900,100,4,12),
@@ -125,8 +123,8 @@ values 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
         (N'ASUS ROG Ranger BP3703 Gaming Backpack – Balo Gaming',6490,100,25,3);
 
 #Insert Event
-insert into Event(title, post, idAccount)
-values 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '2020-11-19', 1),
+INSERT INTO Event(title, post, idAccount)
+VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '2020-11-19', 1),
 		(N'TIỀN NHIỀU ĐỂ LÀM GÌ?', '2020-11-18', 1),
         (N'ASUS Combo ROG Hủy Diệt Tháng 11', '2020-11-16', 1),
         (N'Đồng Hành Cùng Combo AORUS PC', '2020-11-15', 1),

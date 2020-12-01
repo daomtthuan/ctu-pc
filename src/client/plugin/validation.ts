@@ -93,6 +93,11 @@ let validations: { [name: string]: any } = {
     minLength: minLength(1),
     maxLength: maxLength(100),
   },
+  idCategoryGroup: {
+    required: required,
+    integer: integer,
+    minValue: minValue(1),
+  },
 };
 
 export function createValidation(...names: string[]) {

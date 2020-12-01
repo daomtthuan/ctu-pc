@@ -38,11 +38,11 @@ class PermissionProvider {
   /**
    * Remove permission by filter
    * 
-   * @param int $id Id permission
+   * @param Permission $permission Id permission
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->remove('Permission', ['id' => $id]) == 1;
+  public static function remove(Permission $permission) {
+    return Database::getInstance()->remove('Permission', ['id' => $permission->getId()]) == 1;
   }
 }

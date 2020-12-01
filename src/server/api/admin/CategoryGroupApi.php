@@ -1,6 +1,6 @@
 <?php
 
-namespace Api;
+namespace Api\Admin;
 
 use Core\Api;
 use Core\Request;
@@ -11,13 +11,12 @@ use Entity\CategoryGroup;
 /** CategoryGroup api */
 class CategoryGroupApi extends Api {
   public static function mapUrl() {
-    return '/api/category-group';
+    return '/api/admin/category-group';
   }
 
   public static function get() {
-    Response::getInstance()->sendJson(CategoryGroupProvider::find([
-      'state' => 1
-    ]));
+    Request::getInstance()->verifyAdminAccount();
+    Response::getInstance()->sendJson(CategoryGroupProvider::find(Request::getInstance()->getParam()));
   }
 
   public static function post() {

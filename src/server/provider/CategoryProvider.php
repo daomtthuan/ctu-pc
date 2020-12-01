@@ -50,18 +50,13 @@ class CategoryProvider {
   }
 
   /**
-   * Remove Category
+   * Remove category
    * 
-   * @param int $id Id Category
+   * @param Category $category Removed category
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      Database::getInstance()->remove('Product', ['idCategory' => $id]);
-      if (Database::getInstance()->remove('Category', ['id' => $id]) != 1) {
-        throw new Exception("Not found Category");
-      }
-    }, $id);
+  public static function remove(Category $category) {
+    return Database::getInstance()->remove('Category', ['id' => $category->getId()]) == 1;
   }
 }

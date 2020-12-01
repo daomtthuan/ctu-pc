@@ -14,17 +14,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "typeRoots": ["./declaration"],
-    "types": [
-      "@types/node",
-      "@nuxt/types",
-      "vue-class-component/hooks",
-      "@types/nuxtjs__auth",
-      "bootstrap-vue",
-      "@nuxtjs/axios",
-      "@types/vuelidate",
-      "@types/vue2-editor"
-    ]
+    "typeRoots": ["./node_modules/@types", "./type"],
+    "types": ["@types/node", "@nuxt/types", "@types/nuxtjs__auth", "bootstrap-vue", "@nuxtjs/axios", "@types/vuelidate", "@types/vue2-editor"]
   },
   "exclude": ["node_modules"]
 }

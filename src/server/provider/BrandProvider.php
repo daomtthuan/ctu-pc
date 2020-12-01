@@ -52,24 +52,11 @@ class BrandProvider {
   /**
    * Remove brand
    * 
-   * @param int $id Id brand
+   * @param Brand $brand Removed brand
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      $referenceFilters = [
-        Database::getInstance()->createReferenceFilter('Brand', 'id', $id)
-      ];
-      Database::getInstance()->removeInJoin('Review', 'idProduct', true, [
-        Database::getInstance()->createReference('Product', 'Product', 'id', 'Review', 'idProduct', Database::JOIN_INNER),
-        Database::getInstance()->createReference('Brand', 'Brand', 'id', 'Product', 'idBrand', Database::JOIN_INNER),
-      ], $referenceFilters);
-
-      Database::getInstance()->remove('Product', ['idBrand' => $id]);
-      if (Database::getInstance()->remove('Brand', ['id' => $id]) != 1) {
-        throw new Exception("Not found brand");
-      }
-    }, $id);
+  public static function remove(Brand $brand) {
+    return Database::getInstance()->remove('Brand', ['id' => $brand->getId()]) == 1;
   }
 }

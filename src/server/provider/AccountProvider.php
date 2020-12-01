@@ -3,9 +3,9 @@
 namespace Provider;
 
 use Core\Database;
+use Core\File;
 use Entity\Account;
 use Entity\Permission;
-use Exception;
 use Plugin\HtmlPlugin;
 use Plugin\MailPlugin;
 
@@ -158,20 +158,21 @@ class AccountProvider {
   }
 
   /**
-   * Remove account by filter
+   * Remove account
    * 
-   * @param int $id Id account
+   * @param Account $account Removed Account
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      Database::getInstance()->remove('Review', ['idAccount' => $id]);
-      Database::getInstance()->remove('Event', ['idAccount' => $id]);
-      Database::getInstance()->remove('Permission', ['idAccount' => $id]);
-      if (Database::getInstance()->remove('Account', ['id' => $id]) != 1) {
-        throw new Exception('Not found account');
+  public static function remove(Account $account) {
+    return Database::getInstance()->doTransaction(function ($idAccount) {
+      $events = EventProvider::find(['idAccount' => $idAccount]);
+      foreach ($events as $event) {
+        $idEvent = $event->getId();
+        File::delete($_ENV['ASSET_DIR'] . "\\image\\event\\$idEvent.jpg");
+        File::delete($_ENV['ASSET_DIR'] . "\\post\\event\\$idEvent.html");
       }
-    }, $id);
+      return Database::getInstance()->remove('Account', ['id' => $idAccount]) == 1;
+    }, $account->getId());
   }
 }

@@ -345,64 +345,6 @@ class Database {
   }
 
   /**
-   * Remove entities int or not in references
-   * 
-   * @param string $entity Entity name
-   * @param string $key Key of entity for checking value
-   * @param bool $in In or not in references
-   * @param array $references References
-   * @param array $referencesFilters References filters
-   * @param array $filter Finding filter
-   * 
-   * @return array Entities
-   */
-  public function removeInJoin(string $entity, string $key, bool $in, array $references, array $referencesFilters = null, array $filter = null) {
-    $joinQuery = "select $entity.$key from $entity";
-
-    foreach ($references as $reference) {
-      $joinEntity = $reference['leftEntity'];
-      $leftEntity = $reference['leftEntity'];
-      $leftKey = $reference['leftKey'];
-      $rightEntity = $reference['rightEntity'];
-      $rightKey = $reference['rightKey'];
-      $typeJoin = $reference['typeJoin'];
-      $joinQuery .= " $typeJoin $joinEntity on $leftEntity.$leftKey = $rightEntity.$rightKey";
-    }
-
-    $joinFilter = null;
-    if (isset($referencesFilters)) {
-      $joinFilter = [];
-      $joinQuery .= ' where ';
-      foreach ($referencesFilters as $referencesFilter) {
-        $joinEntity = $referencesFilter['entity'];
-        $joinKey = $referencesFilter['key'];
-        $joinValue = $referencesFilter['value'];
-        $joinFilterKey = 'j' . $joinEntity . '_' . $joinKey;
-        $joinFilter[$joinFilterKey] = $joinValue;
-        $joinQuery .= "$joinEntity.$joinKey = :$joinFilterKey and ";
-      }
-      $joinQuery = substr($joinQuery, 0, -5);
-    }
-
-    $query = "delete from $entity where $entity.$key " . ($in ? 'in' : 'not in') . " ($joinQuery)";
-    $findFilter = null;
-    if (isset($filter)) {
-      $findFilter = [];
-      foreach (array_keys($filter) as $key => $value) {
-        $findFilterKey = $entity . '_' . $key;
-        $findFilter[$findFilterKey] = $value;
-        $query .= " and $entity.$key = :$findFilterKey";
-      }
-    }
-
-    $statement = $this->connection->prepare($query);
-    $filter = array_merge(isset($joinFilter) ? $joinFilter : [], isset($findFilter) ? $findFilter : []);
-
-    $statement->execute(count($filter) == 0 ? null : $filter);
-    return $statement->rowCount();
-  }
-
-  /**
    * Do transaction
    * 
    * @param function:void $action Action

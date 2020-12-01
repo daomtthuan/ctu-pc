@@ -24,7 +24,7 @@ class CategoryGroupProvider {
   }
 
   /**
-   * Create CategoryGroup
+   * Create category group
    * 
    * @param CategoryGroup $CategoryGroup Created CategoryGroup
    *
@@ -37,7 +37,7 @@ class CategoryGroupProvider {
   }
 
   /**
-   * Edit CategoryGroup
+   * Edit category group
    * 
    * @param CategoryGroup $CategoryGroup Edited CategoryGroup
    * 
@@ -50,26 +50,13 @@ class CategoryGroupProvider {
   }
 
   /**
-   * Remove CategoryGroup
+   * Remove category group
    * 
-   * @param int $id Id CategoryGroup
+   * @param CategoryGroup $categoryGroup Removed category group
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      $referenceFilters = [
-        Database::getInstance()->createReferenceFilter('CategoryGroup', 'id', $id)
-      ];
-      Database::getInstance()->removeInJoin('Product', 'idCategory', true, [
-        Database::getInstance()->createReference('Category', 'Category', 'id', 'Product', 'idCategory', Database::JOIN_INNER),
-        Database::getInstance()->createReference('CategoryGroup', 'CategoryGroup', 'id', 'Category', 'idCategoryGroup', Database::JOIN_INNER),
-      ], $referenceFilters);
-
-      Database::getInstance()->remove('Category', ['idCategoryGroup' => $id]);
-      if (Database::getInstance()->remove('CategoryGroup', ['id' => $id]) != 1) {
-        throw new Exception("Not found CategoryGroup");
-      }
-    }, $id);
+  public static function remove(CategoryGroup $categoryGroup) {
+    return Database::getInstance()->remove('CategoryGroup', ['id' => $categoryGroup->getId()]) == 1;
   }
 }

@@ -8,21 +8,27 @@
     <b-navbar-nav class="d-none d-lg-flex mr-2">
       <b-nav-item-dropdown text="Sản phẩm" no-caret menu-class="accordion p-0 border-0" role="tablist">
         <div class="text-center py-3 border" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
-        <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else-if="!$fetchState.error">
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="primary" class="text-left">
-              {{ categoryGroup.name }}
-            </b-button>
-          </b-card-header>
+        <div v-else-if="!$fetchState.error">
+          <div class="text-center py-3 border" v-if="categoryGroups.length == 0" :style="{ width: '200px' }">Không có sản phẩm nào</div>
+          <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body class="dropdown-width" v-else>
+            <b-card-header header-tag="header" class="p-1" role="tab">
+              <b-button v-b-toggle="`category-group-${categoryGroup.id}`" block variant="primary" class="text-left">
+                {{ categoryGroup.name }}
+              </b-button>
+            </b-card-header>
 
-          <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
-            <b-card-body class="py-2 px-0">
-              <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id">
-                {{ category.name }}
-              </b-dropdown-item>
-            </b-card-body>
-          </b-collapse>
-        </b-card>
+            <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
+              <b-card-body class="py-2 px-0">
+                <b-dropdown-text v-if="categories[categoryGroup.id].length == 0">Không có sản phẩm nào </b-dropdown-text>
+                <div v-else>
+                  <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id">
+                    {{ category.name }}
+                  </b-dropdown-item>
+                </div>
+              </b-card-body>
+            </b-collapse>
+          </b-card>
+        </div>
       </b-nav-item-dropdown>
       <b-nav-item to="/event">Sự kiện</b-nav-item>
       <b-nav-item-dropdown text="Chính sách - Hướng dẫn" no-caret>
@@ -184,7 +190,9 @@
 
         await Promise.all(
           this.categoryGroups.map(async (categoryGroup) => {
-            this.categories[categoryGroup.id] = <Entity.Category[]>(await this.$axios.get('/api/category', { params: { idCategoryGroup: categoryGroup.id } })).data;
+            this.categories[categoryGroup.id] = <Entity.Category[]>(
+              (await this.$axios.get('/api/category', { params: { idCategoryGroup: categoryGroup.id } })).data
+            );
           })
         );
       } catch (error) {

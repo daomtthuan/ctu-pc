@@ -41,7 +41,7 @@
 
     public async fetch() {
       try {
-        this.roleOptions = [{ value: null, text: '-- Chọn quyền truy cập --', disabled: true }];
+        this.roleOptions = [{ value: null, text: 'Chọn quyền truy cập', disabled: true }];
         for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
           this.roleOptions.push({ value: role.id, text: role.name });
         }
@@ -86,13 +86,13 @@
           this.idAccountPending = true;
           let accounts: Entity.Account[] = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: true } })).data;
           if (accounts.length > 0) {
-            this.accountOptions = [{ value: null, text: '-- Chọn tài khoản phân quyền --', disabled: true }];
+            this.accountOptions = [{ value: null, text: 'Chọn tài khoản phân quyền', disabled: true }];
             this.form.idAccount = this.accountOptions[0].value;
             for (let account of accounts) {
               this.accountOptions.push({ value: account.id, text: `Tên đăng nhập: ${account.username} - Họ và tên: ${account.fullName}` });
             }
           } else {
-            this.accountOptions = [{ value: null, text: '-- Không có tài khoản nào phù hợp --', disabled: true }];
+            this.accountOptions = [{ value: null, text: 'Không có tài khoản nào phù hợp', disabled: true }];
           }
         } catch (error) {
           this.$nuxt.error({ statusCode: (<Response>error.response).status });

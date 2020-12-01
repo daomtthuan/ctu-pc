@@ -92,17 +92,15 @@ class EventProvider {
   /**
    * Remove event by filter
    * 
-   * @param int $id Id event
+   * @param Event $event Id event
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
+  public static function remove(Event $event) {
     return Database::getInstance()->doTransaction(function ($id) {
       File::delete($_ENV['ASSET_DIR'] . "\\image\\event\\$id.jpg");
       File::delete($_ENV['ASSET_DIR'] . "\\post\\event\\$id.html");
-      if (Database::getInstance()->remove('Event', ['id' => $id]) != 1) {
-        throw new Exception('Not found event');
-      };
-    }, $id);
+      return Database::getInstance()->remove('Event', ['id' => $id]) == 1;
+    }, $event->getId());
   }
 }
