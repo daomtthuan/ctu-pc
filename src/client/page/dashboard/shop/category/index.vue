@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Danh mục" :to="$route.path"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Cửa hàng - Danh mục" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
@@ -10,17 +10,19 @@
       <b-form-group label="Nhóm danh mục:" label-size="sm">
         <b-form-select v-model="selected" :options="options" :disabled="pending" size="sm"></b-form-select>
       </b-form-group>
-      <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-      <c-dashboard-table
-        :title="`Danh sách danh mục thuộc nhóm ${nameCategoryGroup}`"
-        :items="items"
-        :fields="fields"
-        :notes="notes"
-        :row-class="rowClass"
-        class="mt-1"
-        :remove-item="remove"
-        v-else
-      ></c-dashboard-table>
+      <div v-if="selected != null">
+        <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
+        <c-dashboard-table
+          :title="`Danh sách danh mục thuộc nhóm danh mục ${nameCategoryGroup}`"
+          :items="items"
+          :fields="fields"
+          :notes="notes"
+          :row-class="rowClass"
+          class="mt-1"
+          :remove-item="remove"
+          v-else
+        ></c-dashboard-table>
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +33,7 @@
   @Component({
     name: 'page-dashboard-shop-category',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Danh mục',
+      title: 'Bảng điều khiển - Cửa hàng - Danh mục',
     },
   })
   export default class extends Vue {
@@ -40,7 +42,7 @@
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private selected: number | null = null;
-    private options: App.Control.SeleteOption[] = [];
+    private options: App.Control.SeleteOption[] = [{ value: null, text: 'Chọn nhóm danh mục', disabled: true }];
     private pending: boolean = false;
 
     public rowClass(item: Entity.Account) {
@@ -52,7 +54,6 @@
         for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/category-group')).data) {
           this.options.push({ value: role.id, text: role.name });
         }
-        this.selected = this.options[0].value;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }

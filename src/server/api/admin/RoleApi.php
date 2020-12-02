@@ -15,6 +15,7 @@ class RoleApi extends Api {
 
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
+
     Response::getInstance()->sendJson(RoleProvider::find(Request::getInstance()->getParam()));
   }
 

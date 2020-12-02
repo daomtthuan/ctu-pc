@@ -16,6 +16,7 @@ class CategoryGroupApi extends Api {
 
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
+
     Response::getInstance()->sendJson(CategoryGroupProvider::find(Request::getInstance()->getParam()));
   }
 
@@ -70,7 +71,7 @@ class CategoryGroupApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = CategoryGroupProvider::remove($CategoryGroups[0]->getId());
+    $success = CategoryGroupProvider::remove($CategoryGroups[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

@@ -78,7 +78,7 @@
         </b-form>
 
         <b-button v-b-toggle.access block variant="primary" class="text-left my-2">
-          Quản lý truy cập
+          Truy cập
         </b-button>
         <b-collapse id="access" class="my-2">
           <b-card no-body>
@@ -91,7 +91,7 @@
         </b-collapse>
 
         <b-button v-b-toggle.shop block variant="primary" class="text-left my-2">
-          Quản lý cửa hàng
+          Cửa hàng
         </b-button>
         <b-collapse id="shop" class="my-2">
           <b-card no-body>
@@ -106,13 +106,13 @@
           </b-card>
         </b-collapse>
 
-        <b-button v-b-toggle.history block variant="primary" class="text-left my-2">
-          Quản lý lịch sử
+        <b-button v-b-toggle.logger block variant="primary" class="text-left my-2">
+          Ghi vết
         </b-button>
-        <b-collapse id="history" class="my-2">
+        <b-collapse id="logger" class="my-2">
           <b-card no-body>
             <b-card-body class="py-2 px-0">
-              <nuxt-link to="/dashboard/history/service" class="dropdown-item">Dịch vụ</nuxt-link>
+              <nuxt-link to="/dashboard/logger/service" class="dropdown-item">Dịch vụ</nuxt-link>
             </b-card-body>
           </b-card>
         </b-collapse>

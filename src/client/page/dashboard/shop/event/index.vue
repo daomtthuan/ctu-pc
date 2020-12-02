@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Sự kiện" :to="$route.path"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Cửa hàng - Sự kiện" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
@@ -25,7 +25,7 @@
   @Component({
     name: 'page-dashboard-shop-event',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Sự kiện',
+      title: 'Bảng điều khiển - Cửa hàng - Sự kiện',
     },
   })
   export default class extends Vue {

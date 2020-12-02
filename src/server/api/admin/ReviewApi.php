@@ -17,12 +17,7 @@ class ReviewApi extends Api {
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
 
-    $reviews = [];
-    foreach (ReviewProvider::find(Request::getInstance()->getParam()) as $review) {
-      $data = $review->jsonSerialize();
-      $reviews[] = $data;
-    }
-    Response::getInstance()->sendJson($reviews);
+    Response::getInstance()->sendJson(ReviewProvider::find(Request::getInstance()->getParam()));
   }
 
   public static function post() {

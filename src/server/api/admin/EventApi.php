@@ -89,7 +89,7 @@ class EventApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = EventProvider::remove($events[0]->getId());
+    $success = EventProvider::remove($events[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

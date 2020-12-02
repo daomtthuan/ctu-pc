@@ -17,12 +17,7 @@ class BrandApi extends Api {
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
 
-    $brands = [];
-    foreach (BrandProvider::find(Request::getInstance()->getParam()) as $brand) {
-      $data = $brand->jsonSerialize();
-      $brands[] = $data;
-    }
-    Response::getInstance()->sendJson($brands);
+    Response::getInstance()->sendJson(BrandProvider::find(Request::getInstance()->getParam()));
   }
 
   public static function post() {
@@ -76,7 +71,7 @@ class BrandApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = BrandProvider::remove($brands[0]->getId());
+    $success = BrandProvider::remove($brands[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

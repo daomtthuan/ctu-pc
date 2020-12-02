@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Thương hiệu" to="/dashboard/shop/brand"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Cửa hàng - Thương hiệu" to="/dashboard/shop/brand"></b-breadcrumb-item>
       <b-breadcrumb-item text="Tạo mới" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
@@ -16,7 +16,7 @@
   @Component({
     name: 'page-dashboard-shop-brand-create',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Thương hiệu - Tạo mới',
+      title: 'Bảng điều khiển - Cửa hàng - Thương hiệu - Tạo mới',
     },
   })
   export default class extends Vue {}

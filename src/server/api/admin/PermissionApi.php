@@ -18,11 +18,15 @@ class PermissionApi extends Api {
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
 
+    if (!Request::getInstance()->hasParam('notIn')) {
+      Response::getInstance()->sendJson(PermissionProvider::find(Request::getInstance()->getParam()));
+    }
+
     if (!Request::getInstance()->hasParam('idRole')) {
       Response::getInstance()->sendStatus(400);
     }
 
-    $notIn = Request::getInstance()->hasParam('notIn');
+    $notIn = Request::getInstance()->getParam('notIn') == 'true';
 
     $filter = Request::getInstance()->getParam();
     unset($filter['idRole'], $filter['notIn']);
@@ -69,7 +73,7 @@ class PermissionApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = PermissionProvider::remove($permissions[0]->getId());
+    $success = PermissionProvider::remove($permissions[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

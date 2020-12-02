@@ -1,7 +1,7 @@
 declare namespace App {
   namespace Form {
-    namespace Create {
-      namespace Edit {
+    namespace Edit {
+      namespace Shop {
         interface Category {
           name: null | string;
           idCategoryGroup: null | string;

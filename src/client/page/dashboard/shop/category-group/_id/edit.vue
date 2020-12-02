@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý cửa hàng - Sự kiện" to="/dashboard/shop/event"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Cửa hàng - Sự kiện" to="/dashboard/shop/event"></b-breadcrumb-item>
       <b-breadcrumb-item text="Chỉnh sửa" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
@@ -16,7 +16,7 @@
   @Component({
     name: 'page-dashboard-shop-event-edit',
     head: {
-      title: 'Bảng điều khiển - Quản lý cửa hàng - Sự kiện - Chỉnh sửa',
+      title: 'Bảng điều khiển - Cửa hàng - Sự kiện - Chỉnh sửa',
     },
   })
   export default class extends Vue {

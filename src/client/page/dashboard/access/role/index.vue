@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý truy cập - Quyền truy cập" to="/dashboard/access/role"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Truy cập - Quyền truy cập" to="/dashboard/access/role"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
@@ -26,7 +26,7 @@
   @Component({
     name: 'page-dashboard-access-role',
     head: {
-      title: 'Bảng điều khiển - Quản lý truy cập - Quyền truy cập',
+      title: 'Bảng điều khiển - Truy cập - Quyền truy cập',
     },
   })
   export default class extends Vue {

@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý truy cập - Quyền truy cập" to="/dashboard/access/role"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Truy cập - Quyền truy cập" to="/dashboard/access/role"></b-breadcrumb-item>
       <b-breadcrumb-item text="Chỉnh sửa" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
@@ -16,7 +16,7 @@
   @Component({
     name: 'page-dashboard-access-role-edit',
     head: {
-      title: 'Bảng điều khiển - Quản lý truy cập - Quyền truy cập - Chỉnh sửa',
+      title: 'Bảng điều khiển - Truy cập - Quyền truy cập - Chỉnh sửa',
     },
   })
   export default class extends Vue {}

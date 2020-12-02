@@ -98,7 +98,7 @@ class AccountApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = AccountProvider::remove($accounts[0]->getId());
+    $success = AccountProvider::remove($accounts[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

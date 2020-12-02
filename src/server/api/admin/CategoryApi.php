@@ -15,13 +15,9 @@ class CategoryApi extends Api {
   }
 
   public static function get() {
-    if (!Request::getInstance()->hasParam('idCategoryGroup')) {
-      Response::getInstance()->sendStatus(400);
-    }
+    Request::getInstance()->verifyAdminAccount();
 
-    Response::getInstance()->sendJson(CategoryProvider::find([
-      'idCategoryGroup' => Request::getInstance()->getParam('idCategoryGroup'),
-    ]));
+    Response::getInstance()->sendJson(CategoryProvider::find(Request::getInstance()->getParam()));
   }
 
   public static function post() {
@@ -77,7 +73,7 @@ class CategoryApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = CategoryProvider::remove($Categorys[0]->getId());
+    $success = CategoryProvider::remove($Categorys[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

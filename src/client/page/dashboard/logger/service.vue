@@ -2,33 +2,32 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Quản lý lịch sử - Dịch vụ" :to="$route.path"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Ghi vết - Dịch vụ" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
-    <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <div v-else-if="!this.$fetchState.error">
-      <b-form-group label="Ngày:" label-size="sm" label-for="input-date">
-        <date-picker
-          :input-attr="{ id: 'input-date', name: 'date' }"
-          input-class="form-control form-control-sm"
-          :clearable="false"
-          value-type="YYYY-MM-DD"
-          format="DD-MM-YYYY"
-          popup-class="rounded border shadow"
-          placeholder="Nhập ngày xem lịch sử"
-          v-model="date"
-          class="w-100"
-          prefix-class="date-picker"
-          :disabled-date="(date) => date > new Date()"
-        >
-          <template #icon-calendar>
-            <i></i>
-          </template>
-        </date-picker>
-      </b-form-group>
+    <b-form-group label="Ngày:" label-size="sm" label-for="input-date">
+      <date-picker
+        :input-attr="{ id: 'input-date', name: 'date' }"
+        input-class="form-control form-control-sm"
+        :clearable="false"
+        value-type="YYYY-MM-DD"
+        format="DD-MM-YYYY"
+        popup-class="rounded border shadow"
+        placeholder="Nhập ngày xem ghi vết"
+        v-model="date"
+        class="w-100"
+        prefix-class="date-picker"
+        :disabled-date="(date) => date > new Date()"
+      >
+        <template #icon-calendar>
+          <i></i>
+        </template>
+      </date-picker>
+    </b-form-group>
+    <div v-if="date != null">
       <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
       <c-dashboard-table
-        :title="`Lịch sử dịch vụ ngày ${formatDate}`"
+        :title="`Ghi vết dịch vụ ngày ${formatDate}`"
         :items="items"
         :fields="fields"
         class="mt-1"
@@ -46,10 +45,10 @@
   import { DatePicker } from '@/plugin/datepicker';
 
   @Component({
-    name: 'page-dashboard-history-service',
+    name: 'page-dashboard-logger-service',
     components: { DatePicker },
     head: {
-      title: 'Bảng điều khiển - Quản lý lịch sử - Dịch vụ',
+      title: 'Bảng điều khiển - Ghi vết - Dịch vụ',
     },
   })
   export default class extends Vue {
@@ -58,11 +57,6 @@
     private date: string | null = null;
     private formatDate: string | null = null;
     private pending: boolean = false;
-
-    public async fetch() {
-      let today = new Date();
-      this.date = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-    }
 
     @Watch('date')
     public async onDateChanged() {
