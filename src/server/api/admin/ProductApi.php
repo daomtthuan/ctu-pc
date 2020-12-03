@@ -17,7 +17,13 @@ class ProductApi extends Api {
   public static function get() {
     Request::getInstance()->verifyAdminAccount();
 
-    Response::getInstance()->sendJson(ProductProvider::find(Request::getInstance()->getParam()));
+    $products = [];
+    foreach (ProductProvider::find(Request::getInstance()->getParam()) as $product) {
+      $data = $product->jsonSerialize();
+      $data['brand'] = $product->getBrand()->jsonSerialize();
+      $products[] = $data;
+    }
+    Response::getInstance()->sendJson($products);
   }
 
   public static function post() {

@@ -57,7 +57,7 @@
   import { focusEditor, resetEditor } from '@/plugin/editor';
 
   @Component({
-    name: 'component-dashboard-form-edit-shop-event',
+    name: 'component-dashboard-form-edit-shop-product',
     validations: createValidation('title', 'content', 'state'),
   })
   export default class extends mixins(validationMixin) {

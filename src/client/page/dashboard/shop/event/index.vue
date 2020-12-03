@@ -5,6 +5,8 @@
       <b-breadcrumb-item text="Cửa hàng - Sự kiện" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
+    <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
+    <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
     <c-dashboard-table
       title="Danh sách sự kiện"
@@ -12,7 +14,6 @@
       :fields="fields"
       :notes="notes"
       :row-class="rowClass"
-      class="mt-1"
       :remove-item="remove"
       v-else-if="!this.$fetchState.error"
     ></c-dashboard-table>

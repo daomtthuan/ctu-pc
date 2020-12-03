@@ -1,19 +1,17 @@
 <template>
   <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
-    <b-form-group label="Nhóm danh mục:">
-      <b-form-select v-model="$v.form.idCategoryGroup.$model" :options="categoryGroupOptions" :state="validateState('idCategoryGroup')"></b-form-select>
+    <b-form-group label="Nhóm danh mục:" label-for="select-category-group">
+      <b-form-select
+        id="select-category-group"
+        v-model="$v.form.idCategoryGroup.$model"
+        :options="categoryGroupOptions"
+        :state="validateState('idCategoryGroup')"
+      ></b-form-select>
       <b-form-invalid-feedback>Nhóm danh mục không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <b-form-group label="Tên:" label-for="input-name">
-      <b-form-input
-        id="input-name"
-        type="text"
-        placeholder="Nhập tên"
-        autocomplete="on"
-        v-model="$v.form.name.$model"
-        :state="validateState('name')"
-      ></b-form-input>
+      <b-form-input id="input-name" type="text" placeholder="Nhập tên" v-model="$v.form.name.$model" :state="validateState('name')"></b-form-input>
       <b-form-invalid-feedback>Tên không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -65,16 +63,19 @@
       try {
         this.pending = true;
         await this.$axios.post('/api/admin/category', this.form);
-        this.form = {
-          name: null,
-          idCategoryGroup: null,
-        };
-        this.$nextTick(() => this.$v.$reset());
-        this.$nuxt.$bvToast.toast('Đã tạo mới nhóm danh mục.', {
-          title: 'Tạo mới thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+
+        this.$nextTick(() => {
+          this.form = {
+            name: null,
+            idCategoryGroup: null,
+          };
+          this.$v.$reset();
+          this.$nuxt.$bvToast.toast('Đã tạo mới nhóm danh mục.', {
+            title: 'Tạo mới thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
         });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

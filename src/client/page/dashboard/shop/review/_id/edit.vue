@@ -14,9 +14,9 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-shop-cateogry-edit',
+    name: 'page-dashboard-shop-review-edit',
     head: {
-      title: 'Bảng điều khiển - Cửa hàng - Danh mục - Chỉnh sửa',
+      title: 'Bảng điều khiển - Cửa hàng - Đánh giá - Chỉnh sửa',
     },
   })
   export default class extends Vue {}

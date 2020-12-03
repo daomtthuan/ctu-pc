@@ -5,10 +5,12 @@
       <b-breadcrumb-item text="Truy cập - Phân quyền" to="/dashboard/access/permission"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
+    <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
+    <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
     <div v-else-if="!this.$fetchState.error">
-      <b-form-group label="Quyền truy cập:" label-size="sm">
-        <b-form-select v-model="selected" :options="options" :disabled="pending" size="sm"></b-form-select>
+      <b-form-group label="Quyền truy cập:" label-for="select-role" label-size="sm">
+        <b-form-select id="select-role" v-model="selected" :options="options" :disabled="pending" size="sm"></b-form-select>
       </b-form-group>
       <div v-if="selected != null">
         <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
@@ -18,7 +20,6 @@
           :fields="fields"
           :notes="notes"
           :row-class="rowClass"
-          class="mt-1"
           :remove-item="remove"
           :allow-edit="false"
           v-else
@@ -43,7 +44,7 @@
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private selected: number | null = null;
-    private options: App.Control.SeleteOption[] = [{ value: null, text: 'Chọn quyền truy cập', disabled: true }];
+    private options: App.Control.SeleteOption[] = [];
     private pending: boolean = false;
 
     public rowClass(item: Entity.Account) {
@@ -52,8 +53,14 @@
 
     public async fetch() {
       try {
-        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/role')).data) {
-          this.options.push({ value: role.id, text: role.name });
+        let roles: Entity.Role[] = (await this.$axios.get('/api/admin/role')).data;
+        if (roles.length > 0) {
+          this.options = [{ value: null, text: 'Chọn quyền truy cập', disabled: true }];
+          for (let role of roles) {
+            this.options.push({ value: role.id, text: role.name });
+          }
+        } else {
+          this.options = [{ value: null, text: 'Không có quyền truy cập nào', disabled: true }];
         }
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
@@ -65,7 +72,7 @@
       try {
         this.pending = true;
         this.nameRole = this.options.filter((role) => role.value == newValue)[0].text;
-        this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue } })).data;
+        this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: false } })).data;
         this.fields = [
           { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
           { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },

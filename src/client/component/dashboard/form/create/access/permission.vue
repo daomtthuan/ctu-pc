@@ -1,13 +1,20 @@
 <template>
   <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
   <b-form @submit.prevent="submit" v-else-if="!this.$fetchState.error">
-    <b-form-group label="Quyền truy cập:">
-      <b-form-select v-model="$v.form.idRole.$model" :options="roleOptions" :disabled="idAccountPending" :state="validateState('idRole')"></b-form-select>
+    <b-form-group label="Quyền truy cập:" label-for="select-role">
+      <b-form-select
+        id="select-role"
+        v-model="$v.form.idRole.$model"
+        :options="roleOptions"
+        :disabled="idAccountPending"
+        :state="validateState('idRole')"
+      ></b-form-select>
       <b-form-invalid-feedback>Quyền truy cập không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <div v-if="idAccountPending" class="text-center mb-3"><b-spinner small></b-spinner> Đang tải...</div>
-    <b-form-group label="Tài khoản:" v-else-if="form.idRole != null">
+    <b-form-group label="Tài khoản:" label-for="select-account" v-else-if="form.idRole != null">
       <b-form-select
+        id="select-account"
         v-model="$v.form.idAccount.$model"
         :options="accountOptions"
         :state="validateState('idAccount')"
@@ -29,7 +36,7 @@
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-dashboard-form-create-access-account',
+    name: 'component-dashboard-form-create-access-permission',
     validations: createValidation('idRole', 'idAccount'),
   })
   export default class extends mixins(validationMixin) {
@@ -63,14 +70,17 @@
       try {
         this.submitPending = true;
         await this.$axios.post('/api/admin/permission', this.form);
-        this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
-        this.form.idAccount = null;
-        this.$nextTick(() => this.$v.$reset());
-        this.$nuxt.$bvToast.toast('Đã tạo mới phân quyền cho tài khoản.', {
-          title: 'Tạo mới thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+
+        this.$nextTick(() => {
+          this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
+          this.form.idAccount = null;
+          this.$v.$reset();
+          this.$nuxt.$bvToast.toast('Đã tạo mới phân quyền cho tài khoản.', {
+            title: 'Tạo mới thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
         });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

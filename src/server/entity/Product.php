@@ -3,9 +3,10 @@
 namespace Entity;
 
 use Core\Entity;
+use Provider\BrandProvider;
 
 class Product extends Entity {
-  private int $name;
+  private string $name;
   private float $price;
   private int $quantity;
   private int $idCategory;
@@ -18,7 +19,7 @@ class Product extends Entity {
    */
   public function __construct(array $data) {
     parent::__construct($data);
-    $this->name = (int)$data['name'];
+    $this->name = (string)$data['name'];
     $this->price = (float)$data['price'];
     $this->quantity = (int)$data['quantity'];
     $this->idCategory = (int)$data['idCategory'];
@@ -35,6 +36,15 @@ class Product extends Entity {
       'idBrand' => $this->getIdBrand(),
       'state' => $this->getState()
     ];
+  }
+
+  /**
+   * Get brand
+   * 
+   * @return Account Author account
+   */
+  public function getBrand() {
+    return BrandProvider::find(['id' => $this->idBrand])[0];
   }
 
   /**

@@ -94,7 +94,7 @@ let config: NuxtConfig = {
       },
     },
   },
-  watch: ['@/.env', '@types'],
+  watch: ['@/.env', '@/type'],
   target: 'static',
   router: {
     base: process.env.ROUTER,

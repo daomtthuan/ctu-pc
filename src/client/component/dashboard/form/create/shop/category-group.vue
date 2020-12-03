@@ -1,14 +1,7 @@
 <template>
   <b-form @submit.prevent="submit">
     <b-form-group label="Tên:" label-for="input-name">
-      <b-form-input
-        id="input-name"
-        type="text"
-        placeholder="Nhập tên"
-        autocomplete="on"
-        v-model="$v.form.name.$model"
-        :state="validateState('name')"
-      ></b-form-input>
+      <b-form-input id="input-name" type="text" placeholder="Nhập tên" v-model="$v.form.name.$model" :state="validateState('name')"></b-form-input>
       <b-form-invalid-feedback>Tên không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -26,7 +19,7 @@
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-dashboard-form-create-access-account',
+    name: 'component-dashboard-form-create-shop-category-group',
     validations: createValidation('name'),
   })
   export default class extends mixins(validationMixin) {
@@ -48,15 +41,18 @@
       try {
         this.pending = true;
         await this.$axios.post('/api/admin/category-group', this.form);
-        this.form = {
-          name: null,
-        };
-        this.$nextTick(() => this.$v.$reset());
-        this.$nuxt.$bvToast.toast('Đã tạo mới nhóm danh mục.', {
-          title: 'Tạo mới thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+
+        this.$nextTick(() => {
+          this.form = {
+            name: null,
+          };
+          this.$v.$reset();
+          this.$nuxt.$bvToast.toast('Đã tạo mới nhóm danh mục.', {
+            title: 'Tạo mới thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
         });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

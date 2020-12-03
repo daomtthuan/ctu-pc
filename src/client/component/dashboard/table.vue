@@ -1,19 +1,12 @@
 <template>
   <div>
-    <h5 class="text-primary">{{ title }}</h5>
-    <hr />
-
-    <div class="mb-2">
-      <b-button size="sm" :to="`${$route.path}/create`" variant="primary" v-if="allowCreate">Tạo mới</b-button>
-    </div>
-
     <b-form v-if="items.length > 0">
       <b-row>
         <b-col md="6">
-          <b-form-group label="Sắp xếp" label-size="sm" label-for="sortBySelect">
+          <b-form-group label="Sắp xếp" label-size="sm" label-for="select-sort">
             <b-row no-gutters>
               <b-col xl="8" class="pr-xl-1 mb-2 mb-xl-0">
-                <b-form-select v-model="sortBy" id="sortBySelect" size="sm" :options="options">
+                <b-form-select v-model="sortBy" id="select-sort" size="sm" :options="options">
                   <template v-slot:first>
                     <option value="">Không sắp xếp</option>
                   </template>
@@ -29,10 +22,10 @@
           </b-form-group>
         </b-col>
         <b-col md="6">
-          <b-form-group label="Phân trang" label-size="sm" label-for="perPageSelect">
+          <b-form-group label="Phân trang" label-size="sm" label-for="select-per-page">
             <b-row no-gutters>
               <b-col xl="4" class="pr-xl-1 mb-2 mb-xl-0">
-                <b-form-select v-model="perPage" id="perPageSelect" size="sm" :options="perPageOptions"></b-form-select>
+                <b-form-select v-model="perPage" id="select-per-page" size="sm" :options="perPageOptions"></b-form-select>
               </b-col>
               <b-col xl="8">
                 <b-form-input
@@ -50,8 +43,8 @@
         </b-col>
       </b-row>
 
-      <b-form-group label="Tìm kiếm" label-size="sm" label-for="filterInput">
-        <b-form-input type="search" v-model="filter" id="filterInput" size="sm" placeholder="Nhập dữ liệu cần tìm"></b-form-input>
+      <b-form-group label="Tìm kiếm" label-size="sm" label-for="input-filter">
+        <b-form-input type="search" v-model="filter" id="input-filter" size="sm" placeholder="Nhập dữ liệu cần tìm"></b-form-input>
       </b-form-group>
     </b-form>
 
@@ -65,6 +58,8 @@
         </div>
       </div>
     </div>
+
+    <h5 class="text-primary">{{ title }}</h5>
 
     <b-table
       bordered
@@ -162,9 +157,6 @@
 
     @Prop({ type: Function })
     private removeItem?: (id: number) => Promise<void>;
-
-    @Prop({ type: Boolean, default: true })
-    private allowCreate!: boolean;
 
     @Prop({ type: Boolean, default: true })
     private allowEdit!: boolean;

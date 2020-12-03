@@ -14,9 +14,9 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-access-account-create',
+    name: 'page-dashboard-access-permission-create',
     head: {
-      title: 'Bảng điều khiển - Truy cập - Tài khoản - Thêm',
+      title: 'Bảng điều khiển - Truy cập - Phân quyền - Thêm',
     },
   })
   export default class extends Vue {}

@@ -19,9 +19,5 @@
       title: 'Bảng điều khiển - Cửa hàng - Nhóm danh mục - Tạo mới',
     },
   })
-  export default class extends Vue {
-    public fetch() {
-      Vue.use(require('vue2-editor'));
-    }
-  }
+  export default class extends Vue {}
 </script>

@@ -3,24 +3,22 @@
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-form-group label="Trạng thái:">
       <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
-        <b-form-radio id="radio-state-enabled" name="state" :value="true" autocomplete="on">Kích hoạt</b-form-radio>
-        <b-form-radio id="radio-state-disabled" name="state" :value="false" autocomplete="on">Vô hiệu hoá</b-form-radio>
+        <b-form-radio id="radio-state-enabled" name="state" :value="true">Kích hoạt</b-form-radio>
+        <b-form-radio id="radio-state-disabled" name="state" :value="false">Vô hiệu hoá</b-form-radio>
       </b-form-radio-group>
       <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
     </b-form-group>
-    <b-form-group label="Nhóm danh mục:">
-      <b-form-select v-model="$v.form.idCategoryGroup.$model" :options="categoryGroupOptions" :state="validateState('idCategoryGroup')"></b-form-select>
+    <b-form-group label="Nhóm danh mục:" label-for="select-category-group">
+      <b-form-select
+        id="select-category-group"
+        v-model="$v.form.idCategoryGroup.$model"
+        :options="categoryGroupOptions"
+        :state="validateState('idCategoryGroup')"
+      ></b-form-select>
       <b-form-invalid-feedback>Nhóm danh mục không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <b-form-group label="Tên:" label-for="input-name">
-      <b-form-input
-        id="input-name"
-        type="text"
-        placeholder="Nhập tên"
-        autocomplete="on"
-        v-model="$v.form.name.$model"
-        :state="validateState('name')"
-      ></b-form-input>
+      <b-form-input id="input-name" type="text" placeholder="Nhập tên" v-model="$v.form.name.$model" :state="validateState('name')"></b-form-input>
       <b-form-invalid-feedback>Tên không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
 
@@ -86,13 +84,16 @@
       try {
         this.pending = true;
         await this.$axios.put('/api/admin/category', this.form, { params: { id: this.id } });
-        this.$nuxt.$bvToast.toast('Thông tin danh mục đã được chỉnh sửa.', {
-          title: 'Chỉnh sửa thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+
+        this.$nextTick(() => {
+          this.$nuxt.$bvToast.toast('Thông tin danh mục đã được chỉnh sửa.', {
+            title: 'Chỉnh sửa thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
+          this.$router.back();
         });
-        this.$nextTick(() => this.$router.back());
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

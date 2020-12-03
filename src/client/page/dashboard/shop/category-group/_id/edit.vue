@@ -14,14 +14,10 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-shop-event-edit',
+    name: 'page-dashboard-shop-category-group-edit',
     head: {
       title: 'Bảng điều khiển - Cửa hàng - Sự kiện - Chỉnh sửa',
     },
   })
-  export default class extends Vue {
-    public fetch() {
-      Vue.use(require('vue2-editor'));
-    }
-  }
+  export default class extends Vue {}
 </script>

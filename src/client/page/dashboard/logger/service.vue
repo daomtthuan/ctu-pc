@@ -30,7 +30,6 @@
         :title="`Ghi vết dịch vụ ngày ${formatDate}`"
         :items="items"
         :fields="fields"
-        class="mt-1"
         :allow-create="false"
         :allow-edit="false"
         :allow-remove="false"

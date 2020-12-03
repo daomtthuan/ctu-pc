@@ -71,6 +71,10 @@
 
   &:focus-within {
     box-shadow: 0 0 0 0.2rem #3b84c040;
+
+    .ql-snow {
+      border-color: #3b84bf80;
+    }
   }
 
   &.is-invalid {

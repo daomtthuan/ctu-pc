@@ -7,7 +7,6 @@
             id="input-username"
             type="text"
             placeholder="Nhập tài khoản"
-            autocomplete="on"
             v-model="$v.form.username.$model"
             :state="validateState('username')"
           ></b-form-input>
@@ -18,7 +17,6 @@
             id="input-password"
             type="password"
             placeholder="Nhập mật khẩu"
-            autocomplete="on"
             v-model="$v.form.password.$model"
             :state="validateState('password')"
           ></b-form-input>
@@ -29,21 +27,13 @@
             id="input-repassword"
             type="password"
             placeholder="Nhập lại mật khẩu"
-            autocomplete="on"
             v-model="$v.form.repassword.$model"
             :state="validateState('repassword')"
           ></b-form-input>
           <b-form-invalid-feedback>Mật khẩu nhập lại không đúng</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input
-            id="input-email"
-            type="email"
-            placeholder="Nhập email"
-            autocomplete="on"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-          ></b-form-input>
+          <b-form-input id="input-email" type="email" placeholder="Nhập email" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
       </b-col>
@@ -53,7 +43,6 @@
             id="input-full-name"
             type="text"
             placeholder="Nhập họ tên"
-            autocomplete="on"
             v-model="$v.form.fullName.$model"
             :state="validateState('fullName')"
           ></b-form-input>
@@ -81,18 +70,17 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')">
-            <b-form-radio id="radio-gender-male" name="gender" :value="true" autocomplete="on">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="false" autocomplete="on">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" name="gender" :value="true">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" name="gender" :value="false">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
-        <b-form-group label="Số điện thoại:">
+        <b-form-group label="Số điện thoại:" label-for="input-phone">
           <b-form-input
             id="input-phone"
             type="text"
             name="phone"
             placeholder="Nhập số điện thoại"
-            autocomplete="on"
             v-model="$v.form.phone.$model"
             :state="validateState('phone')"
           ></b-form-input>
@@ -100,14 +88,13 @@
         </b-form-group>
       </b-col>
     </b-row>
-    <b-form-group label="Địa chỉ:">
+    <b-form-group label="Địa chỉ:" label-for="input-address">
       <b-form-textarea
         id="input-address"
         name="address"
         placeholder="Nhập địa chỉ"
         rows="3"
         max-rows="6"
-        autocomplete="on"
         v-model="$v.form.address.$model"
         :state="validateState('address')"
       ></b-form-textarea>

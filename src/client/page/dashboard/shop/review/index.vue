@@ -5,8 +5,6 @@
       <b-breadcrumb-item text="Cửa hàng - Danh mục" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
-    <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
-    <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
     <div v-else-if="!this.$fetchState.error">
       <b-form-group label="Nhóm danh mục:" label-for="select-category-group" label-size="sm">
@@ -43,7 +41,7 @@
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private selected: number | null = null;
-    private options: App.Control.SeleteOption[] = [];
+    private options: App.Control.SeleteOption[] = [{ value: null, text: 'Chọn nhóm danh mục', disabled: true }];
     private pending: boolean = false;
 
     public rowClass(item: Entity.Account) {
@@ -52,14 +50,8 @@
 
     public async fetch() {
       try {
-        let categoryGroups: Entity.CategoryGroup[] = (await this.$axios.get('/api/admin/category-group')).data;
-        if (categoryGroups.length > 0) {
-          this.options = [{ value: null, text: 'Chọn nhóm danh mục', disabled: true }];
-          for (let categoryGroup of categoryGroups) {
-            this.options.push({ value: categoryGroup.id, text: categoryGroup.name });
-          }
-        } else {
-          this.options = [{ value: null, text: 'Không có nhóm danh mục nào', disabled: true }];
+        for (let role of <Entity.Role[]>(await this.$axios.get('/api/admin/category-group')).data) {
+          this.options.push({ value: role.id, text: role.name });
         }
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

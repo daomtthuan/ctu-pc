@@ -7,7 +7,6 @@
         :state="validateState('username')"
         type="text"
         placeholder="Nhập tên đăng nhập"
-        autocomplete="on"
       ></b-form-input>
       <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
@@ -18,7 +17,6 @@
         :state="validateState('password')"
         type="password"
         placeholder="Nhập mật khẩu"
-        autocomplete="on"
       ></b-form-input>
       <b-form-invalid-feedback>Mật khẩu không hợp lệ</b-form-invalid-feedback>
     </b-form-group>

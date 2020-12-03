@@ -12,7 +12,6 @@
       :fields="fields"
       :notes="notes"
       :row-class="rowClass"
-      class="mt-1"
       v-else-if="!this.$fetchState.error"
       :allow-create="false"
       :allow-remove="false"

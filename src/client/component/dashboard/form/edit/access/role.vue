@@ -3,8 +3,8 @@
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-form-group label="Trạng thái:">
       <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
-        <b-form-radio id="radio-state-enabled" name="state" :value="true" autocomplete="on">Kích hoạt</b-form-radio>
-        <b-form-radio id="radio-state-disabled" name="state" :value="false" autocomplete="on">Vô hiệu hoá</b-form-radio>
+        <b-form-radio id="radio-state-enabled" name="state" :value="true">Kích hoạt</b-form-radio>
+        <b-form-radio id="radio-state-disabled" name="state" :value="false">Vô hiệu hoá</b-form-radio>
       </b-form-radio-group>
       <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
     </b-form-group>
@@ -59,13 +59,16 @@
       try {
         this.pending = true;
         await this.$axios.put('/api/admin/role', this.form, { params: { id: this.id } });
-        this.$nuxt.$bvToast.toast('Thông tin quyền truy cập đã được chỉnh sửa.', {
-          title: 'Chỉnh sửa thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+
+        this.$nextTick(() => {
+          this.$nuxt.$bvToast.toast('Thông tin quyền truy cập đã được chỉnh sửa.', {
+            title: 'Chỉnh sửa thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
+          this.$router.back();
         });
-        this.$nextTick(() => this.$router.back());
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {

@@ -7,21 +7,13 @@
             id="input-username"
             type="text"
             placeholder="Nhập tài khoản"
-            autocomplete="on"
             v-model="$v.form.username.$model"
             :state="validateState('username')"
           ></b-form-input>
           <b-form-invalid-feedback>Tên đăng nhập không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Email:" label-for="input-email">
-          <b-form-input
-            id="input-email"
-            type="email"
-            placeholder="Nhập email"
-            autocomplete="on"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-          ></b-form-input>
+          <b-form-input id="input-email" type="email" placeholder="Nhập email" v-model="$v.form.email.$model" :state="validateState('email')"></b-form-input>
           <b-form-invalid-feedback>Email không hợp lệ</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group label="Họ và tên:" label-for="input-full-name">
@@ -29,7 +21,6 @@
             id="input-full-name"
             type="text"
             placeholder="Nhập họ tên"
-            autocomplete="on"
             v-model="$v.form.fullName.$model"
             :state="validateState('fullName')"
           ></b-form-input>
@@ -59,8 +50,8 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')">
-            <b-form-radio id="radio-gender-male" name="gender" :value="true" autocomplete="on">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="false" autocomplete="on">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" name="gender" :value="true">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" name="gender" :value="false">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
@@ -70,7 +61,6 @@
             type="text"
             name="phone"
             placeholder="Nhập số điện thoại"
-            autocomplete="on"
             v-model="$v.form.phone.$model"
             :state="validateState('phone')"
           ></b-form-input>
@@ -85,7 +75,6 @@
         placeholder="Nhập địa chỉ"
         rows="3"
         max-rows="6"
-        autocomplete="on"
         v-model="$v.form.address.$model"
         :state="validateState('address')"
       ></b-form-textarea>
@@ -143,22 +132,23 @@
         this.pending = true;
         await this.$axios.post('/api/admin/account', this.form);
 
-        this.form = {
-          username: null,
-          email: null,
-          fullName: null,
-          birthday: null,
-          gender: null,
-          phone: null,
-          address: null,
-        };
-
-        this.$nextTick(() => this.$v.$reset());
-        this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
-          title: 'Tạo mới thành công!',
-          variant: 'success',
-          solid: true,
-          toaster: 'b-toaster-bottom-right',
+        this.$nextTick(() => {
+          this.form = {
+            username: null,
+            email: null,
+            fullName: null,
+            birthday: null,
+            gender: null,
+            phone: null,
+            address: null,
+          };
+          this.$v.$reset();
+          this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
+            title: 'Tạo mới thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
         });
       } catch (error) {
         let response = <Response>error.response;
