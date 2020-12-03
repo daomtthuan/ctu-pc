@@ -69,42 +69,44 @@
 
     @Watch('selected')
     public async onSelectedChanged(newValue: number) {
-      try {
-        this.pending = true;
-        this.nameRole = this.options.filter((role) => role.value == newValue)[0].text;
-        this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: false } })).data;
-        this.fields = [
-          { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
-          { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
-          { key: 'fullName', label: 'Họ và tên', sortable: true, class: 'align-middle' },
-          { key: 'birthday', label: 'Ngày sinh', sortable: true, class: 'align-middle text-md-right fit' },
-          {
-            key: 'gender',
-            label: 'Giới tính',
-            sortable: true,
-            class: 'align-middle fit',
-            formatter: (value) => (value == 1 ? 'Nam' : 'Nữ'),
-            sortByFormatted: true,
-            filterByFormatted: true,
-          },
-          { key: 'email', label: 'Email', sortable: true, class: 'align-middle' },
-          { key: 'address', label: 'Địa chỉ', sortable: true, class: 'align-middle' },
-          { key: 'phone', label: 'Điện thoại', sortable: true, class: 'align-middle' },
-          {
-            key: 'state',
-            label: 'Trạng thái',
-            sortable: true,
-            class: 'd-none',
-            formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'),
-            sortByFormatted: true,
-            filterByFormatted: true,
-          },
-          { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
-        ];
-      } catch (error) {
-        this.$nuxt.error({ statusCode: (<Response>error.response).status });
-      } finally {
-        this.pending = false;
+      if (newValue != null) {
+        try {
+          this.pending = true;
+          this.nameRole = this.options.filter((role) => role.value == newValue)[0].text;
+          this.items = (await this.$axios.get('/api/admin/permission', { params: { idRole: newValue, notIn: false } })).data;
+          this.fields = [
+            { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
+            { key: 'username', label: 'Tài khoản', sortable: true, class: 'align-middle fit' },
+            { key: 'fullName', label: 'Họ và tên', sortable: true, class: 'align-middle' },
+            { key: 'birthday', label: 'Ngày sinh', sortable: true, class: 'align-middle text-md-right fit' },
+            {
+              key: 'gender',
+              label: 'Giới tính',
+              sortable: true,
+              class: 'align-middle fit',
+              formatter: (value) => (value == 1 ? 'Nam' : 'Nữ'),
+              sortByFormatted: true,
+              filterByFormatted: true,
+            },
+            { key: 'email', label: 'Email', sortable: true, class: 'align-middle' },
+            { key: 'address', label: 'Địa chỉ', sortable: true, class: 'align-middle' },
+            { key: 'phone', label: 'Điện thoại', sortable: true, class: 'align-middle' },
+            {
+              key: 'state',
+              label: 'Trạng thái',
+              sortable: true,
+              class: 'd-none',
+              formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'),
+              sortByFormatted: true,
+              filterByFormatted: true,
+            },
+            { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
+          ];
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        } finally {
+          this.pending = false;
+        }
       }
     }
 

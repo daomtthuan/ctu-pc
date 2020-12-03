@@ -6,6 +6,7 @@ declare namespace App {
           name: null | string;
           price: null | number;
           quantity: null | number;
+          idCategoryGroup: null | number;
           idCategory: null | number;
           idBrand: null | number;
           state: null | boolean;

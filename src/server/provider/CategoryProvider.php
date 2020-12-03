@@ -24,29 +24,29 @@ class CategoryProvider {
   }
 
   /**
-   * Create Category
+   * Create category
    * 
-   * @param Category $Category Created Category
+   * @param Category $category Created category
    *
    * @return bool True if success, otherwise false
    */
-  public static function create(Category $Category) {
-    $data = $Category->jsonSerialize();
+  public static function create(Category $category) {
+    $data = $category->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Category', $data) > 0;
   }
 
   /**
-   * Edit Category
+   * Edit category
    * 
-   * @param Category $Category Edited Category
+   * @param Category $category Edited category
    * 
    * @return bool True if success, otherwise false
    */
-  public static function edit(Category $Category) {
-    $data = $Category->jsonSerialize();
+  public static function edit(Category $category) {
+    $data = $category->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Category', $Category->getId(), $data) == 1;
+    return Database::getInstance()->edit('Category', $category->getId(), $data) == 1;
   }
 
   /**

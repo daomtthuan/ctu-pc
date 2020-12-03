@@ -2,10 +2,8 @@
   <div>
     <b-breadcrumb class="bg-light">
       <b-breadcrumb-item text="Bảng điều khiến" to="/dashboard"></b-breadcrumb-item>
-      <b-breadcrumb-item text="Cửa hàng - Sản phẩm" :to="$route.path"></b-breadcrumb-item>
+      <b-breadcrumb-item text="Cửa hàng - Đánh giá" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
-    <hr />
-    <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
     <div v-else-if="!this.$fetchState.error">
@@ -15,26 +13,40 @@
           v-model="idCategoryGroupSelected"
           :options="categoryGroupOptions"
           size="sm"
-          :disabled="categoryPending || productPending"
+          :disabled="categoryPending || productPending || reviewPending"
         ></b-form-select>
       </b-form-group>
       <div v-if="idCategoryGroupSelected != null">
         <div v-if="categoryPending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
         <div v-else>
           <b-form-group label="Danh mục:" label-for="select-category" label-size="sm">
-            <b-form-select id="select-category" v-model="idCategorySelected" :options="categoryOptions" :disabled="productPending" size="sm"></b-form-select>
+            <b-form-select
+              id="select-category"
+              v-model="idCategorySelected"
+              :options="categoryOptions"
+              :disabled="productPending || reviewPending"
+              size="sm"
+            ></b-form-select>
           </b-form-group>
           <div v-if="idCategorySelected != null">
             <div v-if="productPending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-            <c-dashboard-table
-              :title="`Danh sách sản phẩm thuộc danh mục ${nameCategory}`"
-              :items="items"
-              :fields="fields"
-              :notes="notes"
-              :row-class="rowClass"
-              :remove-item="remove"
-              v-else
-            ></c-dashboard-table>
+            <div v-else>
+              <b-form-group label="Sản phẩm:" label-for="select-product" label-size="sm">
+                <b-form-select id="select-product" v-model="idProductSelected" :options="productOptions" :disabled="reviewPending" size="sm"></b-form-select>
+              </b-form-group>
+              <div v-if="idProductSelected != null">
+                <div v-if="reviewPending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
+                <c-dashboard-table
+                  :title="`Danh sách đánh giá của sản phẩm ${nameProduct}`"
+                  :items="items"
+                  :fields="fields"
+                  :notes="notes"
+                  :row-class="rowClass"
+                  :remove-item="remove"
+                  v-else
+                ></c-dashboard-table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -46,22 +58,25 @@
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-dashboard-shop-product',
+    name: 'page-dashboard-shop-review',
     head: {
-      title: 'Bảng điều khiển - Cửa hàng - Sản phẩm',
+      title: 'Bảng điều khiển - Cửa hàng - Đánh giá',
     },
   })
   export default class extends Vue {
-    private nameCategory: string | null = null;
+    private nameProduct: string | null = null;
     private items: Entity.Product[] = [];
     private fields: App.Component.Table.Field[] = [];
     private notes: App.Component.Table.Note[] = [{ label: 'Vô hiệu hoá', class: 'text-secondary bg-light font-weight-light' }];
     private idCategoryGroupSelected: number | null = null;
     private idCategorySelected: number | null = null;
+    private idProductSelected: number | null = null;
     private categoryGroupOptions: App.Control.SeleteOption[] = [{ value: null, text: 'Chọn nhóm danh mục', disabled: true }];
     private categoryOptions: App.Control.SeleteOption[] = [];
+    private productOptions: App.Control.SeleteOption[] = [];
     private categoryPending: boolean = false;
     private productPending: boolean = false;
+    private reviewPending: boolean = false;
 
     public rowClass(item: Entity.Account) {
       return item.state ? null : 'text-secondary bg-light font-weight-light';
@@ -111,22 +126,34 @@
       if (newValue != null) {
         try {
           this.productPending = true;
-          this.nameCategory = this.categoryOptions.filter((category) => category.value == newValue)[0].text;
-          this.items = (await this.$axios.get('/api/admin/product', { params: { idCategory: newValue } })).data;
+          let products: Entity.Product[] = (await this.$axios.get('/api/admin/product', { params: { idCategory: newValue } })).data;
+          if (products.length > 0) {
+            this.productOptions = [{ value: null, text: 'Chọn sản phẩm', disabled: true }];
+            for (let product of products) {
+              this.productOptions.push({ value: product.id, text: product.name });
+            }
+          } else {
+            this.productOptions = [{ value: null, text: 'Không có sản phẩm nào', disabled: true }];
+          }
+          this.idProductSelected = null;
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        } finally {
+          this.productPending = false;
+        }
+      }
+    }
+
+    @Watch('idProductSelected')
+    public async onIdProductSelectedChanged(newValue: number) {
+      if (newValue != null) {
+        try {
+          this.reviewPending = true;
+          this.nameProduct = this.productOptions.filter((product) => product.value == newValue)[0].text;
+          this.items = (await this.$axios.get('/api/admin/review', { params: { idProduct: newValue } })).data;
           this.fields = [
             { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
-            { key: 'name', label: 'Tên', sortable: true, class: 'align-middle' },
-            { key: 'price', label: 'Đơn giá', sortable: true, class: 'align-middle text-md-right' },
-            { key: 'quantity', label: 'Số lượng', sortable: true, class: 'align-middle text-md-right' },
-            {
-              key: 'brand',
-              label: 'Thương hiệu',
-              sortable: true,
-              class: 'align-middle',
-              formatter: (value: Entity.Brand) => value.name,
-              sortByFormatted: true,
-              filterByFormatted: true,
-            },
+            { key: 'star', label: 'Số sao', sortable: true, class: 'align-middle text-md-right fit' },
             {
               key: 'state',
               label: 'Trạng thái',
@@ -141,16 +168,16 @@
         } catch (error) {
           this.$nuxt.error({ statusCode: (<Response>error.response).status });
         } finally {
-          this.productPending = false;
+          this.reviewPending = false;
         }
       }
     }
 
     public async remove(id: number) {
       try {
-        await this.$axios.delete('/api/admin/product', { params: { id } });
+        await this.$axios.delete('/api/admin/review', { params: { id } });
         this.items = this.items.filter((item) => item.id != id);
-        this.$nuxt.$bvToast.toast('Đã xoá danh mục.', {
+        this.$nuxt.$bvToast.toast('Đã xoá đánh giá.', {
           title: 'Xoá thành công!',
           variant: 'success',
           solid: true,

@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
@@ -122,22 +122,11 @@
 
       try {
         this.pending = true;
-        let form: any = this.form;
+        let form: any = { ...this.form };
         delete form.idCategoryGroup;
         await this.$axios.post('/api/admin/product', form);
 
-        this.$nextTick(() => {
-          this.$v.$reset();
-        });
-
-        this.form = {
-          name: null,
-          idCategoryGroup: null,
-          idCategory: null,
-          idBrand: null,
-          price: null,
-          quantity: null,
-        };
+        resetForm(this);
         this.$nuxt.$bvToast.toast('Đã tạo mới sản phẩm.', {
           title: 'Tạo mới thành công!',
           variant: 'success',
@@ -165,6 +154,7 @@
           } else {
             this.categoryOptions = [{ value: null, text: 'Không có danh mục nào', disabled: true }];
           }
+          this.form.idCategory = null;
         } catch (error) {
           this.$nuxt.error({ statusCode: (<Response>error.response).status });
         } finally {

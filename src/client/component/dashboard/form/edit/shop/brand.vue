@@ -69,15 +69,13 @@
         this.pending = true;
         await this.$axios.put('/api/admin/brand', this.form, { params: { id: this.id } });
 
-        this.$nextTick(() => {
-          this.$nuxt.$bvToast.toast('Thông tin thương hiệu đã được chỉnh sửa.', {
-            title: 'Chỉnh sửa thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
-          this.$router.back();
+        this.$nuxt.$bvToast.toast('Thông tin thương hiệu đã được chỉnh sửa.', {
+          title: 'Chỉnh sửa thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
+        this.$router.back();
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

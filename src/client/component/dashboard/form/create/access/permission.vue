@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
@@ -70,17 +70,14 @@
       try {
         this.submitPending = true;
         await this.$axios.post('/api/admin/permission', this.form);
-
-        this.$nextTick(() => {
-          this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
-          this.form.idAccount = null;
-          this.$v.$reset();
-          this.$nuxt.$bvToast.toast('Đã tạo mới phân quyền cho tài khoản.', {
-            title: 'Tạo mới thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
+        
+        this.accountOptions = this.accountOptions.filter((option) => option.value != this.form.idAccount);
+        resetForm(this);
+        this.$nuxt.$bvToast.toast('Đã tạo mới phân quyền cho tài khoản.', {
+          title: 'Tạo mới thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

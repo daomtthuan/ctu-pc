@@ -1,6 +1,6 @@
 declare namespace Entity {
   interface Permission extends Entity {
-    idAccount: string;
-    idRole: string;
+    idAccount: number;
+    idRole: number;
   }
 }

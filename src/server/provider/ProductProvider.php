@@ -9,59 +9,54 @@ use Exception;
 /** Product provider */
 class ProductProvider {
   /**
-   * Find Product by filter
+   * Find product by filter
    * 
    * @param array|null $filter Finding filter
    * 
-   * @return Product[] Product
+   * @return Product[] Products
    */
   public static function find(array $filter = null) {
-    $Products = [];
+    $products = [];
     foreach (Database::getInstance()->find('Product', $filter) as $data) {
-      $Products[] = new Product($data);
+      $products[] = new Product($data);
     }
-    return $Products;
+    return $products;
   }
 
   /**
-   * Create Product
+   * Create product
    * 
-   * @param Product $Product Created Product
+   * @param Product $product Created product
    *
    * @return bool True if success, otherwise false
    */
-  public static function create(Product $Product) {
-    $data = $Product->jsonSerialize();
+  public static function create(Product $product) {
+    $data = $product->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Product', $data) > 0;
   }
 
   /**
-   * Edit Product
+   * Edit product
    * 
-   * @param Product $Product Edited Product
+   * @param Product $product Edited product
    * 
    * @return bool True if success, otherwise false
    */
-  public static function edit(Product $Product) {
-    $data = $Product->jsonSerialize();
+  public static function edit(Product $product) {
+    $data = $product->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Product', $Product->getId(), $data) == 1;
+    return Database::getInstance()->edit('Product', $product->getId(), $data) == 1;
   }
 
   /**
-   * Remove Product
+   * Remove product
    * 
-   * @param int $id Id Product
+   * @param Product $product Removed product
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      Database::getInstance()->remove('Review', ['idProduct' => $id]);
-      if (Database::getInstance()->remove('Product', ['id' => $id]) != 1) {
-        throw new Exception("Not found Product");
-      }
-    }, $id);
+  public static function remove(Product $product) {
+    return Database::getInstance()->remove('Product', ['id' => $product->getId()]) == 1;
   }
 }

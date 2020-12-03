@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
   import { DatePicker } from '@/plugin/datepicker';
 
@@ -132,23 +132,13 @@
         this.pending = true;
         await this.$axios.post('/api/admin/account', this.form);
 
-        this.$nextTick(() => {
-          this.form = {
-            username: null,
-            email: null,
-            fullName: null,
-            birthday: null,
-            gender: null,
-            phone: null,
-            address: null,
-          };
-          this.$v.$reset();
-          this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
-            title: 'Tạo mới thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
+        resetForm(this);
+
+        this.$nuxt.$bvToast.toast('Email chứa thông tin tài khoản đã được gửi.', {
+          title: 'Tạo mới thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
       } catch (error) {
         let response = <Response>error.response;

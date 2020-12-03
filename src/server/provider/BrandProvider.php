@@ -9,11 +9,11 @@ use Exception;
 /** Brand provider */
 class BrandProvider {
   /**
-   * Find Brand by filter
+   * Find brand by filter
    * 
    * @param array|null $filter Finding filter
    * 
-   * @return Brand[] Brand
+   * @return Brand[] Brands
    */
   public static function find(array $filter = null) {
     $brands = [];
@@ -24,14 +24,14 @@ class BrandProvider {
   }
 
   /**
-   * Create Brand
+   * Create brand
    * 
-   * @param Brand $brand Created Brand
+   * @param Brand $brand Created brand
    *
    * @return bool True if success, otherwise false
    */
-  public static function create(Brand $Brand) {
-    $data = $Brand->jsonSerialize();
+  public static function create(Brand $brand) {
+    $data = $brand->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Brand', $data) > 0;
   }
@@ -39,14 +39,14 @@ class BrandProvider {
   /**
    * Edit brand
    * 
-   * @param Brand $Brand Edited Brand
+   * @param Brand $Brand Edited brand
    * 
    * @return bool True if success, otherwise false
    */
-  public static function edit(Brand $Brand) {
-    $data = $Brand->jsonSerialize();
+  public static function edit(Brand $brand) {
+    $data = $brand->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Brand', $Brand->getId(), $data) == 1;
+    return Database::getInstance()->edit('Brand', $brand->getId(), $data) == 1;
   }
 
   /**

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
 
   @Component({
@@ -42,17 +42,12 @@
         this.pending = true;
         await this.$axios.post('/api/admin/brand', this.form);
 
-        this.$nextTick(() => {
-          this.form = {
-            name: null,
-          };
-          this.$v.$reset();
-          this.$nuxt.$bvToast.toast('Đã tạo mới thương hiệu.', {
-            title: 'Tạo mới thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
+        resetForm(this);
+        this.$nuxt.$bvToast.toast('Đã tạo mới thương hiệu.', {
+          title: 'Tạo mới thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });

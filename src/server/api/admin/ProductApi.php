@@ -85,7 +85,7 @@ class ProductApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = ProductProvider::remove($products[0]->getId());
+    $success = ProductProvider::remove($products[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

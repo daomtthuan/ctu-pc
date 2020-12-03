@@ -27,7 +27,7 @@
     <div v-if="date != null">
       <div v-if="pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
       <c-dashboard-table
-        :title="`Ghi vết dịch vụ ngày ${formatDate}`"
+        :title="`Danh sách ghi vết dịch vụ trong ngày ${formatDate}`"
         :items="items"
         :fields="fields"
         :allow-create="false"
@@ -58,34 +58,36 @@
     private pending: boolean = false;
 
     @Watch('date')
-    public async onDateChanged() {
-      try {
-        this.pending = true;
-        let tempDate = new Date(this.date!);
-        this.formatDate = `${tempDate.getDate()}-${tempDate.getMonth() + 1}-${tempDate.getFullYear()}`;
-        this.items = (await this.$axios.get('/api/admin/log/service', { params: { date: this.date } })).data;
-        this.fields = [
-          { key: 'time', label: 'Thời gian', sortable: true, class: 'align-middle text-md-right fit' },
-          { key: 'mac', label: 'Địa chỉ vật lý', sortable: true, class: 'align-middle fit' },
-          {
-            key: 'account',
-            label: 'Tài khoản',
-            sortable: true,
-            class: 'align-middle fit',
-            formatter: (value: Entity.Account) => (value ? value.username : null),
-            sortByFormatted: true,
-            filterByFormatted: true,
-          },
-          { key: 'url', label: 'Đường dẫn', sortable: true, class: 'align-middle' },
-          { key: 'params', label: 'Tham số', sortable: true, class: 'align-middle' },
-          { key: 'method', label: 'Phương thức', sortable: true, class: 'align-middle fit' },
-          { key: 'status', label: 'Trạng thái', sortable: true, class: 'align-middle fit' },
-          { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
-        ];
-      } catch (error) {
-        this.$nuxt.error({ statusCode: (<Response>error.response).status });
-      } finally {
-        this.pending = false;
+    public async onDateChanged(newVue: string) {
+      if (newVue != null) {
+        try {
+          this.pending = true;
+          let tempDate = new Date(newVue);
+          this.formatDate = `${tempDate.getDate()}-${tempDate.getMonth() + 1}-${tempDate.getFullYear()}`;
+          this.items = (await this.$axios.get('/api/admin/log/service', { params: { date: newVue } })).data;
+          this.fields = [
+            { key: 'time', label: 'Thời gian', sortable: true, class: 'align-middle text-md-right fit' },
+            { key: 'mac', label: 'Địa chỉ vật lý', sortable: true, class: 'align-middle fit' },
+            {
+              key: 'account',
+              label: 'Tài khoản',
+              sortable: true,
+              class: 'align-middle fit',
+              formatter: (value: Entity.Account) => (value ? value.username : null),
+              sortByFormatted: true,
+              filterByFormatted: true,
+            },
+            { key: 'url', label: 'Đường dẫn', sortable: true, class: 'align-middle' },
+            { key: 'params', label: 'Tham số', sortable: true, class: 'align-middle' },
+            { key: 'method', label: 'Phương thức', sortable: true, class: 'align-middle fit' },
+            { key: 'status', label: 'Trạng thái', sortable: true, class: 'align-middle fit' },
+            { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
+          ];
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        } finally {
+          this.pending = false;
+        }
       }
     }
   }

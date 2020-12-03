@@ -9,58 +9,54 @@ use Exception;
 /** Review provider */
 class ReviewProvider {
   /**
-   * Find Review by filter
+   * Find review by filter
    * 
    * @param array|null $filter Finding filter
    * 
-   * @return Review[] Review
+   * @return Review[] Reviews
    */
   public static function find(array $filter = null) {
-    $Reviews = [];
+    $reviews = [];
     foreach (Database::getInstance()->find('Review', $filter) as $data) {
-      $Reviews[] = new Review($data);
+      $reviews[] = new Review($data);
     }
-    return $Reviews;
+    return $reviews;
   }
 
   /**
-   * Create Review
+   * Create review
    * 
-   * @param Review $Review Created Review
+   * @param Review $review Created review
    *
    * @return bool True if success, otherwise false
    */
-  public static function create(Review $Review) {
-    $data = $Review->jsonSerialize();
+  public static function create(Review $review) {
+    $data = $review->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('Review', $data) > 0;
   }
 
   /**
-   * Edit Review
+   * Edit review
    * 
-   * @param Review $Review Edited Review
+   * @param Review $review Edited review
    * 
    * @return bool True if success, otherwise false
    */
-  public static function edit(Review $Review) {
-    $data = $Review->jsonSerialize();
+  public static function edit(Review $review) {
+    $data = $review->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Review', $Review->getId(), $data) == 1;
+    return Database::getInstance()->edit('Review', $review->getId(), $data) == 1;
   }
 
   /**
-   * Remove Review
+   * Remove review
    * 
-   * @param int $id Id Review
+   * @param Review $review Removed review
    * 
    * @return bool True if success, otherwise false
    */
-  public static function remove(int $id) {
-    return Database::getInstance()->doTransaction(function ($id) {
-      if (Database::getInstance()->remove('Review', ['id' => $id]) != 1) {
-        throw new Exception("Not found Review");
-      }
-    }, $id);
+  public static function remove(Review $review) {
+    return Database::getInstance()->remove('Review', ['id' => $review->getId()]) == 1;
   }
 }

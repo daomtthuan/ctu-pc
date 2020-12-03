@@ -47,7 +47,7 @@
 
 <script lang="ts">
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
-  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
   import { focusEditor, resetEditor } from '@/plugin/editor';
 
   @Component({
@@ -82,16 +82,8 @@
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        this.form = {
-          title: null,
-          image: null,
-          content: null,
-        };
-
-        this.$nextTick(() => {
-          this.$v.$reset();
-          resetEditor('input-content');
-        });
+        resetForm(this);
+        resetEditor('input-content');
         this.$nuxt.$bvToast.toast('Đã tạo mới sự kiện.', {
           title: 'Tạo mới thành công!',
           variant: 'success',

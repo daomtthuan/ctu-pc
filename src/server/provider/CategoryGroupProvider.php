@@ -13,7 +13,7 @@ class CategoryGroupProvider {
    * 
    * @param array|null $filter Finding filter
    * 
-   * @return CategoryGroup[] CategoryGroups
+   * @return CategoryGroup[] Category groups
    */
   public static function find(array $filter = null) {
     $categoryGroups = [];
@@ -26,12 +26,12 @@ class CategoryGroupProvider {
   /**
    * Create category group
    * 
-   * @param CategoryGroup $CategoryGroup Created CategoryGroup
+   * @param CategoryGroup $categoryGroup Created category group
    *
    * @return bool True if success, otherwise false
    */
-  public static function create(CategoryGroup $CategoryGroup) {
-    $data = $CategoryGroup->jsonSerialize();
+  public static function create(CategoryGroup $categoryGroup) {
+    $data = $categoryGroup->jsonSerialize();
     unset($data['id'], $data['state']);
     return Database::getInstance()->create('CategoryGroup', $data) > 0;
   }
@@ -39,14 +39,14 @@ class CategoryGroupProvider {
   /**
    * Edit category group
    * 
-   * @param CategoryGroup $CategoryGroup Edited CategoryGroup
+   * @param CategoryGroup $categoryGroup Edited category group
    * 
    * @return bool True if success, otherwise false
    */
-  public static function edit(CategoryGroup $CategoryGroup) {
-    $data = $CategoryGroup->jsonSerialize();
+  public static function edit(CategoryGroup $categoryGroup) {
+    $data = $categoryGroup->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('CategoryGroup', $CategoryGroup->getId(), $data) == 1;
+    return Database::getInstance()->edit('CategoryGroup', $categoryGroup->getId(), $data) == 1;
   }
 
   /**

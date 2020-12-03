@@ -98,6 +98,7 @@ CREATE TABLE Product (
 CREATE TABLE Review (
     id INT NOT NULL AUTO_INCREMENT,
     star TINYINT NOT NULL,
+    content NVARCHAR(500) NOT NULL,
     idAccount INT NOT NULL,
     idProduct INT NOT NULL,
     state BIT NOT NULL DEFAULT TRUE,

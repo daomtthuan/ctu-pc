@@ -60,15 +60,13 @@
         this.pending = true;
         await this.$axios.put('/api/admin/role', this.form, { params: { id: this.id } });
 
-        this.$nextTick(() => {
-          this.$nuxt.$bvToast.toast('Thông tin quyền truy cập đã được chỉnh sửa.', {
-            title: 'Chỉnh sửa thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
-          this.$router.back();
+        this.$nuxt.$bvToast.toast('Thông tin quyền truy cập đã được chỉnh sửa.', {
+          title: 'Chỉnh sửa thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
+        this.$router.back();
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {

@@ -132,3 +132,11 @@ export function getValidateState(vue: Vue, name: string) {
   let validate = vue.$v.form[name];
   return validate!.$dirty ? !validate!.$error : null;
 }
+
+export function resetForm(vue: Vue) {
+  for (let key in vue.$data.form) {
+    vue.$data.form[key] = null;
+  }
+
+  vue.$nextTick(() => vue.$v.$reset());
+}

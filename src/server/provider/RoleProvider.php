@@ -52,9 +52,9 @@ class RoleProvider {
   }
 
   /**
-   * Edit Role
+   * Edit role
    * 
-   * @param Role $role Edited Role
+   * @param Role $role Edited role
    * 
    * @return bool True if success, otherwise false
    */

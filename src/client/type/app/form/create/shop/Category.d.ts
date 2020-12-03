@@ -4,7 +4,7 @@ declare namespace App {
       namespace Shop {
         interface Category {
           name: null | string;
-          idCategoryGroup: null | string;
+          idCategoryGroup: null | number;
         }
       }
     }

@@ -68,28 +68,30 @@
 
     @Watch('selected')
     public async onSelectedChanged(newValue: number) {
-      try {
-        this.pending = true;
-        this.nameCategoryGroup = this.options.filter((categoryGroup) => categoryGroup.value == newValue)[0].text;
-        this.items = (await this.$axios.get('/api/admin/category', { params: { idCategoryGroup: newValue } })).data;
-        this.fields = [
-          { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
-          { key: 'name', label: 'Tên', sortable: true, class: 'align-middle' },
-          {
-            key: 'state',
-            label: 'Trạng thái',
-            sortable: true,
-            class: 'd-none',
-            formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'),
-            sortByFormatted: true,
-            filterByFormatted: true,
-          },
-          { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
-        ];
-      } catch (error) {
-        this.$nuxt.error({ statusCode: (<Response>error.response).status });
-      } finally {
-        this.pending = false;
+      if (newValue != null) {
+        try {
+          this.pending = true;
+          this.nameCategoryGroup = this.options.filter((categoryGroup) => categoryGroup.value == newValue)[0].text;
+          this.items = (await this.$axios.get('/api/admin/category', { params: { idCategoryGroup: newValue } })).data;
+          this.fields = [
+            { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
+            { key: 'name', label: 'Tên', sortable: true, class: 'align-middle' },
+            {
+              key: 'state',
+              label: 'Trạng thái',
+              sortable: true,
+              class: 'd-none',
+              formatter: (value) => (value == 1 ? 'Kích hoạt' : 'Vô hiệu hoá'),
+              sortByFormatted: true,
+              filterByFormatted: true,
+            },
+            { key: 'actions', label: 'Thao tác', class: 'align-middle fit' },
+          ];
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        } finally {
+          this.pending = false;
+        }
       }
     }
 
