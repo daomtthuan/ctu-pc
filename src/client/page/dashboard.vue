@@ -27,7 +27,6 @@
       title: 'Bảng điều khiển',
     },
     middleware: 'auth',
-    fetchOnServer: false,
   })
   export default class extends Vue {
     private largeDevice: boolean = window.innerWidth > 1200;

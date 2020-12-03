@@ -154,6 +154,7 @@
           this.fields = [
             { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
             { key: 'star', label: 'Số sao', sortable: true, class: 'align-middle text-md-right fit' },
+            { key: 'content', label: 'Nội dung', sortable: true, class: 'align-middle' },
             {
               key: 'state',
               label: 'Trạng thái',

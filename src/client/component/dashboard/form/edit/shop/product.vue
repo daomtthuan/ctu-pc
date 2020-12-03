@@ -71,7 +71,6 @@
 <script lang="ts">
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator';
-  import { focusEditor, resetEditor } from '@/plugin/editor';
 
   @Component({
     name: 'component-dashboard-form-edit-shop-product',

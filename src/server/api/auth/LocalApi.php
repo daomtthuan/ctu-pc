@@ -68,6 +68,24 @@ class LocalApi extends Api {
     ]);
   }
 
+  public static function put() {
+    $account = Request::getInstance()->verifyAccount();
+
+    if (!Request::getInstance()->hasData('oldPassword', 'password')) {
+      Response::getInstance()->sendStatus(400);
+    }
+
+    if (!password_verify(Request::getInstance()->getData('oldPassword'), $account->getPassword())) {
+      Response::getInstance()->sendStatus(406);
+    }
+
+    $account->setPassword(password_hash(Request::getInstance()->getData('password'), PASSWORD_BCRYPT));
+
+    $success = AccountProvider::edit($account);
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
+  }
+
   public static function delete() {
     Request::getInstance()->verifyAccount();
     Session::stop();

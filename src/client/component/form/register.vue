@@ -158,14 +158,14 @@
         this.pending = true;
         await this.$axios.post('/api/user/account', user);
         let response: App.Response.Login = (<AxiosResponse>await this.$auth.loginWith('local', { data: this.form })).data;
-        this.$router.push('/', () => {
-          this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.fullName), ' đến với CTU PC SHOP!']), {
-            title: 'Đăng ký thành công!',
-            variant: 'success',
-            solid: true,
-            toaster: 'b-toaster-bottom-right',
-          });
+
+        this.$nuxt.$bvToast.toast(this.$createElement('div', ['Chào mừng ', this.$createElement('strong', response.fullName), ' đến với CTU PC SHOP!']), {
+          title: 'Đăng ký thành công!',
+          variant: 'success',
+          solid: true,
+          toaster: 'b-toaster-bottom-right',
         });
+        this.$router.push('/');
       } catch (error) {
         let response = <Response>error.response;
         if (response.status == 406) {

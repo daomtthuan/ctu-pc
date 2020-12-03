@@ -2,7 +2,7 @@
   <b-container>
     <b-card border-variant="primary">
       <b-card-body>
-        <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Xác thực...</div>
+        <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
         <div v-else-if="!this.$fetchState.error">
           <b-card-title title-tag="h2" class="text-primary">
             Thông tin tài khoản
@@ -23,18 +23,9 @@
     head: {
       title: 'Thông tin tài khoản',
     },
-    fetchOnServer: false,
   })
   export default class extends Vue {
-    private form: {
-      username: null | string;
-      email: null | string;
-      fullName: null | string;
-      birthday: null | string;
-      gender: null | boolean;
-      phone: null | string;
-      address: null | string;
-    } = {
+    private form: App.Form.Account = {
       username: null,
       email: null,
       fullName: null,

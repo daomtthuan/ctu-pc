@@ -8,6 +8,7 @@ class Review extends Entity {
   private int $star;
   private int $idAccount;
   private int $idProduct;
+  private string $content;
 
   /** 
    * Create new instance of Review
@@ -19,6 +20,7 @@ class Review extends Entity {
     $this->star = (int)$data['star'];
     $this->idAccount = (int)$data['idAccount'];
     $this->idProduct = (int)$data['idProduct'];
+    $this->content = (string)$data['content'];
   }
 
   public function jsonSerialize() {
@@ -27,6 +29,7 @@ class Review extends Entity {
       'star' => $this->getStar(),
       'idAccount' => $this->getidAccount(),
       'idProduct' => $this->getIdProduct(),
+      'content' => $this->getContent(),
       'state' => $this->getState()
     ];
   }
@@ -83,5 +86,23 @@ class Review extends Entity {
    */
   public function setIdProduct(int $idProduct) {
     $this->idProduct = $idProduct;
+  }
+
+  /**
+   * Get the value of content
+   * 
+   * @return string Content
+   */
+  public function getContent() {
+    return $this->content;
+  }
+
+  /**
+   * Set the value of content
+   * 
+   * @param string Content
+   */
+  public function setContent(string $content) {
+    $this->content = $content;
   }
 }

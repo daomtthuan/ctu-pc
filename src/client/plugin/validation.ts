@@ -14,6 +14,11 @@ let validations: { [name: string]: any } = {
     maxLength: maxLength(100),
     regex: (value: any) => helpers.regex(value, /^(?=.{4,50}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/),
   },
+  oldPassword: {
+    required: required,
+    minLength: minLength(4),
+    maxLength: maxLength(100),
+  },
   password: {
     required: required,
     minLength: minLength(4),

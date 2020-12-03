@@ -131,6 +131,6 @@ VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '20
         (N'Rinh PC ITX nhận Combo Wireless', '2020-11-14', 1);
 
 #Insert Review
-INSERT INTO Review(start, content, idAccount, idProduct)
+INSERT INTO Review(star, content, idAccount, idProduct)
 VALUES 	(5, 'Ngon quá', 2, 1),
 		(5, 'Ngon, bổ, rẻ', 3, 1);

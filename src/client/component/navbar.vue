@@ -68,6 +68,7 @@
           </template>
           <b-dropdown-header>Tài khoản</b-dropdown-header>
           <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
+          <b-dropdown-item to="/account/change-password">Đổi mật khẩu</b-dropdown-item>
           <b-dropdown-item>Giỏ hàng</b-dropdown-item>
           <b-dropdown-item>Đơn hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('Admin')">

@@ -41,7 +41,7 @@ class ReviewApi extends Api {
   public static function put() {
     Request::getInstance()->verifyAdminAccount();
 
-    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('star', 'idAccount', 'idProduct', 'state')) {
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('state')) {
       Response::getInstance()->sendStatus(400);
     }
 
@@ -52,9 +52,6 @@ class ReviewApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $reviews[0]->setStar(Request::getInstance()->getData('star'));
-    $reviews[0]->setIdAccount(Request::getInstance()->getData('idAccount'));
-    $reviews[0]->setIdProduct(Request::getInstance()->getData('idProduct'));
     $reviews[0]->setState(Request::getInstance()->getData('state'));
 
     ReviewProvider::edit($reviews[0]);
