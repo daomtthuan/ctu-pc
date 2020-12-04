@@ -2,9 +2,7 @@
   <main>
     <c-navbar></c-navbar>
     <div class="d-flex flex-column pt-5 vh-min-100">
-      <div class="py-5">
-        <nuxt-child :events="events"></nuxt-child>
-      </div>
+      <nuxt-child :events="events"></nuxt-child>
       <c-footer class="mt-auto" :fluid="false" :events="events"></c-footer>
     </div>
   </main>

@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="py-5">
     <b-card border-variant="primary">
       <nuxt-child></nuxt-child>
     </b-card>

@@ -1,5 +1,5 @@
 <template>
-  <nuxt-child></nuxt-child>
+  <nuxt-child class="py-5"></nuxt-child>
 </template>
 
 <script lang="ts">

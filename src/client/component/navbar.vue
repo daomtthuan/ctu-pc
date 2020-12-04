@@ -78,9 +78,9 @@
           </div>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-header>Hỗ trợ</b-dropdown-header>
-          <b-dropdown-item>Giới thiệu</b-dropdown-item>
-          <b-dropdown-item>Ý kiến phản hồi</b-dropdown-item>
-          <b-dropdown-item>Thông tin liên hệ</b-dropdown-item>
+          <b-dropdown-item href="https://mail.google.com/mail/?view=cm&fs=1&to=daomtthuan.clone@gmail.com&su=Ý kiến phản hồi" target="_blank">
+            Ý kiến phản hồi
+          </b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
         </b-dropdown>

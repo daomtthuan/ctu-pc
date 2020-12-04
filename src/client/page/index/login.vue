@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="py-5">
     <b-row>
       <b-col lg="6" offset-lg="3">
         <b-card border-variant="primary">
