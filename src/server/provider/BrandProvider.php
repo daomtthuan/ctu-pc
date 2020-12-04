@@ -4,7 +4,6 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Brand;
-use Exception;
 
 /** Brand provider */
 class BrandProvider {

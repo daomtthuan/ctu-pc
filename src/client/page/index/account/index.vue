@@ -19,7 +19,7 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-account-index',
+    name: 'page-account',
     head: {
       title: 'Thông tin tài khoản',
     },

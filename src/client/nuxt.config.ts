@@ -68,7 +68,10 @@ let config: NuxtConfig = {
   bootstrapVue: { bootstrapCSS: false, bootstrapVueCSS: false },
   fontawesome: {
     component: 'fa',
-    imports: [{ set: '@fortawesome/free-solid-svg-icons', icons: ['fas'] }],
+    imports: [
+      { set: '@fortawesome/free-solid-svg-icons', icons: ['fas'] },
+      { set: '@fortawesome/free-regular-svg-icons', icons: ['far'] },
+    ],
   },
   proxy: {
     '/api': process.env.SERVER,

@@ -5,7 +5,6 @@ namespace Provider;
 use Core\Database;
 use Core\File;
 use Entity\Event;
-use Exception;
 
 /** Event provider */
 class EventProvider {

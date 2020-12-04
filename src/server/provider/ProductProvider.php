@@ -4,7 +4,6 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Product;
-use Exception;
 
 /** Product provider */
 class ProductProvider {

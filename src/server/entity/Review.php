@@ -3,6 +3,7 @@
 namespace Entity;
 
 use Core\Entity;
+use Provider\AccountProvider;
 
 class Review extends Entity {
   private int $star;
@@ -32,6 +33,15 @@ class Review extends Entity {
       'content' => $this->getContent(),
       'state' => $this->getState()
     ];
+  }
+
+  /**
+   * Get writer account
+   * 
+   * @return Account Writer account
+   */
+  public function getWriterAccount() {
+    return AccountProvider::find(['id' => $this->idAccount])[0];
   }
 
   /**

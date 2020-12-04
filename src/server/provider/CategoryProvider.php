@@ -4,7 +4,6 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Category;
-use Exception;
 
 /** Category provider */
 class CategoryProvider {

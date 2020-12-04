@@ -4,7 +4,6 @@ namespace Provider;
 
 use Core\Database;
 use Entity\Review;
-use Exception;
 
 /** Review provider */
 class ReviewProvider {
@@ -12,12 +11,16 @@ class ReviewProvider {
    * Find review by filter
    * 
    * @param array|null $filter Finding filter
+   * @param int $start Index starting event
+   * @param int $limit Limit number of events for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
    * 
    * @return Review[] Reviews
    */
-  public static function find(array $filter = null) {
+  public static function find(array $filter = null, int $start = null, $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
     $reviews = [];
-    foreach (Database::getInstance()->find('Review', $filter) as $data) {
+    foreach (Database::getInstance()->find('Review', $filter,  $start, $limit, $orderByKeys, $typeOrder) as $data) {
       $reviews[] = new Review($data);
     }
     return $reviews;

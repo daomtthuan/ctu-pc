@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="py-5">
     <b-card class="border border-primary">
       <b-card-body>
         <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải....</div>
@@ -24,7 +24,7 @@
   import { Component, Prop, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-event',
+    name: 'page-event-details',
     head: {
       title: 'Sự kiện - Chi tiết',
     },

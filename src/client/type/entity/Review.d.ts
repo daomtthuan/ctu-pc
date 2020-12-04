@@ -4,5 +4,6 @@ declare namespace Entity {
     content: string;
     idAccount: number;
     idProduct: number;
+    writer: Account | string;
   }
 }

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="text-center py-5" v-if="pending"><b-spinner small></b-spinner> Đang tải...</div>
+  <div v-else>
     <c-brand></c-brand>
 
     <div class="py-5" style="background: #c0c6cf">
@@ -47,7 +48,7 @@
       <b-container class="text-center">
         <h4 class="text-light">Đánh giá khách hàng</h4>
         <hr class="bg-light" />
-        <c-event-carousel></c-event-carousel>
+        <c-review-carousel></c-review-carousel>
       </b-container>
     </div>
 
@@ -65,10 +66,16 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-register',
+    name: 'page-home',
     head: {
       title: 'Trang chủ',
     },
   })
-  export default class extends Vue {}
+  export default class extends Vue {
+    private pending: boolean = true;
+
+    public mounted() {
+      this.$nextTick(() => (this.pending = false));
+    }
+  }
 </script>

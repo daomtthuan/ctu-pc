@@ -16,7 +16,7 @@
   import { Component, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-account-index',
+    name: 'page-account-change-password',
     head: {
       title: 'Đổi mật khẩu',
     },

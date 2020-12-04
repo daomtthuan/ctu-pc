@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container class="py-5">
     <h2 class="text-primary">Sự kiện</h2>
     <hr />
     <h4>Mới nhất</h4>
@@ -31,7 +31,9 @@
                 {{ events[4 * row - 4 + column - 1].post }}
               </b-card-body>
               <template #footer>
-                <b-button size="sm" variant="primary" :to="`/event/details/${events[4 * row - 4 + column - 1].id}`">Xem thêm</b-button>
+                <div class="text-right">
+                  <b-button size="sm" variant="primary" :to="`/event/details/${events[4 * row - 4 + column - 1].id}`">Xem thêm</b-button>
+                </div>
               </template>
             </b-card>
           </b-col>

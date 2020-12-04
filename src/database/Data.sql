@@ -6,12 +6,12 @@ SET time_zone = '+7:00';
 
 USE CtuPcShop;
 
-# Insert Role
+-- Insert Role
 INSERT INTO Role(name)
 VALUES ('Admin'),
        ('User');
 
-# Insert User
+-- Insert User
 INSERT INTO Account(username, password, fullName, birthday, gender, email, address, phone)
 VALUES ('admin', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Tô Chi Thảo', '1993-03-08', 0, 'daomtthuan.admin@gmail.com', N'9 Phố Giáp Thái Chung, Xã 8, Huyện Quang Tuyên Quang', '0292870758');
 INSERT INTO Account(username, password, fullName, birthday, gender, email, address, phone)
@@ -21,7 +21,7 @@ VALUES ('user1', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO',
        ('user4', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Văn Phước Nữ', '1997-05-26', 0, 'daomtthuan.user@gmail.com', N'0516 Phố Đồng Khôi Chung, Thôn Nghị Xuyến, Quận Tuệ Tường Hà Nội', '02183697771'),
        ('user5', '$2y$10$7HNWqbfvE6LbNVVE8329fONjrBhGlZbZP/OHwZbeSeSNu3z77gTlO', N'Bành Ẩn', '1994-05-26', 1, 'daomtthuan.user@gmail.com', N'4668 Phố Liễu, Phường Thiên Thiên, Quận Đôn Ngọc Miên Hồ Chí Minh', '02300532958');
 
-# Insert Permission
+-- Insert Permission
 INSERT INTO Permission(idAccount, idRole)
 VALUES (1, 1);
 INSERT INTO Permission(idAccount, idRole)
@@ -32,7 +32,7 @@ VALUES (1, 2),
        (5, 2),
        (6, 2);
 
-# Insert data Category Group
+-- Insert data Category Group
 INSERT INTO CategoryGroup(name)
 VALUES (N'Linh kiện'),
        (N'Thiết bị'),
@@ -41,7 +41,7 @@ VALUES (N'Linh kiện'),
        (N'Máy tính'),
        (N'Phụ kiện');
 
-# Insert data Category
+-- Insert data Category
 INSERT INTO Category(name, idCategoryGroup)
 VALUES (N'Vi xử lý', 1),
        (N'Bo mạch chủ', 1),
@@ -79,7 +79,7 @@ VALUES (N'Balo', 6),
        (N'Hub-Cable-AIC', 6),
        (N'Đồ chơi stream', 6);
 
-# Insert Brand
+-- Insert Brand
 INSERT INTO Brand(name)
 VALUES ('Intel'),
 		('ARES'),
@@ -94,7 +94,7 @@ VALUES ('Intel'),
         ('Slim'),
         ('CORSAIR');
 
-#Insert Product
+-- Insert Product
 INSERT INTO Product(name, price, quantity, idCategory, idBrand)
 VALUES 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
 		(N'ASUS ROG MAXIMUS XII EXTREME Mainboard – Z490 Chipset',17900,100,2,3),
@@ -122,7 +122,7 @@ VALUES 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
         (N'Laptop Dell G3 Inspiron 3579 70167040 (Black) Geforce GTX1050Ti 4GB Intel Core i7 8750H 128GB 8GB',23490,100,24,6),
         (N'ASUS ROG Ranger BP3703 Gaming Backpack – Balo Gaming',6490,100,25,3);
 
-#Insert Event
+-- Insert Event
 INSERT INTO Event(title, post, idAccount)
 VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '2020-11-19', 1),
 		(N'TIỀN NHIỀU ĐỂ LÀM GÌ?', '2020-11-18', 1),
@@ -130,7 +130,10 @@ VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '20
         (N'Đồng Hành Cùng Combo AORUS PC', '2020-11-15', 1),
         (N'Rinh PC ITX nhận Combo Wireless', '2020-11-14', 1);
 
-#Insert Review
+-- Insert Review
 INSERT INTO Review(star, content, idAccount, idProduct)
 VALUES 	(5, 'Ngon quá', 2, 1),
-		(5, 'Ngon, bổ, rẻ', 3, 1);
+		(5, 'Ngon, bổ, rẻ', 3, 1),
+        (5, 'Rất hài lòng với dịch vụ', 4, 1),
+        (4, 'Tạm được, phục vụ tốt, nhưng khách khá đông trong không gian hạn chế nên cảm thấy hơi ngột ngạt', 5, 1),
+        (3, 'OK!!', 6, 1);
