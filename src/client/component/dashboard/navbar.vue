@@ -31,8 +31,8 @@
           </span>
           <span v-else><b-spinner small></b-spinner> Xử lý...</span>
         </template>
-        <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
-        <b-dropdown-item to="/account/change-password">Đổi mật khẩu</b-dropdown-item>
+        <b-dropdown-item to="/dashboard/account">Thông tin cá nhân</b-dropdown-item>
+        <b-dropdown-item to="/dashboard/account/change-password">Đổi mật khẩu</b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item to="/">Trở về vai trò người dùng</b-dropdown-item>
         <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>

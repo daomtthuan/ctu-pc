@@ -11,12 +11,16 @@ class ProductProvider {
    * Find product by filter
    * 
    * @param array|null $filter Finding filter
+   * @param int $start Index starting event
+   * @param int $limit Limit number of events for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
    * 
    * @return Product[] Products
    */
-  public static function find(array $filter = null) {
+  public static function find(array $filter = null, int $start = null, $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
     $products = [];
-    foreach (Database::getInstance()->find('Product', $filter) as $data) {
+    foreach (Database::getInstance()->find('Product', $filter,  $start, $limit, $orderByKeys, $typeOrder) as $data) {
       $products[] = new Product($data);
     }
     return $products;

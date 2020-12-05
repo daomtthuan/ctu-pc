@@ -40,7 +40,7 @@
       <b-container class="text-center">
         <h4 class="text-primary">Sản phẩm mới nhất</h4>
         <hr class="bg-primary" />
-        <c-event-carousel></c-event-carousel>
+        <c-product-carousel></c-product-carousel>
       </b-container>
     </div>
 
