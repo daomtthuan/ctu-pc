@@ -7,7 +7,7 @@
           class="w-100 d-block"
           :style="{
             height: 'calc(100vh / 3)',
-            backgroundImage: `url(${event.imageUrl})`,
+            backgroundImage: `url('${event.imageUrl}')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

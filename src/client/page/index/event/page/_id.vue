@@ -19,12 +19,12 @@
                 class="w-100 d-block"
                 :style="{
                   height: '200px',
-                  backgroundImage: `url(${events[4 * row - 4 + column - 1].imageUrl})`,
+                  backgroundImage: `url('${events[4 * row - 4 + column - 1].imageUrl}')`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   backgroundRepeat: 'no-repeat',
                 }"
-                :to="`/event/details/${events[4 * row - 4 + column - 1].id}`"
+                :to="`/event/${events[4 * row - 4 + column - 1].id}`"
               ></nuxt-link>
               <b-card-body>
                 <h6>{{ events[4 * row - 4 + column - 1].title }}</h6>
@@ -32,7 +32,7 @@
               </b-card-body>
               <template #footer>
                 <div class="text-right">
-                  <b-button size="sm" variant="primary" :to="`/event/details/${events[4 * row - 4 + column - 1].id}`">Xem thêm</b-button>
+                  <b-button size="sm" variant="primary" :to="`/event/${events[4 * row - 4 + column - 1].id}`">Xem thêm</b-button>
                 </div>
               </template>
             </b-card>
@@ -76,7 +76,7 @@
     private rows: number = 0;
 
     public async fetch() {
-      let tempCurrentPage = parseInt(this.$route.params.page ? this.$route.params.page : '1');
+      let tempCurrentPage = parseInt(this.$route.params.id ? this.$route.params.id : '1');
       if (isNaN(tempCurrentPage) || tempCurrentPage < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
@@ -96,8 +96,8 @@
       }
     }
 
-    public linkPage(page: number) {
-      return page === 1 ? '/event' : `/event/${page}`;
+    public linkPage(id: number) {
+      return `/event/page/${id}`;
     }
 
     @Watch('currentPage')

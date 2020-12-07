@@ -45,7 +45,8 @@ class BrandProvider {
   public static function edit(Brand $brand) {
     $data = $brand->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Brand', $brand->getId(), $data) == 1;
+    Database::getInstance()->edit('Brand', $brand->getId(), $data);
+    return true;
   }
 
   /**

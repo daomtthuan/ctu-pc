@@ -3,7 +3,7 @@
 namespace Core;
 
 use PDO;
-use PDOException;
+use Exception;
 
 /** Database */
 class Database {
@@ -358,8 +358,9 @@ class Database {
       $reuslt = $action(...$parameters);
       $this->connection->commit();
       return isset($reuslt) ? $reuslt : true;
-    } catch (PDOException $exception) {
+    } catch (Exception $exception) {
       $this->connection->rollBack();
+      print_r($exception->getMessage());
       return false;
     }
   }

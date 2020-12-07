@@ -45,7 +45,8 @@ class CategoryProvider {
   public static function edit(Category $category) {
     $data = $category->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Category', $category->getId(), $data) == 1;
+    Database::getInstance()->edit('Category', $category->getId(), $data);
+    return true;
   }
 
   /**

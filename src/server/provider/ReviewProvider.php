@@ -49,7 +49,8 @@ class ReviewProvider {
   public static function edit(Review $review) {
     $data = $review->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Review', $review->getId(), $data) == 1;
+    Database::getInstance()->edit('Review', $review->getId(), $data);
+    return true;
   }
 
   /**

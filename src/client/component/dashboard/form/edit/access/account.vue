@@ -96,7 +96,7 @@
   @Component({
     name: 'component-dashboard-form-edit-access-account',
     components: { DatePicker },
-    validations: createValidation('username', 'email', 'fullName', 'birthday', 'gender', 'phone', 'address', 'state'),
+    validations: createValidation('email', 'fullName', 'birthday', 'gender', 'phone', 'address', 'state'),
   })
   export default class extends mixins(validationMixin) {
     @Prop({ type: String, required: true })
@@ -155,7 +155,7 @@
       try {
         this.pending = true;
         await this.$axios.put('/api/admin/account', this.form, { params: { id: this.id } });
-        
+
         this.$nuxt.$bvToast.toast('Thông tin tài khoản đã được chỉnh sửa.', {
           title: 'Chỉnh sửa thành công!',
           variant: 'success',

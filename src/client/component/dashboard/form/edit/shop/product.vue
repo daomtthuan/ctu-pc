@@ -58,6 +58,36 @@
         </b-form-group>
       </b-col>
     </b-row>
+    <b-form-group label="Hình ảnh 1:" label-for="file-image-1">
+      <b-form-file
+        id="file-image-1"
+        v-model="form.image1"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+    </b-form-group>
+    <b-form-group label="Hình ảnh 2:" label-for="file-image-2">
+      <b-form-file
+        id="file-image-2"
+        v-model="form.image2"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+    </b-form-group>
+    <b-form-group label="Hình ảnh 3:" label-for="file-image-3">
+      <b-form-file
+        id="file-image-3"
+        v-model="form.image3"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+    </b-form-group>
     <b-form-group>
       <label class="d-block" @click="focusContent">Nội dung:</label>
       <vue-editor id="input-content" v-model="$v.form.content.$model" :class="contentClass" placeholder="Nhập nội dung" />
@@ -93,6 +123,9 @@
       idBrand: null,
       price: null,
       quantity: null,
+      image1: null,
+      image2: null,
+      image3: null,
       content: null,
       state: null,
     };
@@ -130,6 +163,7 @@
           this.form.idBrand = products[0].idBrand;
           this.form.price = products[0].price;
           this.form.quantity = products[0].quantity;
+          this.form.content = (await this.$axios.get(products[0].postUrl)).data;
           this.form.state = products[0].state;
         } else {
           this.$nuxt.error({ statusCode: 404 });
@@ -188,9 +222,28 @@
 
       try {
         this.pending = true;
-        let form: any = { ...this.form };
-        delete form.idCategoryGroup;
-        await this.$axios.put('/api/admin/product', form, { params: { id: this.id } });
+        let formData = new FormData();
+        formData.append('name', JSON.stringify({ data: this.form.name }));
+        formData.append('idCategory', JSON.stringify({ data: this.form.idCategory }));
+        formData.append('idBrand', JSON.stringify({ data: this.form.idBrand }));
+        formData.append('price', JSON.stringify({ data: this.form.price }));
+        formData.append('quantity', JSON.stringify({ data: this.form.quantity }));
+        formData.append('content', JSON.stringify({ data: this.form.content }));
+        formData.append('state', JSON.stringify({ data: this.form.state }));
+        if (Boolean(this.form.image1)) {
+          formData.append('image1', this.form.image1!);
+        }
+        if (Boolean(this.form.image2)) {
+          formData.append('image2', this.form.image2!);
+        }
+        if (Boolean(this.form.image3)) {
+          formData.append('image3', this.form.image3!);
+        }
+
+        await this.$axios.put('/api/admin/product', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          params: { id: this.id },
+        });
 
         this.$nuxt.$bvToast.toast('Thông tin sản phẩm đã được chỉnh sửa.', {
           title: 'Chỉnh sửa thành công!',

@@ -1,20 +1,18 @@
 <template>
-  <b-container class="py-5">
+  <div class="text-center py-5" v-if="$fetchState.pending || event == null"><b-spinner small></b-spinner> Đang tải...</div>
+  <b-container class="py-5" v-else-if="!this.$fetchState.error">
     <b-card class="border border-primary">
       <b-card-body>
-        <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải....</div>
-        <div v-else-if="!this.$fetchState.error">
-          <b-card-title title-tag="h2" class="text-primary">
-            Sự kiện
-          </b-card-title>
-          <hr />
-          <h4>{{ event.title }}</h4>
-          <h6 class="mb-3 text-muted">Được đăng vào lúc {{ event.post }}</h6>
-          <p>
-            <b-img class="w-100 border" :src="`${event.imageUrl}`"></b-img>
-          </p>
-          <div v-html="post"></div>
-        </div>
+        <b-card-title title-tag="h2" class="text-primary">
+          Sự kiện
+        </b-card-title>
+        <hr />
+        <h4>{{ event.title }}</h4>
+        <h6 class="mb-3 text-muted">Được đăng vào lúc {{ event.post }}</h6>
+        <p>
+          <b-img class="w-100 border" :src="`${event.imageUrl}`"></b-img>
+        </p>
+        <div v-html="post"></div>
       </b-card-body>
     </b-card>
   </b-container>
@@ -34,8 +32,8 @@
     private post: string | null = null;
 
     public async fetch() {
-      let tempId: number = parseInt(this.$route.params.id);
-      if (isNaN(tempId)) {
+      let tempId = parseInt(this.$route.params.id ? this.$route.params.id : '1');
+      if (isNaN(tempId) || tempId < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }

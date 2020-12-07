@@ -58,7 +58,7 @@ class ProductApi extends Api {
   public static function put() {
     Request::getInstance()->verifyAdminAccount();
 
-    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('name', 'price', 'quantity', 'idCategory', 'idBrand', 'state')) {
+    if (!Request::getInstance()->hasParam('id') || !Request::getInstance()->hasData('name', 'price', 'quantity', 'idCategory', 'idBrand', 'content', 'state')) {
       Response::getInstance()->sendStatus(400);
     }
 
@@ -76,8 +76,15 @@ class ProductApi extends Api {
     $products[0]->setIdBrand(Request::getInstance()->getData('idBrand'));
     $products[0]->setState(Request::getInstance()->getData('state'));
 
-    ProductProvider::edit($products[0]);
-    Response::getInstance()->sendStatus(200);
+    $success = ProductProvider::edit(
+      $products[0],
+      Request::getInstance()->hasFile('image1') ? Request::getInstance()->getFile('image1') : null,
+      Request::getInstance()->hasFile('image2') ? Request::getInstance()->getFile('image2') : null,
+      Request::getInstance()->hasFile('image3') ? Request::getInstance()->getFile('image3') : null,
+      Request::getInstance()->getData('content')
+    );
+
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 
   public static function delete() {

@@ -88,7 +88,7 @@
     }
 
     public linkPage(page: number) {
-      return page === 1 ? `/product/category/${this.idCategory}` : `/product/category/${this.idCategory}/${page}`;
+      return `/product/category/${this.idCategory}/${page}`;
     }
 
     @Watch('currentPage')

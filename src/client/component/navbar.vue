@@ -30,7 +30,7 @@
           </b-card>
         </div>
       </b-nav-item-dropdown>
-      <b-nav-item to="/event">Sự kiện</b-nav-item>
+      <b-nav-item to="/event/page/1">Sự kiện</b-nav-item>
       <b-nav-item-dropdown text="Chính sách - Hướng dẫn" no-caret>
         <b-dropdown-item to="/guide-policy/payment">Hướng dẫn thanh toán</b-dropdown-item>
         <b-dropdown-item to="/guide-policy/installment">Hướng dẫn trả góp</b-dropdown-item>
@@ -150,7 +150,7 @@
           </b-card>
         </b-collapse>
 
-        <b-button block variant="primary" class="text-left my-2" to="/event">
+        <b-button block variant="primary" class="text-left my-2" to="/event/page/1">
           Sự kiện
         </b-button>
 

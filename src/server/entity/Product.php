@@ -34,6 +34,9 @@ class Product extends Entity {
       'quantity' => $this->getQuantity(),
       'idCategory' => $this->getIdCategory(),
       'idBrand' => $this->getIdBrand(),
+      'image1Url' => $this->getImage1Url(),
+      'image2Url' => $this->getImage2Url(),
+      'image3Url' => $this->getImage3Url(),
       'postUrl' => $this->getPostUrl(),
       'state' => $this->getState()
     ];
@@ -136,6 +139,33 @@ class Product extends Entity {
    */
   public function setIdBrand(int $idBrand) {
     $this->idBrand = $idBrand;
+  }
+
+  /**
+   * Get image 1 url
+   * 
+   * @return string Image url
+   */
+  public function getImage1Url() {
+    return '/asset/image/product/' . $this->id . '/1.jpg';
+  }
+
+  /**
+   * Get image 2 url
+   * 
+   * @return string Image url
+   */
+  public function getImage2Url() {
+    return '/asset/image/product/' . $this->id . '/2.jpg';
+  }
+
+  /**
+   * Get image 3 url
+   * 
+   * @return string Image url
+   */
+  public function getImage3Url() {
+    return '/asset/image/product/' . $this->id . '/3.jpg';
   }
 
   /**

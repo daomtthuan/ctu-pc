@@ -5,7 +5,7 @@
         class="w-100 d-block"
         :style="{
           height: '200px',
-          backgroundImage: `url('/asset/image/product/${product.id}/1.jpg')`,
+          backgroundImage: `url('${product.image1Url}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

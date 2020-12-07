@@ -154,7 +154,8 @@ class AccountProvider {
   public static function edit(Account $account) {
     $data = $account->jsonSerialize();
     unset($data['id']);
-    return Database::getInstance()->edit('Account', $account->getId(), $data) == 1;
+    Database::getInstance()->edit('Account', $account->getId(), $data);
+    return true;
   }
 
   /**
