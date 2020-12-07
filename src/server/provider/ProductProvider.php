@@ -115,7 +115,7 @@ class ProductProvider {
       File::delete($_ENV['ASSET_DIR'] . "\\image\\product\\$id\\2.jpg");
       File::delete($_ENV['ASSET_DIR'] . "\\image\\product\\$id\\3.jpg");
       File::deleteEmptyDirectory($_ENV['ASSET_DIR'] . "\\image\\product\\$id");
-      File::delete($_ENV['ASSET_DIR'] . "\\post\\event\\$id.html");
+      File::delete($_ENV['ASSET_DIR'] . "\\post\\product\\$id.html");
       return Database::getInstance()->remove('Product', ['id' => $id]) == 1;
     }, $product->getId());
   }

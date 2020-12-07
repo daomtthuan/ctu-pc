@@ -50,7 +50,7 @@ class File {
    * @param string $fileName Filename for deleting
    */
   public static function delete(string $fileName) {
-    if (file_exists($fileName)) {
+    if (file_exists(__ROOT__ . $fileName)) {
       if (!unlink(__ROOT__ . $fileName)) {
         throw new Exception("Error when deleting file");
       }
@@ -63,8 +63,8 @@ class File {
    * @param string $fileName Filename for deleting
    */
   public static function deleteEmptyDirectory(string $directory) {
-    if (!is_dir(__ROOT__ . $directory)) {
-      if (rmdir(__ROOT__ . $directory)) {
+    if (is_dir(__ROOT__ . $directory)) {
+      if (!rmdir(__ROOT__ . $directory)) {
         throw new Exception("Error when deleting directory");
       }
     }
