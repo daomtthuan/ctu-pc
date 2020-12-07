@@ -11,8 +11,8 @@ class ReviewProvider {
    * Find review by filter
    * 
    * @param array|null $filter Finding filter
-   * @param int $start Index starting event
-   * @param int $limit Limit number of events for finding
+   * @param int $start Index starting product
+   * @param int $limit Limit number of products for finding
    * @param string[] $orderByKeys Order by keys
    * @param string $typeOrder Type order
    * 

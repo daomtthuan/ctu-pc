@@ -16,6 +16,7 @@
     head: {
       title: 'Trang chủ',
     },
+    scrollToTop: true,
   })
   export default class extends Vue {
     private events: Entity.Event[] = [];

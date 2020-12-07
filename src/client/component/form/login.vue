@@ -36,6 +36,7 @@
   import { AxiosResponse } from 'axios';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { addProductCart } from '@/plugin/helper';
 
   @Component({
     name: 'component-form-login',
@@ -60,7 +61,7 @@
         this.pending = true;
         let response: App.Response.Login = (<AxiosResponse>await this.$auth.loginWith('local', { data: this.form })).data;
         if (this.remember) {
-          localStorage.setItem('token', this.$auth.getToken('local'));
+          window.localStorage.setItem('token', this.$auth.getToken('local'));
         }
 
         this.$router.push(this.$auth.$state.redirect ?? '/', () => {
@@ -71,6 +72,19 @@
             toaster: 'b-toaster-bottom-right',
           });
         });
+
+        let tempProductCart = window.sessionStorage.getItem('tempProductCart');
+        if (tempProductCart != null) {
+          let productCart = JSON.parse(tempProductCart);
+          addProductCart(this.$auth.user.id, productCart.idProduct, productCart.quantity);
+          this.$nuxt.$bvToast.toast('Đã thêm sản phẩm vào giỏ hàng.', {
+            title: 'Thêm thành công!',
+            variant: 'success',
+            solid: true,
+            toaster: 'b-toaster-bottom-right',
+          });
+          window.sessionStorage.removeItem('tempProductCart');
+        }
       } catch (error) {
         this.$v.$reset();
         this.form = {

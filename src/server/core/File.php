@@ -10,16 +10,19 @@ class File {
    * Move the uploaded file
    * 
    * @param string $uploadedFile Uploaded file
-   * @param string $filename Filename for moving
+   * @param string $fileName Filename for moving
    */
-  public static function moveUploaded(array $uploadedFile, string $filename) {
+  public static function moveUploaded(array $uploadedFile, string $fileName) {
     if (file_exists($uploadedFile["tmp_name"])) {
       if (Request::getInstance()->getMethod() == 'post') {
-        if (!move_uploaded_file($uploadedFile["tmp_name"], __ROOT__ . $filename)) {
+        if (!is_dir(__ROOT__ . $fileName)) {
+          mkdir(dirname(__ROOT__ . $fileName), 0777, true);
+        }
+        if (!move_uploaded_file($uploadedFile["tmp_name"], __ROOT__ . $fileName)) {
           throw new Exception("Error when moving uploaded file");
         }
       } else {
-        if (!rename($uploadedFile["tmp_name"], __ROOT__ . $filename)) {
+        if (!rename($uploadedFile["tmp_name"], __ROOT__ . $fileName)) {
           throw new Exception("Error when moving uploaded file");
         }
       }
@@ -33,6 +36,9 @@ class File {
    * @param string $content Content for writing
    */
   public static function write(string $fileName, string $content) {
+    if (!is_dir(__ROOT__ . $fileName)) {
+      mkdir(dirname(__ROOT__ . $fileName), 0777, true);
+    }
     if (!file_put_contents(__ROOT__ . $fileName, $content)) {
       throw new Exception("Error when writing file");
     }

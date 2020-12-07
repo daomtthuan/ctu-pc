@@ -5,5 +5,6 @@ declare namespace Entity {
     quantity: number;
     idCategory: number;
     idBrand: number;
+    postUrl: string;
   }
 }

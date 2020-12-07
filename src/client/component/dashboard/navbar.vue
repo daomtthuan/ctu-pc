@@ -144,7 +144,7 @@
     public async logout() {
       this.pending = true;
       await this.$auth.logout();
-      localStorage.removeItem('token');
+      window.localStorage.removeItem('token');
       this.pending = false;
     }
   }

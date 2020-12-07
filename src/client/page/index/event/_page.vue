@@ -83,7 +83,7 @@
       }
 
       try {
-        this.total = (<App.Response.Event.Count>(await this.$axios.get('/api/event', { params: { count: true } })).data).count;
+        this.total = (<App.Response.Count>(await this.$axios.get('/api/event', { params: { count: true } })).data).count;
         this.numberPages = Math.ceil(this.total / this.perPage);
         if (tempCurrentPage > this.numberPages) {
           this.$nuxt.error({ statusCode: 404 });

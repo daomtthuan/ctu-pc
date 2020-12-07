@@ -10,6 +10,7 @@ declare namespace App {
           idCategory: null | number;
           idBrand: null | number;
           state: null | boolean;
+          content: null | string;
         }
       }
     }

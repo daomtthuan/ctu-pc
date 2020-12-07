@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
 
   @Component({
@@ -64,13 +64,13 @@
         this.pending = true;
         await this.$axios.post('/api/admin/category', this.form);
 
-        resetForm(this);
         this.$nuxt.$bvToast.toast('Đã tạo mới nhóm danh mục.', {
           title: 'Tạo mới thành công!',
           variant: 'success',
           solid: true,
           toaster: 'b-toaster-bottom-right',
         });
+        this.$router.back();
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

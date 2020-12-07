@@ -26,6 +26,7 @@
     head: {
       title: 'Bảng điều khiển',
     },
+    scrollToTop: true,
     middleware: 'auth',
   })
   export default class extends Vue {

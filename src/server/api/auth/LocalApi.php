@@ -17,9 +17,9 @@ class LocalApi extends Api {
   }
 
   public static function get() {
-    $account = Request::getInstance()->verifyAccount();
+    $idAccount = Request::getInstance()->verifyAccount()->getId();
 
-    $roles = RoleProvider::findOwnedByAccount($account->getId(), [
+    $roles = RoleProvider::findOwnedByAccount($idAccount, [
       'state' => 1
     ]);
     if (count($roles) == 0) {
@@ -27,6 +27,7 @@ class LocalApi extends Api {
     }
 
     $account =  [
+      'id' => $idAccount,
       'roles' => []
     ];
     foreach ($roles as $role) {

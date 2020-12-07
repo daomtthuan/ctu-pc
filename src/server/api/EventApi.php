@@ -16,11 +16,8 @@ class EventApi extends Api {
 
   public static function get() {
     if (Request::getInstance()->hasParam('count')) {
-      $count = EventProvider::count([
-        'state' => 1
-      ]);
       Response::getInstance()->sendJson([
-        'count' => $count
+        'count' => EventProvider::count(['state' => 1])
       ]);
     }
 

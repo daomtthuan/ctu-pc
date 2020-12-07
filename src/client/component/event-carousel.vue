@@ -1,14 +1,6 @@
 <template>
   <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
-  <b-carousel
-    label-prev="Trước"
-    label-next="Sau"
-    label-goto-slide="Chi tiết"
-    label-indicators="Chọn để xem chi tiết"
-    controls
-    indicators
-    v-else-if="!$fetchState.error"
-  >
+  <b-carousel controls indicators v-else-if="!$fetchState.error">
     <b-carousel-slide v-for="event in events" :key="event.id">
       <template #img>
         <nuxt-link

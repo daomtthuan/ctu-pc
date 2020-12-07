@@ -58,6 +58,11 @@
         </b-form-group>
       </b-col>
     </b-row>
+    <b-form-group>
+      <label class="d-block" @click="focusContent">Nội dung:</label>
+      <vue-editor id="input-content" v-model="$v.form.content.$model" :class="contentClass" placeholder="Nhập nội dung" />
+      <b-form-invalid-feedback>Nội dung không hợp lệ</b-form-invalid-feedback>
+    </b-form-group>
 
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="pending">
@@ -69,12 +74,13 @@
 </template>
 
 <script lang="ts">
+  import { focusEditor } from '@/plugin/editor';
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Prop, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
     name: 'component-dashboard-form-edit-shop-product',
-    validations: createValidation('name', 'idCategoryGroup', 'idCategory', 'idBrand', 'price', 'quantity', 'state'),
+    validations: createValidation('name', 'idCategoryGroup', 'idCategory', 'idBrand', 'price', 'quantity', 'content', 'state'),
   })
   export default class extends mixins(validationMixin) {
     @Prop({ type: String, required: true })
@@ -87,6 +93,7 @@
       idBrand: null,
       price: null,
       quantity: null,
+      content: null,
       state: null,
     };
     private categoryGroupOptions: App.Control.SeleteOption[] = [];
@@ -198,5 +205,18 @@
         this.pending = false;
       }
     }
+
+    public focusContent() {
+      focusEditor('input-content');
+    }
+
+    public get contentClass(): string | null {
+      let state = this.validateState('content');
+      return state === true ? 'is-valid' : state === false ? 'is-invalid' : null;
+    }
   }
 </script>
+
+<style lang="scss">
+  @import '@/asset/style/editor';
+</style>

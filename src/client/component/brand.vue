@@ -7,7 +7,7 @@
         top: 0,
         paddingTop: 'calc(100vh / 3 - 100px)',
         minHeight: '100vh',
-        width: '100vw',
+        width: '100%',
         zIndex: 1,
       }"
     >
@@ -22,7 +22,7 @@
     </div>
 
     <div class="v-100 h-100">
-      <b-carousel label-prev="Trước" label-next="Sau" label-goto-slide="Chi tiết" label-indicators="Chọn để xem chi tiết" no-touch no-hover-pause>
+      <b-carousel no-touch no-hover-pause>
         <b-carousel-slide v-for="index in 5" :key="index">
           <template #img>
             <div
@@ -30,7 +30,7 @@
               :style="{
                 backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 1)),url('/image/banner/${index}.jpg')`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'top',
                 backgroundRepeat: 'no-repeat',
               }"
             ></div>

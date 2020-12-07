@@ -34,6 +34,7 @@ class Product extends Entity {
       'quantity' => $this->getQuantity(),
       'idCategory' => $this->getIdCategory(),
       'idBrand' => $this->getIdBrand(),
+      'postUrl' => $this->getPostUrl(),
       'state' => $this->getState()
     ];
   }
@@ -135,5 +136,14 @@ class Product extends Entity {
    */
   public function setIdBrand(int $idBrand) {
     $this->idBrand = $idBrand;
+  }
+
+  /**
+   * Get post url
+   * 
+   * @return string Post url
+   */
+  public function getPostUrl() {
+    return '/asset/post/product/' . $this->id . '.html';
   }
 }

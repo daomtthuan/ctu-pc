@@ -12,7 +12,7 @@
     public async beforeCreate() {
       if (process.client) {
         try {
-          let token = localStorage.getItem('token');
+          let token = window.localStorage.getItem('token');
           if (token != null && token != this.$auth.getToken('local')) {
             this.$auth.setToken('local', token);
             await this.$auth.fetchUser();

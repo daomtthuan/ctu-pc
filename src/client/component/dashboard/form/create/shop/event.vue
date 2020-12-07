@@ -47,8 +47,8 @@
 
 <script lang="ts">
   import { Component, mixins, Vue } from 'nuxt-property-decorator';
-  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
-  import { focusEditor, resetEditor } from '@/plugin/editor';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
+  import { focusEditor } from '@/plugin/editor';
 
   @Component({
     name: 'component-dashboard-form-create-shop-event',
@@ -82,14 +82,13 @@
           headers: { 'Content-Type': 'multipart/form-data' },
         });
 
-        resetForm(this);
-        resetEditor('input-content');
         this.$nuxt.$bvToast.toast('Đã tạo mới sự kiện.', {
           title: 'Tạo mới thành công!',
           variant: 'success',
           solid: true,
           toaster: 'b-toaster-bottom-right',
         });
+        this.$router.back();
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

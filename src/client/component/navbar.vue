@@ -21,7 +21,7 @@
               <b-card-body class="py-2 px-0">
                 <b-dropdown-text v-if="categories[categoryGroup.id].length == 0">Không có sản phẩm nào </b-dropdown-text>
                 <div v-else>
-                  <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id">
+                  <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id" :to="`/product/category/${category.id}`">
                     {{ category.name }}
                   </b-dropdown-item>
                 </div>
@@ -69,7 +69,7 @@
           <b-dropdown-header>Tài khoản</b-dropdown-header>
           <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
           <b-dropdown-item to="/account/change-password">Đổi mật khẩu</b-dropdown-item>
-          <b-dropdown-item>Giỏ hàng</b-dropdown-item>
+          <b-dropdown-item to="/account/cart">Giỏ hàng</b-dropdown-item>
           <b-dropdown-item>Đơn hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('Admin')">
             <b-dropdown-divider></b-dropdown-divider>
@@ -142,7 +142,7 @@
             </b-card-header>
             <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
               <b-card-body class="py-2 px-0">
-                <nuxt-link v-for="category in categories[categoryGroup.id]" :key="category.id" class="dropdown-item" to="/">
+                <nuxt-link v-for="category in categories[categoryGroup.id]" :key="category.id" class="dropdown-item" :to="`/product/category/${category.id}`">
                   {{ category.name }}
                 </nuxt-link>
               </b-card-body>
@@ -204,7 +204,7 @@
     public async logout() {
       this.pending = true;
       await this.$auth.logout();
-      localStorage.removeItem('token');
+      window.localStorage.removeItem('token');
       this.pending = false;
     }
   }

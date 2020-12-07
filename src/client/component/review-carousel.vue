@@ -1,23 +1,23 @@
 <template>
   <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
-  <b-carousel label-prev="Trước" label-next="Sau" label-goto-slide="Chi tiết" label-indicators="Chọn để xem chi tiết" controls v-else-if="!$fetchState.error">
-    <b-carousel-slide v-for="row in Math.ceil(reviews.length / 3)" :key="row">
+  <b-carousel controls v-else-if="!$fetchState.error">
+    <b-carousel-slide v-for="row in Math.ceil(reviews.length / 4)" :key="row">
       <template #img>
         <b-row>
-          <b-col v-for="column in 3" :key="column" lg="4" class="py-3">
-            <b-card v-if="3 * row - 3 + column - 1 < reviews.length" class="h-100">
+          <b-col v-for="column in 4" :key="column" xl="3" lg="6" md="6" class="py-3">
+            <b-card v-if="4 * row - 4 + column - 1 < reviews.length" class="h-100">
               <template #header>
                 <div class="text-left text-primary small">
-                  <fa :icon="['fas', 'star']" v-for="index in reviews[3 * row - 3 + column - 1].star" :key="`start-${index}`"></fa
-                  ><fa :icon="['far', 'star']" v-for="index in 5 - reviews[3 * row - 3 + column - 1].star" :key="`unstar-${index}`"></fa>
+                  <fa :icon="['fas', 'star']" v-for="index in reviews[4 * row - 4 + column - 1].star" :key="`start-${index}`"></fa
+                  ><fa :icon="['far', 'star']" v-for="index in 5 - reviews[4 * row - 4 + column - 1].star" :key="`unstar-${index}`"></fa>
                 </div>
               </template>
               <b-card-text>
-                {{ reviews[3 * row - 3 + column - 1].content }}
+                {{ reviews[4 * row - 4 + column - 1].content }}
               </b-card-text>
               <template #footer>
                 <div class="text-right small">
-                  {{ reviews[3 * row - 3 + column - 1].writer }}
+                  {{ reviews[4 * row - 4 + column - 1].writer }}
                 </div>
               </template>
             </b-card>

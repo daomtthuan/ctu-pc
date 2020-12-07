@@ -51,6 +51,47 @@
         </b-form-group>
       </b-col>
     </b-row>
+    <b-form-group label="Hình ảnh 1:" label-for="file-image-1">
+      <b-form-file
+        id="file-image-1"
+        v-model="$v.form.image1.$model"
+        :state="validateState('image1')"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+      <b-form-invalid-feedback>Hình ảnh không hợp lệ</b-form-invalid-feedback>
+    </b-form-group>
+    <b-form-group label="Hình ảnh 2:" label-for="file-image-2">
+      <b-form-file
+        id="file-image-2"
+        v-model="$v.form.image2.$model"
+        :state="validateState('image2')"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+      <b-form-invalid-feedback>Hình ảnh không hợp lệ</b-form-invalid-feedback>
+    </b-form-group>
+    <b-form-group label="Hình ảnh 3:" label-for="file-image-3">
+      <b-form-file
+        id="file-image-3"
+        v-model="$v.form.image3.$model"
+        :state="validateState('image3')"
+        placeholder="Chọn hoặc kéo thả ảnh vào đây..."
+        drop-placeholder="Thả ảnh vào đây..."
+        browse-text="Chọn"
+        accept=".jpg"
+      ></b-form-file>
+      <b-form-invalid-feedback>Hình ảnh không hợp lệ</b-form-invalid-feedback>
+    </b-form-group>
+    <b-form-group>
+      <label class="d-block" @click="focusContent">Nội dung:</label>
+      <vue-editor id="input-content" v-model="$v.form.content.$model" :class="contentClass" placeholder="Nhập nội dung" />
+      <b-form-invalid-feedback>Nội dung không hợp lệ</b-form-invalid-feedback>
+    </b-form-group>
 
     <b-form-group class="text-center">
       <b-button type="submit" variant="primary" :disabled="pending">
@@ -62,12 +103,13 @@
 </template>
 
 <script lang="ts">
-  import { createValidation, getValidateState, resetForm, validationMixin } from '@/plugin/validation';
+  import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
+  import { focusEditor } from '@/plugin/editor';
 
   @Component({
     name: 'component-dashboard-form-create-shop-product',
-    validations: createValidation('name', 'idCategoryGroup', 'idCategory', 'idBrand', 'price', 'quantity'),
+    validations: createValidation('name', 'idCategoryGroup', 'idCategory', 'idBrand', 'price', 'quantity', 'image1', 'image2', 'image3', 'content'),
   })
   export default class extends mixins(validationMixin) {
     private form: App.Form.Create.Shop.Product = {
@@ -77,6 +119,10 @@
       idBrand: null,
       price: null,
       quantity: null,
+      image1: null,
+      image2: null,
+      image3: null,
+      content: null,
     };
     private categoryGroupOptions: App.Control.SeleteOption[] = [];
     private categoryOptions: App.Control.SeleteOption[] = [];
@@ -122,22 +168,42 @@
 
       try {
         this.pending = true;
-        let form: any = { ...this.form };
-        delete form.idCategoryGroup;
-        await this.$axios.post('/api/admin/product', form);
+        let formData = new FormData();
+        formData.append('name', JSON.stringify({ data: this.form.name }));
+        formData.append('idCategory', JSON.stringify({ data: this.form.idCategory }));
+        formData.append('idBrand', JSON.stringify({ data: this.form.idBrand }));
+        formData.append('price', JSON.stringify({ data: this.form.price }));
+        formData.append('quantity', JSON.stringify({ data: this.form.quantity }));
+        formData.append('image1', this.form.image1!);
+        formData.append('image2', this.form.image2!);
+        formData.append('image3', this.form.image3!);
+        formData.append('content', JSON.stringify({ data: this.form.content }));
 
-        resetForm(this);
+        await this.$axios.post('/api/admin/product', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
         this.$nuxt.$bvToast.toast('Đã tạo mới sản phẩm.', {
           title: 'Tạo mới thành công!',
           variant: 'success',
           solid: true,
           toaster: 'b-toaster-bottom-right',
         });
+        this.$router.back();
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {
         this.pending = false;
       }
+    }
+
+    public focusContent() {
+      focusEditor('input-content');
+    }
+
+    public get contentClass(): string | null {
+      let state = this.validateState('content');
+      return state === true ? 'is-valid' : state === false ? 'is-invalid' : null;
     }
 
     @Watch('form.idCategoryGroup')
@@ -166,3 +232,7 @@
     }
   }
 </script>
+
+<style lang="scss">
+  @import '@/asset/style/editor';
+</style>

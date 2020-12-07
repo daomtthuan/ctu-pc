@@ -93,6 +93,15 @@ let validations: { [name: string]: any } = {
   image: {
     required: required,
   },
+  image1: {
+    required: required,
+  },
+  image2: {
+    required: required,
+  },
+  image3: {
+    required: required,
+  },
   name: {
     required: required,
     minLength: minLength(1),

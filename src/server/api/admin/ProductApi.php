@@ -29,19 +29,28 @@ class ProductApi extends Api {
   public static function post() {
     Request::getInstance()->verifyAdminAccount();
 
-    if (!Request::getInstance()->hasData('name', 'price', 'quantity', 'idCategory', 'idBrand')) {
+    if (
+      !Request::getInstance()->hasData('name', 'price', 'quantity', 'idCategory', 'idBrand', 'content') ||
+      !Request::getInstance()->hasFile('image1', 'image2', 'image3')
+    ) {
       Response::getInstance()->sendStatus(400);
     }
 
-    $success = ProductProvider::create(new Product([
-      'id' => null,
-      'name' => Request::getInstance()->getData('name'),
-      'price' => Request::getInstance()->getData('price'),
-      'quantity' => Request::getInstance()->getData('quantity'),
-      'idCategory' => Request::getInstance()->getData('idCategory'),
-      'idBrand' => Request::getInstance()->getData('idBrand'),
-      'state' => null
-    ]));
+    $success = ProductProvider::create(
+      new Product([
+        'id' => null,
+        'name' => Request::getInstance()->getData('name'),
+        'price' => Request::getInstance()->getData('price'),
+        'quantity' => Request::getInstance()->getData('quantity'),
+        'idCategory' => Request::getInstance()->getData('idCategory'),
+        'idBrand' => Request::getInstance()->getData('idBrand'),
+        'state' => null
+      ]),
+      Request::getInstance()->getFile('image1'),
+      Request::getInstance()->getFile('image2'),
+      Request::getInstance()->getFile('image3'),
+      Request::getInstance()->getData('content')
+    );
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

@@ -43,7 +43,9 @@ class Request {
         $this->data = json_decode(file_get_contents('php://input'), true);
       } else if (strpos(strtolower($_SERVER['CONTENT_TYPE']), 'multipart/form-data') !== false) {
         if ($this->method == 'post') {
-          $this->data = $_POST;
+          foreach ($_POST as $key => $value) {
+            $this->data[$key] = json_decode($value, true)['data'];
+          }
         } else {
           // Get input data
           $rawData = file_get_contents('php://input');
