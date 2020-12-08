@@ -4,9 +4,9 @@
       <b-input type="number" id="input-quantity" v-model="form.quantity" :state="state"></b-input>
       <b-form-invalid-feedback>Số lượng không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group class="text-right">
+    <div class="text-right">
       <b-button variant="primary" type="submit">Thêm vào giỏ hàng</b-button>
-    </b-form-group>
+    </div>
   </b-form>
 </template>
 
@@ -57,5 +57,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped></style>

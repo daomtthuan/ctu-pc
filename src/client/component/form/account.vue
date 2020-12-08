@@ -20,7 +20,6 @@
           <b-form-input
             id="input-phone"
             type="text"
-            name="phone"
             placeholder="Nhập số điện thoại"
             v-model="$v.form.phone.$model"
             :state="validateState('phone')"
@@ -64,8 +63,8 @@
         </b-form-group>
         <b-form-group label="Giới tính:">
           <b-form-radio-group class="py-2" v-model="$v.form.gender.$model" :state="validateState('gender')" :disabled="!editing">
-            <b-form-radio id="radio-gender-male" name="gender" :value="true">Nam</b-form-radio>
-            <b-form-radio id="radio-gender-female" name="gender" :value="false">Nữ</b-form-radio>
+            <b-form-radio id="radio-gender-male" :value="true">Nam</b-form-radio>
+            <b-form-radio id="radio-gender-female" :value="false">Nữ</b-form-radio>
           </b-form-radio-group>
           <div class="text-danger small mt-1" v-show="validateState('gender') === false">Giới tính không hợp lệ</div>
         </b-form-group>
@@ -74,7 +73,6 @@
     <b-form-group label="Địa chỉ:" label-for="input-address">
       <b-form-textarea
         id="input-address"
-        name="address"
         placeholder="Nhập địa chỉ"
         rows="3"
         max-rows="6"

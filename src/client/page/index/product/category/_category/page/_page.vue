@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center py-5" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+  <div class="text-center py-5" v-if="$fetchState.pending && currentPage == 0"><b-spinner small></b-spinner> Đang tải...</div>
   <b-container class="py-5" v-else-if="!$fetchState.error">
     <h2 class="text-primary">Sản phẩm</h2>
     <h5>Danh mục: {{ nameCategory }}</h5>
@@ -36,7 +36,7 @@
   import { Component, Vue, Watch } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'page-product-in-category',
+    name: 'page-product-list',
   })
   export default class extends Vue {
     private idCategory: number = 0;
@@ -51,7 +51,7 @@
 
     public async fetch() {
       let tempCurrentPage = parseInt(this.$route.params.page ? this.$route.params.page : '1');
-      let tempIdCategory = parseInt(this.$route.params.id);
+      let tempIdCategory = parseInt(this.$route.params.category);
       if (isNaN(tempCurrentPage) || tempCurrentPage < 1 || isNaN(tempIdCategory) || tempIdCategory < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
@@ -88,7 +88,7 @@
     }
 
     public linkPage(page: number) {
-      return `/product/category/${this.idCategory}/${page}`;
+      return `/product/category/${this.idCategory}/page/${page}`;
     }
 
     @Watch('currentPage')

@@ -21,7 +21,7 @@
               <b-card-body class="py-2 px-0">
                 <b-dropdown-text v-if="categories[categoryGroup.id].length == 0">Không có sản phẩm nào </b-dropdown-text>
                 <div v-else>
-                  <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id" :to="`/product/category/${category.id}`">
+                  <b-dropdown-item v-for="category in categories[categoryGroup.id]" :key="category.id" :to="`/product/category/${category.id}/page/1`">
                     {{ category.name }}
                   </b-dropdown-item>
                 </div>
@@ -42,7 +42,7 @@
     <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2">
       <b-form action="/search" class="w-100">
         <b-input-group>
-          <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
+          <b-form-input placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
           <b-input-group-append>
             <b-button type="submit" variant="primary" class="ml-1">
               <fa :icon="['fas', 'search']"></fa>
@@ -120,7 +120,7 @@
       <template #default>
         <b-form action="/search" class="d-md-none">
           <b-input-group>
-            <b-form-input name="keyword" placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
+            <b-form-input placeholder="Tìm kiếm sản phẩm" type="search"></b-form-input>
             <b-input-group-append>
               <b-button type="submit" variant="primary" class="ml-1">
                 <fa :icon="['fas', 'search']"></fa>
@@ -142,7 +142,12 @@
             </b-card-header>
             <b-collapse :id="`category-group-${categoryGroup.id}`" accordion="category-group-accordion" role="tabpanel">
               <b-card-body class="py-2 px-0">
-                <nuxt-link v-for="category in categories[categoryGroup.id]" :key="category.id" class="dropdown-item" :to="`/product/category/${category.id}`">
+                <nuxt-link
+                  v-for="category in categories[categoryGroup.id]"
+                  :key="category.id"
+                  class="dropdown-item"
+                  :to="`/product/category/${category.id}/page/1`"
+                >
                   {{ category.name }}
                 </nuxt-link>
               </b-card-body>

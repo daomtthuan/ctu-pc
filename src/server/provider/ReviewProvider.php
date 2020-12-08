@@ -36,6 +36,9 @@ class ReviewProvider {
   public static function create(Review $review) {
     $data = $review->jsonSerialize();
     unset($data['id'], $data['state']);
+    if ($data['content'] == null) {
+      unset($data['content']);
+    }
     return Database::getInstance()->create('Review', $data) > 0;
   }
 

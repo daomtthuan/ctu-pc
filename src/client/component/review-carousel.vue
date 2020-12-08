@@ -7,10 +7,7 @@
           <b-col v-for="column in 4" :key="column" xl="3" lg="6" md="6" class="py-3">
             <b-card v-if="4 * row - 4 + column - 1 < reviews.length" class="h-100">
               <template #header>
-                <div class="text-left text-primary small">
-                  <fa :icon="['fas', 'star']" v-for="index in reviews[4 * row - 4 + column - 1].star" :key="`start-${index}`"></fa
-                  ><fa :icon="['far', 'star']" v-for="index in 5 - reviews[4 * row - 4 + column - 1].star" :key="`unstar-${index}`"></fa>
-                </div>
+                <c-product-star class="text-left small text-primary" :star="reviews[4 * row - 4 + column - 1].star"></c-product-star>
               </template>
               <b-card-text>
                 {{ reviews[4 * row - 4 + column - 1].content }}

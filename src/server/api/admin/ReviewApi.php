@@ -22,7 +22,7 @@ class ReviewApi extends Api {
       $data = $review->jsonSerialize();
       $data['writer'] = $review->getWriterAccount()->jsonSerialize();
       unset($data['writer']['password']);
-      $events[] = $data;
+      $reviews[] = $data;
     }
     Response::getInstance()->sendJson($reviews);
   }
@@ -79,7 +79,7 @@ class ReviewApi extends Api {
       Response::getInstance()->sendStatus(404);
     }
 
-    $success = ReviewProvider::remove($reviews[0]->getId());
+    $success = ReviewProvider::remove($reviews[0]);
 
     Response::getInstance()->sendStatus($success ? 200 : 500);
   }

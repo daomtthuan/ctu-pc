@@ -3,8 +3,8 @@
   <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-form-group label="Trạng thái:">
       <b-form-radio-group class="py-2" v-model="$v.form.state.$model" :state="validateState('state')">
-        <b-form-radio id="radio-state-enabled" name="state" :value="true">Kích hoạt</b-form-radio>
-        <b-form-radio id="radio-state-disabled" name="state" :value="false">Vô hiệu hoá</b-form-radio>
+        <b-form-radio id="radio-state-enabled" :value="true">Kích hoạt</b-form-radio>
+        <b-form-radio id="radio-state-disabled" :value="false">Vô hiệu hoá</b-form-radio>
       </b-form-radio-group>
       <div class="text-danger small mt-1" v-show="validateState('state') === false">Trạng thái không hợp lệ</div>
     </b-form-group>

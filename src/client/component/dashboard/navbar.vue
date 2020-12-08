@@ -8,7 +8,7 @@
     <b-navbar-nav class="flex-grow-1 d-none d-md-flex mr-2" :class="largeDevice ? 'ml-3' : null">
       <b-form action="/dashboard/search" class="w-100">
         <b-input-group>
-          <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
+          <b-form-input placeholder="Tìm kiếm" type="search"></b-form-input>
           <b-input-group-append>
             <b-button type="submit" variant="primary" class="ml-1">
               <fa :icon="['fas', 'search']"></fa>
@@ -70,7 +70,7 @@
       <template #default>
         <b-form action="/dashboard/search" class="d-md-none">
           <b-input-group>
-            <b-form-input name="keyword" placeholder="Tìm kiếm" type="search"></b-form-input>
+            <b-form-input placeholder="Tìm kiếm" type="search"></b-form-input>
             <b-input-group-append>
               <b-button type="submit" variant="primary" class="ml-1">
                 <fa :icon="['fas', 'search']"></fa>

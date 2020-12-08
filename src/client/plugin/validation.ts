@@ -1,4 +1,4 @@
-import { decimal, email, helpers, integer, maxLength, minLength, minValue, numeric, required, sameAs } from 'vuelidate/lib/validators';
+import { decimal, email, helpers, integer, maxLength, maxValue, minLength, minValue, required, sameAs } from 'vuelidate/lib/validators';
 
 export { validationMixin } from 'vuelidate';
 
@@ -124,13 +124,19 @@ let validations: { [name: string]: any } = {
   },
   price: {
     required: required,
-    numeric: decimal,
+    decimal: decimal,
     minValue: minValue(0),
   },
   quantity: {
     required: required,
-    numeric: numeric,
+    integer: integer,
     minValue: minValue(0),
+  },
+  star: {
+    required: required,
+    integer: integer,
+    minValue: minValue(1),
+    maxValue: maxValue(5),
   },
 };
 
