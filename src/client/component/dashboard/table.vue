@@ -52,7 +52,7 @@
       <div class="mb-3" v-if="notes">
         <label class="small">Chú thích</label>
         <div class="d-flex align-items-center">
-          <div class="rounded border border py-1 px-2 mr-2 small" :class="note.class" v-for="note in notes" :key="note.bg">
+          <div class="border border py-1 px-2 mr-2 small" :class="note.class" v-for="note in notes" :key="note.bg">
             {{ note.label }}
           </div>
         </div>

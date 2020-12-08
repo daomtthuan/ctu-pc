@@ -3,7 +3,7 @@
   <b-container class="my-5" v-else-if="!$fetchState.error">
     <b-row>
       <b-col md="6" lg="4" class="mb-3">
-        <b-carousel controls class="border h-100">
+        <b-carousel controls class="border border-primary h-100">
           <b-carousel-slide v-for="index in 3" :key="index" class="h-100">
             <template #img>
               <div
@@ -30,18 +30,18 @@
         </b-carousel>
       </b-col>
       <b-col md="6" lg="8" class="mb-3">
-        <b-card class="h-100 border" bg-variant="white">
+        <b-card class="h-100" bg-variant="white" border-variant="primary">
           <b-card-body>
             <h4>{{ product.name }}</h4>
             <p>Số lượng còn lại: {{ product.quantity }}</p>
             <h2 class="text-primary">{{ toMoney(product.price) }}</h2>
             <hr />
-            <c-form-add-cart :id-product="product.id"></c-form-add-cart>
+            <c-form-cart-add :id-product="product.id"></c-form-cart-add>
           </b-card-body>
         </b-card>
       </b-col>
     </b-row>
-    <b-card bg-variant="white" class="border my-3">
+    <b-card bg-variant="white" class="my-3" border-variant="primary">
       <b-card-body>
         <h4>Mô tả sản phẩm</h4>
         <hr />
@@ -82,6 +82,8 @@
         </div>
       </client-only>
     </div>
+    <hr />
+    <c-product-carousel></c-product-carousel>
   </b-container>
 </template>
 

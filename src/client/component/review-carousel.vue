@@ -5,7 +5,7 @@
       <template #img>
         <b-row>
           <b-col v-for="column in 4" :key="column" xl="3" lg="6" md="6" class="py-3">
-            <b-card v-if="4 * row - 4 + column - 1 < reviews.length" class="h-100">
+            <b-card v-if="4 * row - 4 + column - 1 < reviews.length" class="h-100" border-variant="primary">
               <template #header>
                 <c-product-star class="text-left small text-primary" :star="reviews[4 * row - 4 + column - 1].star"></c-product-star>
               </template>

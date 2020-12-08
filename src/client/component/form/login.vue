@@ -36,7 +36,7 @@
   import { AxiosResponse } from 'axios';
   import { Component, mixins, Vue, Watch } from 'nuxt-property-decorator';
   import { createValidation, getValidateState, validationMixin } from '@/plugin/validation';
-  import { addProductCart } from '@/plugin/helper';
+  import { addProductCart } from '@/plugin/cart';
 
   @Component({
     name: 'component-form-login',
@@ -75,8 +75,8 @@
 
         let tempProductCart = window.sessionStorage.getItem('tempProductCart');
         if (tempProductCart != null) {
-          let productCart = JSON.parse(tempProductCart);
-          addProductCart(this.$auth.user.id, productCart.idProduct, productCart.quantity);
+          let product: Entity.Cart.Product = JSON.parse(tempProductCart);
+          addProductCart(this.$auth.user.id, product.id, product.quantity);
           this.$nuxt.$bvToast.toast('Đã thêm sản phẩm vào giỏ hàng.', {
             title: 'Thêm thành công!',
             variant: 'success',

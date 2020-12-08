@@ -132,7 +132,7 @@
           Sản phẩm
         </b-button>
         <b-collapse id="category-group" class="accordion my-2">
-          <div class="text-center py-3 border bg-white rounded" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+          <div class="text-center py-3 border bg-white" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
 
           <b-card v-for="categoryGroup in categoryGroups" :key="categoryGroup.id" no-body v-else-if="!$fetchState.error">
             <b-card-header header-tag="header" class="p-1" role="tab">
@@ -180,6 +180,7 @@
 <script lang="ts">
   import { Component, Vue } from 'nuxt-property-decorator';
   import { Context } from '@nuxt/types';
+  import { getCart } from '@/plugin/cart';
 
   @Component({
     name: 'component-navbar',

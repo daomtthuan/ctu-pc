@@ -47,7 +47,7 @@
             :clearable="false"
             value-type="YYYY-MM-DD"
             format="DD-MM-YYYY"
-            popup-class="rounded border shadow"
+            popup-class="border shadow"
             placeholder="Nhập ngày sinh"
             v-model="$v.form.birthday.$model"
             class="w-100"

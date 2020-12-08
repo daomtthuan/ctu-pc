@@ -1,7 +1,7 @@
 <template>
   <div class="text-center py-5" v-if="$fetchState.pending || event == null"><b-spinner small></b-spinner> Đang tải...</div>
   <b-container class="py-5" v-else-if="!this.$fetchState.error">
-    <b-card class="border border-primary">
+    <b-card border-variant="primary">
       <b-card-body>
         <b-card-title title-tag="h2" class="text-primary">
           Sự kiện

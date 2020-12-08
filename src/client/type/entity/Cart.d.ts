@@ -1,12 +1,16 @@
 declare namespace Entity {
   namespace Cart {
     interface Product {
-      idProduct: number;
+      id: number;
       quantity: number;
     }
 
+    interface Cart extends Array<Product> {
+      [id: number]: Product;
+    }
+
     interface Storage extends Object {
-      [id: number]: Product[];
+      [id: number]: Cart | null;
     }
   }
 }

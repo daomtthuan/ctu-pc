@@ -130,7 +130,7 @@ let validations: { [name: string]: any } = {
   quantity: {
     required: required,
     integer: integer,
-    minValue: minValue(0),
+    minValue: minValue(1),
   },
   star: {
     required: required,

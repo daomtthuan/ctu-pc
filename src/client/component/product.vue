@@ -1,5 +1,5 @@
 <template>
-  <b-card class="h-100" img-top bg-variant="white" body-class="p-0" header-class="p-0">
+  <b-card class="h-100" img-top bg-variant="white" body-class="p-0" header-class="p-0" border-variant="primary">
     <template #header>
       <nuxt-link
         class="w-100 d-block"

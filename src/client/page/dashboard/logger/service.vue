@@ -12,7 +12,7 @@
         :clearable="false"
         value-type="YYYY-MM-DD"
         format="DD-MM-YYYY"
-        popup-class="rounded border shadow"
+        popup-class="border shadow"
         placeholder="Nhập ngày xem ghi vết"
         v-model="date"
         class="w-100"
