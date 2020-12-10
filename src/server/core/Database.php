@@ -385,4 +385,13 @@ class Database {
       return false;
     }
   }
+
+  /**
+   * Get connection
+   * 
+   * @return PDO Connection
+   */
+  public function getConnection() {
+    return $this->connection;
+  }
 }

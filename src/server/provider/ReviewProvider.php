@@ -51,7 +51,7 @@ class ReviewProvider {
   public static function create(Review $review) {
     $data = $review->jsonSerialize();
     unset($data['id'], $data['state']);
-    if ($data['content'] == null) {
+    if ($data['content'] == '' || $data['content'] == null) {
       unset($data['content']);
     }
     return Database::getInstance()->create('Review', $data) > 0;
@@ -67,6 +67,9 @@ class ReviewProvider {
   public static function edit(Review $review) {
     $data = $review->jsonSerialize();
     unset($data['id']);
+    if ($data['content'] == '' || $data['content'] == null) {
+      unset($data['content']);
+    }
     Database::getInstance()->edit('Review', $review->getId(), $data);
     return true;
   }

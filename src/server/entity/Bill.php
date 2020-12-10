@@ -3,6 +3,7 @@
 namespace Entity;
 
 use Core\Entity;
+use Provider\AccountProvider;
 use Provider\ProductCartProvider;
 use Provider\ProductProvider;
 
@@ -143,5 +144,14 @@ class Bill extends Entity {
       $sum += $productCart->getQuantity();
     }
     return $sum;
+  }
+
+  /**
+   * Get account customer
+   * 
+   * @return Account Account customer
+   */
+  public function getCustomer() {
+    return AccountProvider::find(['id' => $this->idAccount])[0];
   }
 }

@@ -104,6 +104,7 @@
               <nuxt-link to="/dashboard/shop/product" class="dropdown-item">Sản phẩm</nuxt-link>
               <nuxt-link to="/dashboard/shop/review" class="dropdown-item">Đánh giá</nuxt-link>
               <nuxt-link to="/dashboard/shop/event" class="dropdown-item">Sự kiện</nuxt-link>
+              <nuxt-link to="/dashboard/shop/bill" class="dropdown-item">Đơn hàng</nuxt-link>
             </b-card-body>
           </b-card>
         </b-collapse>

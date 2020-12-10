@@ -7,7 +7,7 @@
             <b-row no-gutters>
               <b-col xl="8" class="pr-xl-1 mb-2 mb-xl-0">
                 <b-form-select v-model="sortBy" id="select-sort" size="sm" :options="options">
-                  <template v-slot:first>
+                  <template #first>
                     <option value="">Không sắp xếp</option>
                   </template>
                 </b-form-select>
@@ -83,7 +83,7 @@
       label-sort-clear="Nhấn vào đây để xóa sắp xếp"
       empty-text="Không có dữ liệu"
     >
-      <template v-slot:cell(actions)="row">
+      <template #cell(actions)="row">
         <b-button size="sm" @click="info(row.item, row.index, $event.target)">
           <fa :icon="['fas', 'code']"></fa>
         </b-button>
@@ -97,9 +97,10 @@
           <span v-if="!removePending"><fa :icon="['fas', 'trash']"></fa></span>
           <span v-else><b-spinner small></b-spinner></span>
         </b-button>
+        <slot name="more-actions" :row="row"></slot>
       </template>
 
-      <template v-slot:row-details="row">
+      <template #row-details="row">
         <b-card>
           <ul>
             <div v-for="(value, key) in row.item" :key="key">
@@ -113,16 +114,16 @@
     </b-table>
 
     <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="center" v-if="items.length > 0">
-      <template v-slot:first-text>
+      <template #first-text>
         <fa :icon="['fas', 'angle-double-left']"></fa>
       </template>
-      <template v-slot:prev-text>
+      <template #prev-text>
         <fa :icon="['fas', 'angle-left']"></fa>
       </template>
-      <template v-slot:next-text>
+      <template #next-text>
         <fa :icon="['fas', 'angle-right']"></fa>
       </template>
-      <template v-slot:last-text>
+      <template #last-text>
         <fa :icon="['fas', 'angle-double-right']"></fa>
       </template>
     </b-pagination>

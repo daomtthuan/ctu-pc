@@ -22,21 +22,23 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-dashboard-form-edit-shop-review',
+    name: 'component-dashboard-form-edit-bill',
     validations: createValidation('state'),
   })
   export default class extends mixins(validationMixin) {
     @Prop({ type: String, required: true })
     private id!: number;
 
-    private form: App.Form.Edit.Shop.Review = { state: null };
+    private form: App.Form.Edit.Shop.Bill = { state: null };
     private pending: boolean = false;
 
     public async fetch() {
       try {
-        let reviews: Entity.Review[] = (await this.$axios.get('/api/admin/review', { params: { id: this.id } })).data;
-        if (reviews.length == 1) {
-          this.form = { state: reviews[0].state };
+        let bills: Entity.Bill[] = (await this.$axios.get('/api/admin/bill', { params: { id: this.id } })).data;
+        if (bills.length == 1) {
+          this.form = {
+            state: bills[0].state,
+          };
         } else {
           this.$nuxt.error({ statusCode: 404 });
         }
@@ -58,9 +60,9 @@
 
       try {
         this.pending = true;
-        await this.$axios.put('/api/admin/review', this.form, { params: { id: this.id } });
+        await this.$axios.put('/api/admin/bill', this.form, { params: { id: this.id } });
 
-        this.$nuxt.$bvToast.toast('Thông tin đánh giá đã được chỉnh sửa.', {
+        this.$nuxt.$bvToast.toast('Thông tin đơn hàng đã được chỉnh sửa.', {
           title: 'Chỉnh sửa thành công!',
           variant: 'success',
           solid: true,

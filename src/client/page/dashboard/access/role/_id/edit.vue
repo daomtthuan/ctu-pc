@@ -6,7 +6,7 @@
       <b-breadcrumb-item text="Chỉnh sửa" :to="$route.path"></b-breadcrumb-item>
     </b-breadcrumb>
     <hr />
-    <c-dashboard-form-edit-access-role :id="$nuxt.$route.params.id"></c-dashboard-form-edit-access-role>
+    <c-dashboard-form-edit-access-role :id="$route.params.id"></c-dashboard-form-edit-access-role>
   </div>
 </template>
 

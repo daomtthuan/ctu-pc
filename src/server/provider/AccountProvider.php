@@ -12,6 +12,21 @@ use Plugin\MailPlugin;
 /** Account provider */
 class AccountProvider {
   /**
+   * Count account by filter
+   * 
+   * @param array|null $filter Finding filter
+   * @param int $start Index starting account
+   * @param int $limit Limit number of accounts for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
+   * 
+   * @return int Number of accounts
+   */
+  public static function count(array $filter = null, int $start = null, $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
+    return Database::getInstance()->count('Account', $filter,  $start, $limit, $orderByKeys, $typeOrder);
+  }
+
+  /**
    * Find Account by filter
    * 
    * @param array|null $filter Finding filter

@@ -153,6 +153,8 @@
           this.items = (await this.$axios.get('/api/admin/review', { params: { idProduct: newValue } })).data;
           this.fields = [
             { key: 'id', label: 'Id', sortable: true, class: 'd-none' },
+            { key: 'writer.username', label: 'Tài khoản', sortable: true, class: 'align-middle' },
+            { key: 'writer.fullName', label: 'Họ và tên', sortable: true, class: 'align-middle' },
             { key: 'star', label: 'Số sao', sortable: true, class: 'align-middle text-md-right fit' },
             { key: 'content', label: 'Nội dung', sortable: true, class: 'align-middle' },
             {

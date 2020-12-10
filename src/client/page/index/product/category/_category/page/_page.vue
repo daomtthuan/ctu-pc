@@ -14,16 +14,16 @@
         </b-col>
       </b-row>
       <b-pagination-nav v-model="page" :link-gen="linkPage" :number-of-pages="numberPages" use-router align="center">
-        <template v-slot:first-text>
+        <template #first-text>
           <fa :icon="['fas', 'angle-double-left']"></fa>
         </template>
-        <template v-slot:prev-text>
+        <template #prev-text>
           <fa :icon="['fas', 'angle-left']"></fa>
         </template>
-        <template v-slot:next-text>
+        <template #next-text>
           <fa :icon="['fas', 'angle-right']"></fa>
         </template>
-        <template v-slot:last-text>
+        <template #last-text>
           <fa :icon="['fas', 'angle-double-right']"></fa>
         </template>
       </b-pagination-nav>
