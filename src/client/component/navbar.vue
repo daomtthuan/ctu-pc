@@ -70,7 +70,7 @@
           <b-dropdown-item to="/account">Thông tin cá nhân</b-dropdown-item>
           <b-dropdown-item to="/account/change-password">Đổi mật khẩu</b-dropdown-item>
           <b-dropdown-item to="/account/cart">Giỏ hàng</b-dropdown-item>
-          <b-dropdown-item>Đơn hàng</b-dropdown-item>
+          <b-dropdown-item to="/account/bill/status/pending">Đơn hàng</b-dropdown-item>
           <div v-if="$auth.hasScope('Admin')">
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-header>Dành cho quản trị</b-dropdown-header>

@@ -92,6 +92,9 @@
   import { toMoney } from '@/plugin/helper';
   @Component({
     name: 'page-product',
+    head: {
+      title: 'Sản phẩm - Chi tiết',
+    },
     methods: { toMoney },
   })
   export default class extends Vue {

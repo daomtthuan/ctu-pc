@@ -15,7 +15,7 @@
       :notes="notes"
       :row-class="rowClass"
       :remove-item="remove"
-      v-else-if="!this.$fetchState.error"
+      v-else-if="!$fetchState.error"
     ></c-dashboard-table>
   </div>
 </template>

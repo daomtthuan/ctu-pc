@@ -37,6 +37,9 @@
 
   @Component({
     name: 'page-product-list',
+    head: {
+      title: 'Sản phẩm',
+    },
   })
   export default class extends Vue {
     private idCategory: number = 0;

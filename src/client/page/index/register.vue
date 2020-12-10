@@ -3,7 +3,7 @@
     <b-card border-variant="primary">
       <b-card-body>
         <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Xác thực...</div>
-        <div v-else-if="!this.$fetchState.error">
+        <div v-else-if="!$fetchState.error">
           <b-card-title title-tag="h2" class="text-primary">
             Đăng ký
           </b-card-title>

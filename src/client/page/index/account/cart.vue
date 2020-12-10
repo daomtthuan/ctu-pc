@@ -4,7 +4,7 @@
       <b-card border-variant="primary">
         <b-card-body>
           <div v-if="$fetchState.pending || pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-          <div v-else-if="!this.$fetchState.error">
+          <div v-else-if="!$fetchState.error">
             <b-card-title title-tag="h2" class="text-primary">
               Giỏ hàng
             </b-card-title>
@@ -12,13 +12,13 @@
             <small v-if="cart.length == 0">Không có sản phẩm nào trong giỏ hàng</small>
             <div v-else>
               <h6>Tổng sản phẩm: {{ numberProducts }}</h6>
-              <b-card no-body v-for="(product, index) in cart" :key="index" class="mt-3">
+              <b-card no-body v-for="product in products" :key="product.id" class="mt-3" border-variant="primary">
                 <b-row no-gutters>
                   <b-col lg="4" md="6">
                     <div
                       class="w-100 h-100 d-none d-md-block"
                       :style="{
-                        backgroundImage: `url('${products[index].image1Url}')`,
+                        backgroundImage: `url('${product.image1Url}')`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
@@ -27,7 +27,7 @@
                     <div
                       class="w-100 d-block d-md-none"
                       :style="{
-                        backgroundImage: `url('${products[index].image1Url}')`,
+                        backgroundImage: `url('${product.image1Url}')`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
@@ -37,9 +37,12 @@
                   </b-col>
                   <b-col lg="8" md="6">
                     <b-card-body>
-                      <h5>{{ products[index].name }}</h5>
-                      <h5 class="text-primary">{{ toMoney(products[index].price) }}</h5>
-                      <c-form-cart-edit :id-product="products[index].id" @change="onChanged"></c-form-cart-edit>
+                      <h5>{{ product.name }}</h5>
+                      <h5 class="text-primary">{{ toMoney(product.price) }}</h5>
+                      <p>
+                        <small>Số lượng còn lại: {{ product.quantity }}</small>
+                      </p>
+                      <c-form-cart-edit :id-product="product.id" @change="onChanged"></c-form-cart-edit>
                     </b-card-body>
                   </b-col>
                 </b-row>
@@ -97,7 +100,7 @@
         this.pendingSubmit = true;
         this.$axios.post('/api/user/pay', { cart: this.cart });
         clearCart(this.$auth.user.id);
-        this.$router.push('/account/bill');
+        this.$router.push('/account/bill/state/pending');
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {

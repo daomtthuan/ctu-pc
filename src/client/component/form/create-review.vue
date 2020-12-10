@@ -1,19 +1,20 @@
 <template>
   <b-form @submit.prevent="submit">
-    <b-form-group label="Số sao" label-for="select-star">
+    <b-form-group label="Số sao" label-for="select-star" label-size="sm">
       <b-form-rating
         id="select-star"
         v-model="$v.form.star.$model"
+        size="sm"
         :class="validateState('star') === true ? 'is-valid' : validateState('star') === false ? 'is-invalid' : null"
       ></b-form-rating>
       <b-form-invalid-feedback>Số sao không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
-    <b-form-group label="Đánh giá" label-for="input-content">
-      <b-form-textarea id="input-content" placeholder="Nhập đánh giá" rows="3" max-rows="6" v-model="form.content"></b-form-textarea>
+    <b-form-group label="Đánh giá" label-for="input-content" label-size="sm">
+      <b-form-textarea id="input-content" placeholder="Nhập đánh giá" rows="3" max-rows="6" size="sm" v-model="form.content"></b-form-textarea>
     </b-form-group>
 
-    <b-form-group class="text-center">
-      <b-button type="submit" variant="primary" :disabled="pending">
+    <b-form-group class="text-right">
+      <b-button type="submit" variant="primary" :disabled="pending" size="sm">
         <span v-if="!pending">Đánh giá</span>
         <span v-else><b-spinner small></b-spinner> Xử lý...</span>
       </b-button>

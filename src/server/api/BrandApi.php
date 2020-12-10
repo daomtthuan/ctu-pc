@@ -3,7 +3,6 @@
 namespace Api;
 
 use Core\Api;
-use Core\Request;
 use Core\Response;
 use Provider\BrandProvider;
 

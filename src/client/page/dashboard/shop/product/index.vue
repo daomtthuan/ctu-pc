@@ -8,7 +8,7 @@
     <b-button size="sm" :to="`${$route.path}/create`" variant="primary">Tạo mới</b-button>
     <hr />
     <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-    <div v-else-if="!this.$fetchState.error">
+    <div v-else-if="!$fetchState.error">
       <b-form-group label="Nhóm danh mục:" label-for="select-category-group" label-size="sm">
         <b-form-select
           id="select-category-group"

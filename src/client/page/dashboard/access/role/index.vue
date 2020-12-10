@@ -12,7 +12,7 @@
       :fields="fields"
       :notes="notes"
       :row-class="rowClass"
-      v-else-if="!this.$fetchState.error"
+      v-else-if="!$fetchState.error"
       :allow-create="false"
       :allow-remove="false"
     ></c-dashboard-table>

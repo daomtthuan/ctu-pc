@@ -63,7 +63,11 @@ class Database {
     if (isset($filter)) {
       $query .= ' where ';
       foreach (array_keys($filter) as $key) {
-        $query .= "$key = :$key and ";
+        if (!is_null($filter[$key])) {
+          $query .= "$key = :$key and ";
+        } else {
+          $query .= "$key is :$key and ";
+        }
       }
       $query = substr($query, 0, -5);
     }
@@ -102,7 +106,11 @@ class Database {
     if (isset($filter)) {
       $query .= ' where ';
       foreach (array_keys($filter) as $key) {
-        $query .= "$key = :$key and ";
+        if (!is_null($filter[$key])) {
+          $query .= "$key = :$key and ";
+        } else {
+          $query .= "$key is :$key and ";
+        }
       }
       $query = substr($query, 0, -5);
     }
@@ -195,7 +203,7 @@ class Database {
     $query = "select $entity.* from $entity";
 
     foreach ($references as $reference) {
-      $joinEntity = $reference['leftEntity'];
+      $joinEntity = $reference['joinEntity'];
       $leftEntity = $reference['leftEntity'];
       $leftKey = $reference['leftKey'];
       $rightEntity = $reference['rightEntity'];
@@ -214,7 +222,11 @@ class Database {
         $value = $referencesFilter['value'];
         $filterKey = $entity . '_' . $key;
         $filter[$filterKey] = $value;
-        $query .= "$entity.$key = :$filterKey and ";
+        if (!is_null($value)) {
+          $query .= "$entity.$key = :$filterKey and ";
+        } else {
+          $query .= "$entity.$key is :$filterKey and ";
+        }
       }
       $query = substr($query, 0, -5);
     }
@@ -240,7 +252,7 @@ class Database {
     $joinQuery = "select $entity.$key from $entity";
 
     foreach ($references as $reference) {
-      $joinEntity = $reference['leftEntity'];
+      $joinEntity = $reference['joinEntity'];
       $leftEntity = $reference['leftEntity'];
       $leftKey = $reference['leftKey'];
       $rightEntity = $reference['rightEntity'];
@@ -272,6 +284,11 @@ class Database {
         $findFilterKey = $entity . '_' . $key;
         $findFilter[$findFilterKey] = $value;
         $query .= " and $entity.$key = :$findFilterKey";
+        if (!is_null($value)) {
+          $query .= " and $entity.$key = :$findFilterKey";
+        } else {
+          $query .= " and $entity.$key is :$findFilterKey";
+        }
       }
     }
 
@@ -335,7 +352,11 @@ class Database {
     if (isset($filter)) {
       $query .= ' where ';
       foreach (array_keys($filter) as $key) {
-        $query .= "$key = :$key and ";
+        if (!is_null($filter[$key])) {
+          $query .= "$key = :$key and ";
+        } else {
+          $query .= "$key is :$key and ";
+        }
       }
       $query = substr($query, 0, -5);
     }

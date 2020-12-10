@@ -74,7 +74,7 @@
     private rows: number = 0;
 
     public async fetch() {
-      let tempCurrentPage = parseInt(this.$route.params.id ? this.$route.params.id : '1');
+      let tempCurrentPage = parseInt(this.$route.params.page ? this.$route.params.page : '1');
       if (isNaN(tempCurrentPage) || tempCurrentPage < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;

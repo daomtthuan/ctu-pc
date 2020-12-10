@@ -17,11 +17,11 @@ CREATE TABLE Account (
     password VARCHAR(100) NOT NULL,
     fullName NVARCHAR(100) NOT NULL,
     birthday DATE NOT NULL,
-    gender BIT NOT NULL,
+    gender BIT NOT NULL, -- TRUE: Male, FALSE: Female
     email VARCHAR(100) NOT NULL,
     address NVARCHAR(500) NOT NULL,
     phone VARCHAR(15) NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id)
 )  ENGINE=INNODB;
 
@@ -29,7 +29,7 @@ CREATE TABLE Account (
 CREATE TABLE Role (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id)
 )  ENGINE=INNODB;
 
@@ -38,7 +38,7 @@ CREATE TABLE Permission (
     id INT NOT NULL AUTO_INCREMENT,
     idAccount INT NOT NULL,
     idRole INT NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id),
     FOREIGN KEY (idAccount)
         REFERENCES Account (id)
@@ -46,35 +46,35 @@ CREATE TABLE Permission (
     FOREIGN KEY (idRole)
         REFERENCES Role (id)
         ON DELETE CASCADE
-);
+)  ENGINE=INNODB;
 
 -- Create table Brand
 CREATE TABLE Brand (
     id INT NOT NULL AUTO_INCREMENT,
     name NVARCHAR(100) NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id)
-);
+)  ENGINE=INNODB;
 
 -- Create table Category Group
 CREATE TABLE CategoryGroup (
     id INT NOT NULL AUTO_INCREMENT,
     name NVARCHAR(100) NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id)
-);
+)  ENGINE=INNODB;
 
 -- Create table Category
 CREATE TABLE Category (
     id INT NOT NULL AUTO_INCREMENT,
     name NVARCHAR(100) NOT NULL,
     idCategoryGroup INT NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id),
     FOREIGN KEY (idCategoryGroup)
         REFERENCES CategoryGroup (id)
         ON DELETE CASCADE
-);
+)  ENGINE=INNODB;
 
 -- Create table Product
 CREATE TABLE Product (
@@ -84,7 +84,7 @@ CREATE TABLE Product (
     quantity INT NOT NULL,
     idCategory INT NOT NULL,
     idBrand INT NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id),
     FOREIGN KEY (idCategory)
         REFERENCES Category (id)
@@ -92,7 +92,7 @@ CREATE TABLE Product (
     FOREIGN KEY (idBrand)
         REFERENCES Brand (id)
         ON DELETE CASCADE
-);
+)  ENGINE=INNODB;
 
 -- Create table Review
 CREATE TABLE Review (
@@ -101,7 +101,7 @@ CREATE TABLE Review (
     content NVARCHAR(500),
     idAccount INT NOT NULL,
     idProduct INT NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id),
     FOREIGN KEY (idAccount)
         REFERENCES Account (id)
@@ -109,7 +109,7 @@ CREATE TABLE Review (
     FOREIGN KEY (idProduct)
         REFERENCES Product (id)
         ON DELETE CASCADE
-);
+)  ENGINE=INNODB;
 
 -- Create table Event
 CREATE TABLE Event (
@@ -117,9 +117,39 @@ CREATE TABLE Event (
     title NVARCHAR(100) NOT NULL,
     post DATE NOT NULL DEFAULT NOW(),
     idAccount INT NOT NULL,
-    state BIT NOT NULL DEFAULT TRUE,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
     PRIMARY KEY (id),
     FOREIGN KEY (idAccount)
         REFERENCES Account (id)
         ON DELETE CASCADE
-);
+)  ENGINE=INNODB;
+
+-- Create table Bill
+CREATE TABLE Bill (
+    id INT NOT NULL AUTO_INCREMENT,
+    idAccount INT NOT NULL,
+    createDate DATE NOT NULL DEFAULT NOW(),
+    payDate DATE,
+    status INT NOT NULL DEFAULT 0, -- 0: Pending, 1: Shipping, 2: Paid, 3: Cancel
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
+    PRIMARY KEY (id),
+    FOREIGN KEY (idAccount)
+        REFERENCES Account (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB;
+
+-- Create table ProductCart
+CREATE TABLE ProductCart (
+		id INT NOT NULL AUTO_INCREMENT,
+    idBill INT NOT NULL,
+    idProduct INT NOT NULL,
+    quantity INT NOT NULL,
+    state BIT NOT NULL DEFAULT TRUE, -- TRUE: Enabled, FALSE: Disabled
+    PRIMARY KEY (id),
+    FOREIGN KEY (idBill)
+        REFERENCES Bill (id)
+        ON DELETE CASCADE,
+		FOREIGN KEY (idProduct)
+        REFERENCES Product (id)
+        ON DELETE CASCADE
+)  ENGINE=INNODB;

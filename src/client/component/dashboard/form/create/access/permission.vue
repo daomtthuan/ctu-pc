@@ -1,6 +1,6 @@
 <template>
   <div v-if="$fetchState.pending" class="text-center"><b-spinner small></b-spinner> Đang tải...</div>
-  <b-form @submit.prevent="submit" v-else-if="!this.$fetchState.error">
+  <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-form-group label="Quyền truy cập:" label-for="select-role">
       <b-form-select
         id="select-role"

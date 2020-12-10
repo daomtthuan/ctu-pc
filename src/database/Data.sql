@@ -82,7 +82,7 @@ VALUES (N'Balo', 6),
 -- Insert Brand
 INSERT INTO Brand(name)
 VALUES ('Intel'),
-		('ARES'),
+        ('ARES'),
         ('ASUS'),
         ('Microsoft'),
         ('Logitech'),
@@ -97,8 +97,8 @@ VALUES ('Intel'),
 -- Insert Product
 INSERT INTO Product(name, price, quantity, idCategory, idBrand)
 VALUES 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
-		(N'ASUS ROG MAXIMUS XII EXTREME Mainboard – Z490 Chipset',17900,100,2,3),
-		(N'ASUS TUF Gaming Geforce RTX 3090 24G Graphics Card',42800,100,3,3),
+				(N'ASUS ROG MAXIMUS XII EXTREME Mainboard – Z490 Chipset',17900,100,2,3),
+				(N'ASUS TUF Gaming Geforce RTX 3090 24G Graphics Card',42800,100,3,3),
         (N'CORSAIR VENGEANCE RGB PRO Memory Kit – Black, 32GB',4900,100,4,12),
         (N'MSI Core Frozr S Air Cooler',1120,100,5,8),
         (N'Intel Optane Memory M10 Series 16GB SSD – 16GB, M.2 80mm PCIe 3.0, 20nm, 3D XPoint',990,100,6,1),
@@ -125,7 +125,7 @@ VALUES 	(N'Intel 10th Gen Core i9-10850K Processor – Unlocked',12990,100,1,1),
 -- Insert Event
 INSERT INTO Event(title, post, idAccount)
 VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '2020-11-19', 1),
-		(N'TIỀN NHIỀU ĐỂ LÀM GÌ?', '2020-11-18', 1),
+				(N'TIỀN NHIỀU ĐỂ LÀM GÌ?', '2020-11-18', 1),
         (N'ASUS Combo ROG Hủy Diệt Tháng 11', '2020-11-16', 1),
         (N'Đồng Hành Cùng Combo AORUS PC', '2020-11-15', 1),
         (N'Rinh PC ITX nhận Combo Wireless', '2020-11-14', 1);
@@ -133,7 +133,32 @@ VALUES 	(N'Mua Card đồ họa ASUS NVIDIA Geforce nhận ngay Combo quà', '20
 -- Insert Review
 INSERT INTO Review(star, content, idAccount, idProduct)
 VALUES 	(5, 'Ngon quá', 2, 1),
-		(5, 'Ngon, bổ, rẻ', 3, 1),
+				(5, 'Ngon, bổ, rẻ', 3, 1),
         (5, 'Rất hài lòng với dịch vụ', 4, 1),
         (4, 'Tạm được, phục vụ tốt, nhưng khách khá đông trong không gian hạn chế nên cảm thấy hơi ngột ngạt', 5, 1),
         (3, 'OK!!', 6, 1);
+
+-- Insert Bill
+INSERT INTO Bill(idAccount, createDate, status)
+VALUES 	(1, '2020-12-9', 0),
+        (2, '2020-12-9', 1),
+        (3, '2020-12-8', 3),
+        (1, '2020-12-10', 0);
+       
+INSERT INTO Bill(idAccount, createDate, payDate, status)
+VALUES 	(2, '2020-12-7', '2020-12-11', 2);
+        
+INSERT INTO ProductCart(idBill, idProduct, quantity)
+VALUES 	(1, 1, 1),
+        (1, 4, 1),
+        (2, 5, 2),
+				(2, 10, 1),
+				(2, 20, 1),
+				(3, 1, 1),
+				(3, 2, 1),
+				(3, 8, 1),
+				(4, 11, 2),
+				(4, 19, 1),
+				(5, 25, 1),
+				(5, 7, 1),
+				(5, 2, 1);

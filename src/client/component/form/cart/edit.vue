@@ -1,7 +1,7 @@
 <template>
   <b-form @submit.prevent="submit" @reset.prevent="reset">
     <b-form-group label="Số lượng" label-for="input-quantity">
-      <b-input type="number" id="input-quantity" v-model="$v.form.quantity.$model" :state="validateState('quantity')"></b-input>
+      <b-input type="number" id="input-quantity" v-model="$v.form.quantity.$model" :state="validateState()"></b-input>
       <b-form-invalid-feedback>Số lượng không hợp lệ</b-form-invalid-feedback>
     </b-form-group>
     <div class="text-right">
@@ -23,7 +23,7 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-cart-edit',
+    name: 'component-form-cart-edit',
     validations: createValidation('quantity'),
   })
   export default class extends mixins(validationMixin) {
@@ -32,17 +32,39 @@
 
     private carts: Entity.Cart.Storage = [];
     private form: App.Form.Cart.Edit = { quantity: null };
+    private quantity: number | null = null;
     private pending: boolean = false;
 
-    public fetch() {
+    public async fetch() {
       if (process.client) {
         let cart = getCart(this.$auth.user.id);
         this.form.quantity = cart.filter((product) => product.id == this.idProduct)[0].quantity;
+
+        try {
+          let products: Entity.Product[] = (await this.$axios.get('/api/product', { params: { id: this.idProduct } })).data;
+          if (products.length != 1) {
+            this.$nuxt.error({ statusCode: 404 });
+          }
+          this.quantity = products[0].quantity;
+          if (this.quantity < this.form.quantity) {
+            this.form.quantity = this.quantity;
+            editProductCart(this.$auth.user.id, this.idProduct, this.form.quantity);
+            this.$nuxt.$bvToast.toast('Sản phẩm còn lại không đủ. Đã cập nhật lại số lượng thành số lượng tối đa có thể.', {
+              title: 'Thay đổi số lượng sản phẩm',
+              variant: 'warning',
+              solid: true,
+              toaster: 'b-toaster-bottom-right',
+            });
+          }
+        } catch (error) {
+          this.$nuxt.error({ statusCode: (<Response>error.response).status });
+        }
       }
     }
 
-    public validateState(name: string) {
-      return getValidateState(this, name);
+    public validateState() {
+      let state = getValidateState(this, 'quantity');
+      return state === true ? state && this.form.quantity! <= this.quantity! : state;
     }
 
     public submit() {
