@@ -52,7 +52,7 @@
                     <div class="text-right">
                       <hr />
                       <b-button variant="danger" @click.prevent="cancel(bill.id)" v-if="status == 0" class="mr-2">Huỷ đơn hàng</b-button>
-                      <b-button :to="`/account/bill/${bill.id}`" class="mr-2">Đánh giá</b-button>
+                      <b-button :to="`/account/bill/${bill.id}`" v-if="status == 2" class="mr-2">Đánh giá</b-button>
                       <b-button variant="primary" :to="`/account/bill/${bill.id}`">Xem chi tiết</b-button>
                     </div>
                   </b-card-body>
@@ -82,24 +82,22 @@
     private pending: boolean = false;
 
     public async fetch() {
-      await this.onStatusChanged(this.$route.params.status ? this.$route.params.status.toLowerCase() : 'pending');
-    }
-
-    @Watch('$route.params.status')
-    public async onStatusChanged(newValue: string) {
-      if (newValue != 'pending' && newValue != 'shipping' && newValue != 'paid' && newValue != 'cancel') {
+      let status = this.$route.params.status ? this.$route.params.status.toLowerCase() : 'pending';
+      if (status != 'pending' && status != 'shipping' && status != 'paid' && status != 'cancel') {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }
 
       try {
-        this.pending = true;
         this.bills = (await this.$axios.get('/api/user/bill', { params: { status: this.status } })).data;
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
-      } finally {
-        this.pending = false;
       }
+    }
+
+    @Watch('$route.params.status')
+    public async onStatusChanged() {
+      this.$fetch();
     }
 
     public async cancel(idBill: number) {

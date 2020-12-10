@@ -1,5 +1,6 @@
 <template>
-  <b-form @submit.prevent="submit" @reset.prevent="reset">
+  <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
+  <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
     <b-form-group label="Số lượng" label-for="input-quantity">
       <b-input type="number" id="input-quantity" v-model="$v.form.quantity.$model" :state="validateState()"></b-input>
       <b-form-invalid-feedback>Số lượng không hợp lệ</b-form-invalid-feedback>
@@ -23,7 +24,7 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-form-cart-edit',
+    name: 'component-form-edit-cart',
     validations: createValidation('quantity'),
   })
   export default class extends mixins(validationMixin) {
@@ -31,7 +32,7 @@
     private idProduct!: number;
 
     private carts: Entity.Cart.Storage = [];
-    private form: App.Form.Cart.Edit = { quantity: null };
+    private form: App.Form.Edit.Cart = { quantity: null };
     private quantity: number | null = null;
     private pending: boolean = false;
 

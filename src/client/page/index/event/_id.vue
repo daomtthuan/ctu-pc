@@ -28,18 +28,18 @@
     },
   })
   export default class extends Vue {
+    private idEvent: number = parseInt(this.$route.params.id);
     private event: Entity.Event | null = null;
     private post: string | null = null;
 
     public async fetch() {
-      let tempId = parseInt(this.$route.params.id ? this.$route.params.id : '1');
-      if (isNaN(tempId) || tempId < 1) {
+      if (isNaN(this.idEvent) || this.idEvent < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }
 
       try {
-        let events: Entity.Event[] = (await this.$axios.get('/api/event', { params: { id: tempId } })).data;
+        let events: Entity.Event[] = (await this.$axios.get('/api/event', { params: { id: this.idEvent } })).data;
         if (events.length != 1) {
           this.$nuxt.error({ statusCode: 404 });
           return;
@@ -50,6 +50,12 @@
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       }
+    }
+
+    @Watch('$route.params.id')
+    public onIdEventChanged(newValue: string) {
+      this.idEvent = parseInt(newValue);
+      this.$fetch();
     }
   }
 </script>

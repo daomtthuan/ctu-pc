@@ -1,6 +1,6 @@
 declare namespace Entity {
   interface Review extends Entity {
-    start: number;
+    star: number;
     content: string;
     idAccount: number;
     idProduct: number;

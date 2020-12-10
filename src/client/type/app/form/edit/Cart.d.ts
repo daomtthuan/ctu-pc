@@ -1,7 +1,7 @@
 declare namespace App {
   namespace Form {
-    namespace Cart {
-      interface Add {
+    namespace Edit {
+      interface Cart {
         quantity: number | null;
       }
     }

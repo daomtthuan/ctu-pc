@@ -27,14 +27,14 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-create-review',
+    name: 'component-form-create-review',
     validations: createValidation('star'),
   })
   export default class extends mixins(validationMixin) {
     @Prop({ type: Number, required: true })
     private idProduct!: number;
 
-    private form: App.Form.CreateReview = {
+    private form: App.Form.Create.Review = {
       star: null,
       content: null,
     };
@@ -52,7 +52,7 @@
 
       try {
         this.pending = true;
-        await this.$axios.post('/api/review', this.form, { params: { idProduct: this.idProduct! } });
+        await this.$axios.post('/api/user/review', this.form, { params: { idProduct: this.idProduct } });
 
         resetForm(this);
         this.$nuxt.$bvToast.toast('Đã đăng đánh giá sản phẩm.', {

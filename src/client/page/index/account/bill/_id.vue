@@ -52,7 +52,8 @@
                   <div>Số lượng: {{ productCarts[index].quantity }}</div>
                   <div v-if="bill.status == 2">
                     <hr />
-                    <c-form-create-review :id-product="product.id"></c-form-create-review>
+                    <c-form-create-review :id-product="product.id" v-if="!revieweds[index]"></c-form-create-review>
+                    <c-form-edit-review :id-product="product.id" v-else></c-form-edit-review>
                   </div>
                   <hr />
                   <div class="text-right">
@@ -87,21 +88,20 @@
     methods: { toMoney },
   })
   export default class extends Vue {
-    private idBill: number = 0;
+    private idBill: number = parseInt(this.$route.params.id);
     private bill: Entity.Bill | null = null;
     private productCarts: Entity.ProductCart[] = [];
     private products: Entity.Product[] = [];
     private numberProducts: number = 0;
     private total: number = 0;
+    private revieweds: boolean[] = [];
 
     public async fetch() {
-      let tempId = parseInt(this.$route.params.id ? this.$route.params.id : '1');
-      if (isNaN(tempId) || tempId < 1) {
+      if (isNaN(this.idBill) || this.idBill < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }
 
-      this.idBill = tempId;
       this.bill = (await this.$axios.get('/api/user/bill', { params: { id: this.idBill } })).data[0];
       this.productCarts = (await this.$axios.get('/api/user/product-cart', { params: { idBill: this.idBill } })).data;
       for (let productCart of this.productCarts) {
@@ -114,7 +114,14 @@
         this.products.push(products[0]);
         this.numberProducts += productCart.quantity;
         this.total += products[0].price * productCart.quantity;
+        this.revieweds.push((await this.$axios.get('/api/user/review', { params: { idProduct: productCart.idProduct, reviewed: true } })).data.reviewed);
       }
+    }
+
+    @Watch('$route.params.id')
+    public onIdBillChanged(newValue: string) {
+      this.idBill = parseInt(newValue);
+      this.$fetch();
     }
 
     public get nameStatus() {

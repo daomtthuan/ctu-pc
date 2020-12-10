@@ -36,7 +36,7 @@
             <p>Số lượng còn lại: {{ product.quantity }}</p>
             <h2 class="text-primary">{{ toMoney(product.price) }}</h2>
             <hr />
-            <c-form-cart-add :id-product="product.id"></c-form-cart-add>
+            <c-form-create-cart :id-product="product.id"></c-form-create-cart>
           </b-card-body>
         </b-card>
       </b-col>
@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Vue } from 'nuxt-property-decorator';
+  import { Component, Vue, Watch } from 'nuxt-property-decorator';
   import { toMoney } from '@/plugin/helper';
   @Component({
     name: 'page-product',
@@ -98,6 +98,7 @@
     methods: { toMoney },
   })
   export default class extends Vue {
+    private idProduct: number = parseInt(this.$route.params.id);
     private product: Entity.Product | null = null;
     private post: string | null = null;
     private reviews: Entity.Review[] = [];
@@ -107,14 +108,13 @@
     private pending: boolean = false;
 
     public async fetch() {
-      let tempId = parseInt(this.$route.params.id ? this.$route.params.id : '1');
-      if (isNaN(tempId) || tempId < 1) {
+      if (isNaN(this.idProduct) || this.idProduct < 1) {
         this.$nuxt.error({ statusCode: 404 });
         return;
       }
 
       try {
-        let products: Entity.Product[] = (await this.$axios.get('/api/product', { params: { id: tempId } })).data;
+        let products: Entity.Product[] = (await this.$axios.get('/api/product', { params: { id: this.idProduct } })).data;
         if (products.length != 1) {
           this.$nuxt.error({ statusCode: 404 });
           return;
@@ -151,6 +151,12 @@
       } finally {
         this.pending = false;
       }
+    }
+
+    @Watch('$route.params.id')
+    public onIdProductChanged(newValue: string) {
+      this.idProduct = parseInt(newValue);
+      this.$fetch();
     }
   }
 </script>

@@ -41,7 +41,10 @@ class ProductApi extends Api {
 
     if (Request::getInstance()->hasParam('start', 'limit')) {
       Response::getInstance()->sendJson(ProductProvider::find(
-        ['idCategory' => 1, 'state' => 1],
+        [
+          'idCategory' => Request::getInstance()->getParam('idCategory'),
+          'state' => 1
+        ],
         Request::getInstance()->getParam('start'),
         Request::getInstance()->getParam('limit'),
         ['id'],

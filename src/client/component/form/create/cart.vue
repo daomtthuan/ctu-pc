@@ -20,7 +20,7 @@
   import { Component, mixins, Prop, Vue } from 'nuxt-property-decorator';
 
   @Component({
-    name: 'component-form-cart-add',
+    name: 'component-form-create-cart',
     validations: createValidation('quantity'),
   })
   export default class extends mixins(validationMixin) {
@@ -28,7 +28,7 @@
     private idProduct!: number;
 
     private quantity: number | null = null;
-    private form: App.Form.Cart.Add = { quantity: 1 };
+    private form: App.Form.Create.Cart = { quantity: 1 };
     private pending: boolean = false;
 
     public async fetch() {

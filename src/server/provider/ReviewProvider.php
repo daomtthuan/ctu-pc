@@ -8,6 +8,21 @@ use Entity\Review;
 /** Review provider */
 class ReviewProvider {
   /**
+   * Count review by filter
+   * 
+   * @param array|null $filter Finding filter
+   * @param int $start Index starting review
+   * @param int $limit Limit number of reviews for finding
+   * @param string[] $orderByKeys Order by keys
+   * @param string $typeOrder Type order
+   * 
+   * @return int Number of reviews
+   */
+  public static function count(array $filter = null, int $start = null, $limit = null, array $orderByKeys = null, string $typeOrder = Database::ORDER_ASC) {
+    return Database::getInstance()->count('Review', $filter,  $start, $limit, $orderByKeys, $typeOrder);
+  }
+
+  /**
    * Find review by filter
    * 
    * @param array|null $filter Finding filter

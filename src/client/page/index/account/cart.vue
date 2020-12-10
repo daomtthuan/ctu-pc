@@ -42,7 +42,7 @@
                       <p>
                         <small>Số lượng còn lại: {{ product.quantity }}</small>
                       </p>
-                      <c-form-cart-edit :id-product="product.id" @change="onChanged"></c-form-cart-edit>
+                      <c-form-edit-cart :id-product="product.id" @change="onChanged"></c-form-edit-cart>
                     </b-card-body>
                   </b-col>
                 </b-row>

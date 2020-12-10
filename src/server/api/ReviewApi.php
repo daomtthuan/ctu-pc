@@ -6,7 +6,6 @@ use Core\Api;
 use Core\Database;
 use Core\Request;
 use Core\Response;
-use Entity\Review;
 use Provider\ReviewProvider;
 
 /** Review api */
@@ -56,24 +55,5 @@ class ReviewApi extends Api {
       }
       Response::getInstance()->sendJson($reviews);
     }
-  }
-
-  public static function post() {
-    $account = Request::getInstance()->verifyAccount();
-
-    if (!Request::getInstance()->hasParam('idProduct') || !Request::getInstance()->hasData('star')) {
-      Response::getInstance()->sendStatus(400);
-    }
-
-    $success = ReviewProvider::create(new Review([
-      'id' => null,
-      'star' => Request::getInstance()->getData('star'),
-      'idAccount' => $account->getId(),
-      'idProduct' => Request::getInstance()->getParam('idProduct'),
-      'content' => Request::getInstance()->hasData('content') ? Request::getInstance()->getData('content') : null,
-      'state' => null
-    ]));
-
-    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 };
