@@ -74,7 +74,9 @@
         ).data).count;
         this.numberPages = Math.ceil(this.total / this.perPage);
         if (this.page > this.numberPages) {
-          this.$nuxt.error({ statusCode: 404 });
+          if (this.numberPages > 0) {
+            this.$nuxt.error({ statusCode: 404 });
+          }
           return;
         }
 

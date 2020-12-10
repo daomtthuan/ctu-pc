@@ -12,7 +12,7 @@
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
           }"
-          :to="`/event/details/${event.id}`"
+          :to="`/event/${event.id}`"
         ></nuxt-link>
       </template>
       <div

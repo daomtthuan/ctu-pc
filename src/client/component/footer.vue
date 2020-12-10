@@ -21,7 +21,7 @@
             <div v-for="event in events" :key="event.id">
               <li>
                 <div class="text-truncate">
-                  <nuxt-link :to="`/event/details/${event.id}`">{{ event.title }}</nuxt-link>
+                  <nuxt-link :to="`/event/${event.id}`">{{ event.title }}</nuxt-link>
                 </div>
               </li>
             </div>

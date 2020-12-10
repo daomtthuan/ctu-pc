@@ -81,7 +81,9 @@
         this.total = (<App.Response.Count>(await this.$axios.get('/api/event', { params: { count: true } })).data).count;
         this.numberPages = Math.ceil(this.total / this.perPage);
         if (this.page > this.numberPages) {
-          this.$nuxt.error({ statusCode: 404 });
+          if (this.numberPages > 0) {
+            this.$nuxt.error({ statusCode: 404 });
+          }
           return;
         }
 
@@ -105,7 +107,7 @@
 
     @Watch('$route.params.page')
     public async onPageChange(newValue: string) {
-      this.page = parseInt(newValue);      
+      this.page = parseInt(newValue);
       this.$fetch();
     }
   }

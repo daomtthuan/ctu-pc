@@ -27,3 +27,9 @@
 .carousel-inner {
   height: 100%;
 }
+
+.carousel-control-prev,
+.carousel-control-next {
+  background-image: linear-gradient(rgba(40, 44, 52, 0.7), rgba(40, 44, 52, 0.7));
+  width: 4rem;
+}
