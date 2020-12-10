@@ -1,6 +1,6 @@
 <template>
   <div class="text-center" v-if="$fetchState.pending"><b-spinner small></b-spinner> Đang tải...</div>
-  <b-form @submit.prevent="submit" v-else-if="!$fetchState.error">
+  <b-form @submit.prevent="submit" @reset.prevent="reset" v-else-if="!$fetchState.error">
     <b-form-group label="Số lượng" label-for="input-quantity">
       <b-input type="number" id="input-quantity" v-model="$v.form.quantity.$model" :state="validateState()"></b-input>
       <b-form-invalid-feedback>Số lượng không hợp lệ</b-form-invalid-feedback>

@@ -114,7 +114,7 @@ class Bill extends Entity {
    * @return string Image url
    */
   public function getImageUrl() {
-    $idProduct = ProductCartProvider::find(['idBill' => $this->id], 0, 1)[0]->getId();
+    $idProduct = ProductCartProvider::find(['idBill' => $this->id], 0, 1)[0]->getIdProduct();
     return ProductProvider::find(['id' => $idProduct])[0]->getImage1Url();
   }
 
@@ -126,7 +126,7 @@ class Bill extends Entity {
   public function getTotal() {
     $sum = 0;
     foreach (ProductCartProvider::find(['idBill' => $this->id]) as $productCart) {
-      $product = ProductProvider::find(['id' => $productCart->getId()])[0];
+      $product = ProductProvider::find(['id' => $productCart->getIdProduct()])[0];
       $sum += ($product->getPrice() * $productCart->getQuantity());
     }
     return $sum;

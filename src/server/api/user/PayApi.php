@@ -48,10 +48,10 @@ class PayApi extends Api {
       'idAccount' => $account->getId(),
       'createDate' => null,
       'payDate'  => null,
-      'accept'  => null,
+      'status'  => null,
       'state' => null
     ]), $productCarts);
 
-    Response::getInstance()->sendStatus($success ? 400 : 500);
+    Response::getInstance()->sendStatus($success ? 200 : 500);
   }
 };

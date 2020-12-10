@@ -100,7 +100,7 @@
         this.pendingSubmit = true;
         this.$axios.post('/api/user/pay', { cart: this.cart });
         clearCart(this.$auth.user.id);
-        this.$router.push('/account/bill/state/pending');
+        this.$router.push('/account/bill/status/pending');
       } catch (error) {
         this.$nuxt.error({ statusCode: (<Response>error.response).status });
       } finally {
