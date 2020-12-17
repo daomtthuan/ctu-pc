@@ -24,7 +24,9 @@
   ],
   "scripts": {
     "dev": "nuxt-ts",
-    "build": "nuxt-ts generate"
+    "build": "nuxt-ts build",
+    "start": "nuxt-ts start",
+    "generate": "nuxt-ts generate"
   },
   "dependencies": {
     "@fortawesome/free-regular-svg-icons": "^5.15.1",

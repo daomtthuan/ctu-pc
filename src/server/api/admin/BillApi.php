@@ -51,7 +51,7 @@ class BillApi extends Api {
         $bills[0]->setPayDate(date('Y-m-d'));
       }
     }
-
+    
     BillProvider::edit($bills[0]);
     Response::getInstance()->sendStatus(200);
   }
