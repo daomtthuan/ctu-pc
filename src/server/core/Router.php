@@ -7,11 +7,11 @@ use Exception;
 /** Routter */
 class Router {
   private static Router $instance;
-  private array $controllers;
+  private array $apis;
 
   /** Create new instance of Routter */
   private function __construct() {
-    $this->controllers = [];
+    $this->apis = [];
   }
 
   /** 
@@ -34,25 +34,25 @@ class Router {
    * @param string $name Api class name
    */
   public function registerApi(string $url, string $name) {
-    $this->controllers[$url] = $name;
+    $this->apis[$url] = $name;
   }
 
   /** Redirect Api */
   public function redirectApi() {
     // Check Api mapping
-    if (!isset($this->controllers[Request::getInstance()->getUrl()])) {
+    if (!isset($this->apis[Request::getInstance()->getUrl()])) {
       $this->redirectError(404, 'Not found ' . Request::getInstance()->getUrl());
     }
 
     // Check method in Api
-    $controller = $this->controllers[Request::getInstance()->getUrl()];
-    if (!method_exists($controller, Request::getInstance()->getMethod())) {
+    $api = $this->apis[Request::getInstance()->getUrl()];
+    if (!method_exists($api, Request::getInstance()->getMethod())) {
       $this->redirectError(405, 'Method ' . Request::getInstance()->getMethod() . ' not allowed');
     }
 
     // Call method in Api
     try {
-      call_user_func("$controller::" . Request::getInstance()->getMethod());
+      call_user_func("$api::" . Request::getInstance()->getMethod());
     } catch (Exception $exception) {
       $this->redirectError(500, $exception->getMessage());
     }
